@@ -6,7 +6,7 @@
 #    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/08 04:51:09 by mbourand         ###   ########.fr        #
+#    Updated: 2020/07/09 00:47:03 by mbourand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,10 @@ $(NAME): $(OBJECTS)
 
 clean:
 	@echo "Cleaning libft..."
-	@rm -f $(OBJECTS) $(BONUS)
+	@rm -rf $(OBJECTS) $(BONUS)
 
 fclean: clean
 	@echo "Full cleaning libft..."
-	@rm -f $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
