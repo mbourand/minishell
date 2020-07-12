@@ -10,14 +10,19 @@
 typedef struct	s_token
 {
 	char		*text;
-	int			expansion;
+	char		*expansion;
 }				t_token;
 
+/** 
+ * Tokens : liste de t_token
+ * Commands : liste de char**
+ * */
 typedef struct	s_shell
 {
 	char	*cwd;
 	char	*input;
 	t_list	*tokens;
+	t_list	*commands;
 }				t_shell;
 
 int		set_cwd(char **cwd, size_t size);
