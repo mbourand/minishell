@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 09:58:37 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/08 04:49:01 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/12 12:56:40 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ size_t				max_index(int *tab, size_t size);
 int					ft_max(int a, int b);
 int					ft_min(int a, int b);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
+char				*ft_straddchar(char *str, char c, size_t len);
 
 #endif

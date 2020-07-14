@@ -6,7 +6,7 @@
 #    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/09 00:47:03 by mbourand         ###   ########.fr        #
+#    Updated: 2020/07/12 12:58:35 by mbourand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS =	$(FOLDER)ft_lstnew.c $(FOLDER)ft_lstdelone.c $(FOLDER)ft_lstsize.c $(FOLD
 		$(FOLDER)ft_bzero.c $(FOLDER)ft_memset.c $(FOLDER)ft_calloc.c $(FOLDER)ft_strdup.c $(FOLDER)ft_substr.c \
 		$(FOLDER)ft_strjoin.c $(FOLDER)ft_strtrim.c $(FOLDER)ft_split.c $(FOLDER)ft_itoa.c $(FOLDER)ft_strmapi.c \
 		$(FOLDER)ft_putchar_fd.c $(FOLDER)ft_putendl_fd.c $(FOLDER)ft_putstr_fd.c $(FOLDER)ft_putnbr_fd.c \
-		$(FOLDER)ft_min_max.c $(FOLDER)ft_strlenuntil.c $(FOLDER)ft_strnjoin.c \
+		$(FOLDER)ft_min_max.c $(FOLDER)ft_strlenuntil.c $(FOLDER)ft_strnjoin.c $(FOLDER)ft_straddchar.c \
 		$(PRINTF)ft_abs.c $(PRINTF)ft_get_arg.c $(PRINTF)ft_numberlen.c $(PRINTF)ft_numberlenl.c $(PRINTF)ft_printf.c \
 		$(PRINTF)ft_printutils.c $(PRINTF)ft_putunsignednbr_fd.c $(PRINTF)ft_tobase.c $(PRINTF)print_char.c $(PRINTF)print_hex.c \
 		$(PRINTF)print_int.c $(PRINTF)print_pointer.c $(PRINTF)print_string.c $(PRINTF)print_unsigned_int.c \

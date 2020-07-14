@@ -19,36 +19,6 @@
  * ATTENTION : ça ne parse pas les variables
 */
 
-void	set_expansion(t_token *token, char *str, size_t len)
-{
-	size_t i;
-
-	i = 0;
-	while (i < len)
-	{
-		token->expansion = ft_strnjoin(token->expansion, str, 1);
-		i++;
-	}
-}
-
-/* ça revient à return 1 si il y a un operateur mais le code est extensible à n caractères pour les opérateurs */
-size_t	operator_length(char *str)
-{
-	static char	*operators[] = { ";", "|", 0 };
-	size_t		len;
-	size_t		i;
-
-	i = 0;
-	while (operators[i])
-	{
-		len = ft_strlen(operators[i]);
-		if (!(ft_strncmp(str, operators[i], len)))
-			return (len);
-		i++;
-	}
-	return (0);
-}
-
 t_token	*create_token(char *text, char *expansion)
 {
 	t_token* token;
@@ -67,13 +37,55 @@ void	new_word(t_list **iter, t_token** token)
 	(*token) = (t_token*)(*iter)->content;
 }
 
+static void	process_quote(t_token *token, t_shell *shell, size_t *i)
+{
+	size_t len;
+	char expansion;
+
+	len = ft_strlenuntil(shell->input + *i + 1, shell->input[*i]);
+	expansion = (shell->input[*i] == '\"' ? '1' : '0');
+	token->expansion = ft_straddchar(token->expansion, expansion, len);
+	token->text = ft_strjoinuntil(token->text, shell->input + *i + 1, shell->input[*i]);
+	(*i) += ft_strlenuntil(shell->input + *i + 1, shell->input[*i]) + 2;
+}
+
+static void process_space(t_token **token, t_shell *shell, size_t *i, t_list **iter)
+{
+	if (shell->input[*i + 1])
+		new_word(iter, token);
+	while (shell->input[*i] == ' ')
+		(*i)++;
+}
+
+static void process_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
+{
+	size_t	op_len;
+
+	op_len = operator_length(shell->input + *i);
+	if (ft_strlen((*token)->text))
+		new_word(iter, token);
+	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, op_len);
+	(*token)->expansion = ft_straddchar((*token)->expansion, '0', op_len);
+	(*i) += op_len;
+	while (shell->input[*i] == ' ')
+		(*i)++;
+	if (shell->input[*i + 1])
+		new_word(iter, token);
+}
+
+static void process_character(t_token *token, t_shell *shell, size_t *i)
+{
+	token->text = ft_strnjoin(token->text, shell->input + *i, 1);
+	token->expansion = ft_straddchar(token->expansion, '1', 1);
+	(*i)++;
+}
+
 void	get_tokens(t_shell *shell)
 {
 	t_list	*begin;
 	t_list	*iter;
 	t_token	*token;
 	size_t	i;
-	size_t	op_len;
 
 	begin = ft_lstnew(create_token("", ""));
 	iter = begin;
@@ -84,41 +96,13 @@ void	get_tokens(t_shell *shell)
 	while (shell->input[i])
 	{
 		if (shell->input[i] == '\'' || shell->input[i] == '\"')
-		{
-			set_expansion(token, (shell->input[i] == '\"') ? "1" : "0", ft_strlenuntil(shell->input + i + 1, shell->input[i]));
-			token->text = ft_strjoinuntil(token->text, shell->input + i + 1, shell->input[i]);
-			i += ft_strlenuntil(shell->input + i + 1, shell->input[i]) + 2;
-		}
+			process_quote(token, shell, &i);
 		else if (shell->input[i] == ' ')
-		{
-			if (shell->input[i + 1])
-				new_word(&iter, &token);
-			while (shell->input[i] == ' ')
-				i++;
-		}
-		else if ((op_len = operator_length(shell->input + i)) > 0)
-		{
-			if (token->text[0])
-				new_word(&iter, &token);
-			token->text = ft_strnjoin(token->text, shell->input + i, op_len);
-			set_expansion(token, "0", op_len);
-			i += op_len;
-			while (shell->input[i] == ' ')
-				i++;
-			if (shell->input[i + 1])
-				new_word(&iter, &token);
-		}
+			process_space(&token, shell, &i, &iter);
+		else if (operator_length(shell->input + i) > 0)
+			process_operator(&token, shell, &i, &iter);
 		else
-		{
-			token->text = ft_strnjoin(token->text, shell->input + i, 1);
-			set_expansion(token, "1", 1);
-			i++;
-		}
+			process_character(token, shell, &i);
 	}
 	shell->tokens = begin;
-	while (begin)
-	{
-		ft_printf("%s\n%s\n", ((t_token*)(begin->content))->text, ((t_token*)(begin->content))->expansion);
-		begin = begin->next;
-	}
 }

@@ -29,6 +29,7 @@ int		set_cwd(char **cwd, size_t size);
 void	print_prompt(t_shell *shell);
 void	process_command(t_shell *shell);
 void	get_tokens(t_shell *shell);
+size_t	operator_length(char *str);
 
 
 #endif
