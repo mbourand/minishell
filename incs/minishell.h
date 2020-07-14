@@ -4,6 +4,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
+# include <string.h>
+# include <errno.h>
 
 # define BUFF_SIZE 2
 
@@ -24,6 +26,7 @@ int		set_cwd(char **cwd, size_t size);
 void	print_prompt(t_shell *shell);
 void	process_command(t_shell *shell);
 void	get_tokens(t_shell *shell);
+void	ft_perror(char *s);
 
 
 #endif

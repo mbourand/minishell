@@ -29,6 +29,7 @@ t_token	*create_token(char *text, int expansion)
 	return (token);
 }
 
+/* découpe l'input complet shell->input en mots et les place dans shell->tokens */
 void	get_tokens(t_shell *shell)
 {
 	t_list	*begin;

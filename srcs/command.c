@@ -33,4 +33,21 @@ void	process_command(t_shell *shell)
 {
 	get_command(shell);
 	get_tokens(shell);
+
+	if (!ft_strncmp(((t_token*)(shell->tokens->content))->text, "testok", 7)) //for testing purposes only
+	{
+		int fd = open("./README.md", O_RDONLY);
+		if (fd == -1)
+			ft_perror("./README.md");
+		else
+			close(fd);
+	}
+	else if (!ft_strncmp(((t_token*)(shell->tokens->content))->text, "testerr", 8)) //for testing purposes only
+	{
+		int fd = open("./REEEEEEEEADME.md", O_RDONLY);
+		if (fd == -1)
+			ft_perror("./REEEEEEEEADME.md");
+		else
+			close(fd);
+	}
 }
