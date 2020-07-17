@@ -33,4 +33,5 @@ void	process_command(t_shell *shell)
 {
 	get_command(shell);
 	get_tokens(shell);
+	parse_command(shell);
 }

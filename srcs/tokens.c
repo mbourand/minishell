@@ -42,18 +42,20 @@ static void	process_quote(t_token *token, t_shell *shell, size_t *i)
 	size_t len;
 	char expansion;
 
-	len = ft_strlenuntil(shell->input + *i + 1, shell->input[*i]);
+	len = ft_strlenuntil(shell->input + *i + 1, shell->input[*i]) + 1;
 	expansion = (shell->input[*i] == '\"' ? '1' : '0');
 	token->expansion = ft_straddchar(token->expansion, expansion, len);
+	token->text = ft_straddchar(token->text, shell->input[*i], 1);
 	token->text = ft_strjoinuntil(token->text, shell->input + *i + 1, shell->input[*i]);
 	(*i) += ft_strlenuntil(shell->input + *i + 1, shell->input[*i]) + 2;
+	token->text = ft_straddchar(token->text, shell->input[*i - 1], 1);
 }
 
 static void process_space(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 {
 	if (shell->input[*i + 1])
 		new_word(iter, token);
-	while (shell->input[*i] == ' ')
+	while (is_blank(shell->input[*i]))
 		(*i)++;
 }
 
@@ -67,7 +69,7 @@ static void process_operator(t_token **token, t_shell *shell, size_t *i, t_list 
 	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, op_len);
 	(*token)->expansion = ft_straddchar((*token)->expansion, '0', op_len);
 	(*i) += op_len;
-	while (shell->input[*i] == ' ')
+	while (is_blank(shell->input[*i]))
 		(*i)++;
 	if (shell->input[*i + 1])
 		new_word(iter, token);
@@ -91,13 +93,13 @@ void	get_tokens(t_shell *shell)
 	iter = begin;
 	token = (t_token*)iter->content;
 	i = 0;
-	while (shell->input[i] == ' ')
+	while (is_blank(shell->input[i]))
 		i++;
 	while (shell->input[i])
 	{
-		if (shell->input[i] == '\'' || shell->input[i] == '\"')
+		if (is_quote(shell->input[i]))
 			process_quote(token, shell, &i);
-		else if (shell->input[i] == ' ')
+		else if (is_blank(shell->input[i]))
 			process_space(&token, shell, &i, &iter);
 		else if (operator_length(shell->input + i) > 0)
 			process_operator(&token, shell, &i, &iter);
