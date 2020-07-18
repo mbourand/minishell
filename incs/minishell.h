@@ -10,18 +10,26 @@
 typedef struct	s_token
 {
 	char		*text;
-	char		*expansion;
 }				t_token;
 
 /** 
  * Tokens : liste de t_token
  * Commands : liste de char**
  * */
+
+typedef struct	s_env
+{
+	char *key;
+	char *val;
+}				t_env;
+
+
 typedef struct	s_shell
 {
 	char	*cwd;
 	char	*input;
 	t_list	*tokens;
+	t_list	*env;
 	char	**commands;
 }				t_shell;
 
@@ -34,5 +42,6 @@ int		is_blank(char c);
 int		is_quote(char c);
 void	parse_command(t_shell *shell);
 size_t	ctrloperator_length(char *str);
+t_list	*init_env(char **env);
 
 #endif
