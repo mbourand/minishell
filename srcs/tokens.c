@@ -73,6 +73,7 @@ static void process_character(t_token *token, t_shell *shell, size_t *i)
 	(*i)++;
 }
 
+/* découpe l'input complet shell->input en mots et les place dans shell->tokens */
 void	get_tokens(t_shell *shell)
 {
 	t_list	*begin;

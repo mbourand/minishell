@@ -4,6 +4,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
+# include <string.h>
+# include <errno.h>
 
 # define BUFF_SIZE 2
 
@@ -43,5 +45,7 @@ int		is_quote(char c);
 void	parse_command(t_shell *shell);
 size_t	ctrloperator_length(char *str);
 t_list	*init_env(char **env);
+void	ft_perror(char *s);
+
 
 #endif
