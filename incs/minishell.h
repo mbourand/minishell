@@ -32,7 +32,7 @@ typedef struct	s_shell
 	char	*input;
 	t_list	*tokens;
 	t_list	*env;
-	char	**commands;
+	t_list	**commands;
 }				t_shell;
 
 int		set_cwd(char **cwd, size_t size);

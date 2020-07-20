@@ -31,7 +31,17 @@ void	get_command(t_shell *shell)
 **/
 void	process_command(t_shell *shell)
 {
+	size_t i;
+
+	i = 0;
 	get_command(shell);
 	get_tokens(shell);
 	parse_command(shell);
+	while (shell->commands[i])
+	{
+		//perform_expansion(shell->commands[i]);
+		//perform_redirection(shell->commands[i]); PROTOTYPES TEMPORAIRES
+		//execute_command(shell->commands[i]);
+		i++;
+	}
 }
