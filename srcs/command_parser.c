@@ -55,16 +55,4 @@ void	parse_command(t_shell *shell)
 		i++;
 	}
 	shell->commands = commands;
-
-	for (int j = 0; commands[j]; j++)
-	{
-		t_list *iter = commands[j];
-		while (iter)
-		{
-			t_token *fdp = (t_token*)(iter->content);
-			ft_printf("%s ", fdp->text);
-			iter = iter->next;
-		}
-		ft_printf("\n");
-	}
 }

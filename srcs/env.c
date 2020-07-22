@@ -43,3 +43,19 @@ t_list	*init_env(char **env)
 	}
 	return (ret);
 }
+
+t_env	*get_env(t_list *env, char *key)
+{
+	t_env	*content;
+	size_t	len;
+
+	while (env)
+	{
+		content = (t_env*)env->content;
+		len = ft_strlen(key) > ft_strlen(content->key) ? ft_strlen(key) : ft_strlen(content->key);
+		if (!(ft_strncmp(key, content->key, len)))
+			return (content);
+		env = env->next;
+	}
+	return (NULL);
+}

@@ -39,7 +39,15 @@ void	process_command(t_shell *shell)
 	parse_command(shell);
 	while (shell->commands[i])
 	{
-		//perform_expansion(shell->commands[i]);
+		perform_expansion(shell->commands[i], shell->env);
+		t_list *iter = shell->commands[i];
+		while (iter)
+		{
+			t_token *fdp = (t_token*)(iter->content);
+			ft_printf("%s ", fdp->text);
+			iter = iter->next;
+		}
+		ft_printf("\n");
 		//perform_redirection(shell->commands[i]); PROTOTYPES TEMPORAIRES
 		//execute_command(shell->commands[i]);
 		i++;

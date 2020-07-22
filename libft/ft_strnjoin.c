@@ -6,6 +6,8 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 	size_t	s1_len;
 	size_t	s2_len;
 
+	if (!s1)
+		return (ft_strndup(s2, n));
 	s1_len = 0;
 	s2_len = 0;
 	while (s1[s1_len])

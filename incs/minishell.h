@@ -46,6 +46,8 @@ void	parse_command(t_shell *shell);
 size_t	ctrloperator_length(char *str);
 t_list	*init_env(char **env);
 void	ft_perror(char *s);
-
+void	free_token(void *ptr);
+void	perform_expansion(t_list *cmd, t_list *env);
+t_env	*get_env(t_list *env, char *key);
 
 #endif
