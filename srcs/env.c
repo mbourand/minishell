@@ -49,6 +49,8 @@ t_env	*get_env(t_list *env, char *key)
 	t_env	*content;
 	size_t	len;
 
+	if (!key)
+		return (NULL);
 	while (env)
 	{
 		content = (t_env*)env->content;
@@ -58,4 +60,22 @@ t_env	*get_env(t_list *env, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+char	*get_var_name(char *str)
+{
+	char	*name;
+	char	*tmp;
+	size_t	i;
+	
+	name = NULL;
+	i = 0;
+	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
+	{
+		tmp = name;
+		name = ft_straddchar(name, str[i], 1);
+		ft_free(tmp);
+		i++;
+	}
+	return (name);
 }

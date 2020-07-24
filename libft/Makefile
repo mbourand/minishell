@@ -6,7 +6,7 @@
 #    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/22 02:50:39 by mbourand         ###   ########.fr        #
+#    Updated: 2020/07/23 14:06:50 by mbourand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS =	$(FOLDER)ft_lstnew.c $(FOLDER)ft_lstdelone.c $(FOLDER)ft_lstsize.c $(FOLD
 		$(FOLDER)ft_strjoin.c $(FOLDER)ft_strtrim.c $(FOLDER)ft_split.c $(FOLDER)ft_itoa.c $(FOLDER)ft_strmapi.c \
 		$(FOLDER)ft_putchar_fd.c $(FOLDER)ft_putendl_fd.c $(FOLDER)ft_putstr_fd.c $(FOLDER)ft_putnbr_fd.c \
 		$(FOLDER)ft_min_max.c $(FOLDER)ft_strlenuntil.c $(FOLDER)ft_strnjoin.c $(FOLDER)ft_straddchar.c \
+		$(FOLDER)ft_strcut.c \
 		$(FOLDER)ft_free.c $(FOLDER)ft_lstdelat.c $(FOLDER)ft_lstat.c $(FOLDER)ft_strncpy.c $(FOLDER)ft_strndup.c \
 		$(PRINTF)ft_abs.c $(PRINTF)ft_get_arg.c $(PRINTF)ft_numberlen.c $(PRINTF)ft_numberlenl.c $(PRINTF)ft_printf.c \
 		$(PRINTF)ft_printutils.c $(PRINTF)ft_putunsignednbr_fd.c $(PRINTF)ft_tobase.c $(PRINTF)print_char.c $(PRINTF)print_hex.c \

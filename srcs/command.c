@@ -39,7 +39,7 @@ void	process_command(t_shell *shell)
 	parse_command(shell);
 	while (shell->commands[i])
 	{
-		perform_expansion(shell->commands[i], shell->env);
+		perform_expansion(shell->commands + i, shell->env);
 		t_list *iter = shell->commands[i];
 		while (iter)
 		{

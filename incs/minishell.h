@@ -12,6 +12,7 @@
 typedef struct	s_token
 {
 	char		*text;
+	char		*quote_removal;
 }				t_token;
 
 /** 
@@ -24,6 +25,12 @@ typedef struct	s_env
 	char *key;
 	char *val;
 }				t_env;
+
+typedef struct s_range
+{
+	size_t min;
+	size_t max;
+}				t_range;
 
 
 typedef struct	s_shell
@@ -47,7 +54,10 @@ size_t	ctrloperator_length(char *str);
 t_list	*init_env(char **env);
 void	ft_perror(char *s);
 void	free_token(void *ptr);
-void	perform_expansion(t_list *cmd, t_list *env);
+void	perform_expansion(t_list **cmd, t_list *env);
 t_env	*get_env(t_list *env, char *key);
+char	*ft_strcut(char *src, size_t cut_start, size_t len);
+char	*get_var_name(char *str);
+t_range	*new_range(size_t min, size_t max);
 
 #endif

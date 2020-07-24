@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 09:58:37 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/22 02:51:51 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/23 00:47:42 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int					ft_min(int a, int b);
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 char				*ft_straddchar(char *str, char c, size_t len);
 void				ft_free(void *ptr);
-void				ft_lstdelat(t_list *lst, size_t at, void (*del)(void*));
+void				ft_lstdelat(t_list **lst, size_t at, void (*del)(void*));
 t_list				*ft_lstat(t_list *lst, size_t at);
 char				*ft_strncpy(char *dest, char *src, size_t n);
 int					ft_strcmp(const char *s1, const char *s2);
