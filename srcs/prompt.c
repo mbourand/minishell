@@ -2,5 +2,5 @@
 
 void print_prompt(t_shell *shell)
 {
-	ft_printf("minishell:%s$", shell->cwd);
+	ft_printf("minishell:%s$ ", shell->cwd);
 }

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 17:32:41 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/23 21:26:30 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/25 18:16:47 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	free_token(void *ptr)
 	if (!ptr)
 		return ;
 	token = (t_token*)ptr;
-	ft_free(token->text);
-	ft_free(ptr);
+	ft_free(&(token->text));
+	ft_memdel(&ptr);
 }
 
 t_range	*new_range(size_t min, size_t max)

@@ -6,20 +6,22 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/24 15:11:42 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/25 20:02:55 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+**	Retire toutes les "unquoted quotes" qui ne sont pas dans une range de protected
+*/
 static void		remove_quotes(t_token *token, t_list *protected)
 {
 	t_range	*range;
 	char	*res;
-	char	*tmp;
 	size_t	i;
 	int		in_quote;
-	
+
 	i = 0;
 	range = protected ? (t_range*)protected->content : NULL;
 	res = NULL;
@@ -29,12 +31,7 @@ static void		remove_quotes(t_token *token, t_list *protected)
 		if (protected && i == range->min)
 		{
 			while (i < range->max)
-			{
-				tmp = res;
-				res = ft_straddchar(res, token->text[i], 1);
-				ft_free(tmp);
-				i++;
-			}
+				ft_straddchar(&res, token->text[i++], 1);
 			i--;
 			protected = protected->next;
 			range = protected ? (t_range*)protected->content : NULL;
@@ -44,11 +41,7 @@ static void		remove_quotes(t_token *token, t_list *protected)
 			if (is_quote(token->text[i]))
 				in_quote = !in_quote;
 			else
-			{
-				tmp = res;
-				res = ft_straddchar(res, token->text[i], 1);
-				ft_free(tmp);
-			}
+				ft_straddchar(&res, token->text[i], 1);
 		}
 		i++;
 	}
@@ -56,6 +49,11 @@ static void		remove_quotes(t_token *token, t_list *protected)
 		exit(1);
 }
 
+/*
+**	Remplace le nom d'une variable d'environnement par sa valeur
+**	et met dans protected les caractères parmi lesquels les quotes
+**	ne seront pas retirés par remove_quotes
+*/
 static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **protected)
 {
 	char	*res;
@@ -69,7 +67,7 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 		res = ft_substr(token->text, 0, i);
 		tmp = res;
 		res = ft_strjoin(res, token->text + i + ft_strlen(name) + 1);
-		ft_free(tmp);
+		ft_free(&tmp);
 	}
 	else
 	{
@@ -80,11 +78,16 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 		ft_strncpy(res + i, env->val, ft_strlen(env->val));
 		ft_strncpy(res + i + ft_strlen(env->val), token->text + i + ft_strlen(name) + 1, ft_strlen(token->text) - ft_strlen(name) - i - 1);
 	}
-	ft_free(token->text);
+	ft_free(&(token->text));
 	token->text = res;
 	return (env ? ft_strlen(env->val) : 0);
 }
 
+/*
+**	Protected contient des t_range
+**	Le maximum d'un t_range est toujours inférieur au minimum du t_range suivant dans protected
+**	Les quotes dans une range de protected ne seront pas retirés par remove_quotes
+*/
 static void expand_token(t_token *token, t_list *env)
 {
 	size_t	i;
@@ -105,6 +108,11 @@ static void expand_token(t_token *token, t_list *env)
 	ft_lstclear(&protected, &free);
 }
 
+/*
+**	Remplace les variable d'environnement des tokens de cmd par leur valeur
+**	Retire des tokens de cmd toutes les unquoted quotes ne venant pas de l'expansion
+**	d'une variable d'environnement
+*/
 void	perform_expansion(t_list **cmd, t_list *env)
 {
 	t_token	*content;

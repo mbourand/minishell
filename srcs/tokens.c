@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-/** découpe l'input en mots 
- * echo world donne { "echo", "world" }
- * echo "world bonjour" test donne { "echo", "world bonjour", "test" }
- * echo world bonjour|test donne { "echo", "world", "bonjour", "|", "test" }
- * ATTENTION : ça ne parse pas les variables
+/* découpe l'input en mots
+** echo world donne { "echo", "world" }
+** echo "world bonjour" test donne { "echo", "world bonjour", "test" }
+** echo world bonjour|test donne { "echo", "world", "bonjour", "|", "test" }
+** ATTENTION : ça ne parse pas les variables
 */
 
 t_token	*create_token(char *text)
@@ -31,17 +31,17 @@ t_token	*create_token(char *text)
 
 void	new_word(t_list **iter, t_token** token)
 {
-	ft_lstadd_back(iter, ft_lstnew(create_token("")));
+	ft_lstadd_back(iter, ft_lstnew(create_token(ft_strnew(""))));
 	(*iter) = (*iter)->next;
 	(*token) = (t_token*)(*iter)->content;
 }
 
 static void	process_quote(t_token *token, t_shell *shell, size_t *i)
 {
-	token->text = ft_straddchar(token->text, shell->input[*i], 1);
+	ft_straddchar(&(token->text), shell->input[*i], 1);
 	token->text = ft_strjoinuntil(token->text, shell->input + *i + 1, shell->input[*i]);
 	(*i) += ft_strlenuntil(shell->input + *i + 1, shell->input[*i]) + 2;
-	token->text = ft_straddchar(token->text, shell->input[*i - 1], 1);
+	ft_straddchar(&(token->text), shell->input[*i - 1], 1);
 }
 
 static void process_space(t_token **token, t_shell *shell, size_t *i, t_list **iter)
@@ -73,7 +73,9 @@ static void process_character(t_token *token, t_shell *shell, size_t *i)
 	(*i)++;
 }
 
-/* découpe l'input complet shell->input en mots et les place dans shell->tokens */
+/*
+**	découpe l'input complet shell->input en mots et les place dans shell->tokens
+*/
 void	get_tokens(t_shell *shell)
 {
 	t_list	*begin;
@@ -81,7 +83,7 @@ void	get_tokens(t_shell *shell)
 	t_token	*token;
 	size_t	i;
 
-	begin = ft_lstnew(create_token(""));
+	begin = ft_lstnew(create_token(ft_strnew("")));
 	iter = begin;
 	token = (t_token*)iter->content;
 	i = 0;

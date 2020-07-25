@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/21 18:48:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/25 18:47:26 by mbourand         ###   ########.fr       */
+/*   Created: 2020/07/25 18:02:38 by mbourand          #+#    #+#             */
+/*   Updated: 2020/07/25 18:04:00 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free(char **ptr)
+char	*ft_strcpy(char *dest, char *src)
 {
-	if (!ptr || !(*ptr))
-		return ;
-	free(*ptr);
-	*ptr = NULL;
+	size_t	i;
+
+	i = 0;
+	if (!dest || !src)
+		return (NULL);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
 }

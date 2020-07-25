@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/21 18:48:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/25 18:47:26 by mbourand         ###   ########.fr       */
+/*   Created: 2020/07/25 18:08:27 by mbourand          #+#    #+#             */
+/*   Updated: 2020/07/25 18:09:23 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free(char **ptr)
+char	*ft_strnew(char *str)
 {
-	if (!ptr || !(*ptr))
-		return ;
-	free(*ptr);
-	*ptr = NULL;
+	char	*res;
+
+	if (!(res = malloc(sizeof(char) * (ft_strlen(str) + 1))))
+		return (NULL);
+	return (ft_strcpy(res, str));
 }

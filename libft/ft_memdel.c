@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/21 18:48:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/25 18:47:26 by mbourand         ###   ########.fr       */
+/*   Created: 2020/07/25 18:16:58 by mbourand          #+#    #+#             */
+/*   Updated: 2020/07/25 18:18:00 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free(char **ptr)
+void	ft_memdel(void **ptr)
 {
-	if (!ptr || !(*ptr))
+	if (!ptr || !*ptr)
 		return ;
 	free(*ptr);
 	*ptr = NULL;
