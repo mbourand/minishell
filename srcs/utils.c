@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 17:32:41 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/25 18:16:47 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/26 02:48:14 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_perror(char *s)
 void	free_token(void *ptr)
 {
 	t_token *token;
-	
+
 	if (!ptr)
 		return ;
 	token = (t_token*)ptr;

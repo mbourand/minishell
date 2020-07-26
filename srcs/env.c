@@ -12,6 +12,10 @@
 
 # include "minishell.h"
 
+/*
+**	Met ce qu'il y a avant le 1er '=' de str dabs env->key
+**	Et le reste dans env->val (sans le =)
+*/
 t_env	*parse_env(char *str)
 {
 	t_env* env;
@@ -24,6 +28,9 @@ t_env	*parse_env(char *str)
 	return (env);
 }
 
+/*
+**	Remplis l'env à partir du paramètre du main
+*/
 t_list	*init_env(char **env)
 {
 	size_t	i;
@@ -44,6 +51,10 @@ t_list	*init_env(char **env)
 	return (ret);
 }
 
+/*
+**	Retourne la première variable d'environnement
+**	avec le nom key contenue dans l'env
+*/
 t_env	*get_env(t_list *env, char *key)
 {
 	t_env	*content;
@@ -62,6 +73,13 @@ t_env	*get_env(t_list *env, char *key)
 	return (NULL);
 }
 
+/*
+**	Retourne la chaîne la plus longue respectant les règles
+**	de nommage des variables d'environnement
+**	Utile pour trouver pour quelle variable d'environnement
+**	on doit faire l'expansion
+**	Retourne NULL si il n'y a pas de variable d'environnement au nom associé
+*/
 char	*get_var_name(char *str)
 {
 	char	*name;

@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-/* découpe l'input en mots
-** echo world donne { "echo", "world" }
-** echo "world bonjour" test donne { "echo", "world bonjour", "test" }
-** echo world bonjour|test donne { "echo", "world", "bonjour", "|", "test" }
-** ATTENTION : ça ne parse pas les variables
+/*
+**	découpe l'input en mots (= token dans le code)
+**	echo world donne { "echo", "world" }
+**	echo "world bonjour" test donne { "echo", "world bonjour", "test" }
+**	echo world bonjour|test donne { "echo", "world", "bonjour", "|", "test" }
+**	ATTENTION : ça ne parse pas les variables
 */
 
 t_token	*create_token(char *text)
@@ -29,6 +30,9 @@ t_token	*create_token(char *text)
 	return (token);
 }
 
+/*
+**	Crée un nouveau mot en créant un nouveau token
+*/
 void	new_word(t_list **iter, t_token** token)
 {
 	ft_lstadd_back(iter, ft_lstnew(create_token(ft_strnew(""))));
@@ -36,6 +40,9 @@ void	new_word(t_list **iter, t_token** token)
 	(*token) = (t_token*)(*iter)->content;
 }
 
+/*
+**	Copie de shell->input dans token->text tout ce qui est entre quote
+*/
 static void	process_quote(t_token *token, t_shell *shell, size_t *i)
 {
 	ft_straddchar(&(token->text), shell->input[*i], 1);
@@ -44,6 +51,9 @@ static void	process_quote(t_token *token, t_shell *shell, size_t *i)
 	ft_straddchar(&(token->text), shell->input[*i - 1], 1);
 }
 
+/*
+**	Crée un nouveau mot si il y a d'autres mots après les espaces
+*/
 static void process_space(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 {
 	if (shell->input[*i + 1])
@@ -52,6 +62,11 @@ static void process_space(t_token **token, t_shell *shell, size_t *i, t_list **i
 		(*i)++;
 }
 
+/*
+**	Crée un nouveau mot si il y a déjà quelque chose dans le mot
+**	Copie l'opérateur dans le nouveau mot
+**	Crée un nouveau mot si il y a d'autres mots après
+*/
 static void process_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 {
 	size_t	op_len;
@@ -67,6 +82,9 @@ static void process_operator(t_token **token, t_shell *shell, size_t *i, t_list 
 		new_word(iter, token);
 }
 
+/*
+**	Copie le caractère dans token->text
+*/
 static void process_character(t_token *token, t_shell *shell, size_t *i)
 {
 	token->text = ft_strnjoin(token->text, shell->input + *i, 1);
@@ -74,7 +92,7 @@ static void process_character(t_token *token, t_shell *shell, size_t *i)
 }
 
 /*
-**	découpe l'input complet shell->input en mots et les place dans shell->tokens
+**	Découpe l'input complet shell->input en mots et les place dans shell->tokens
 */
 void	get_tokens(t_shell *shell)
 {

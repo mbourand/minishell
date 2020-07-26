@@ -1,5 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_parser.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/26 02:45:03 by mbourand          #+#    #+#             */
+/*   Updated: 2020/07/26 02:45:03 by mbourand         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+**	Compte le nombre de commandes à malloc
+*/
 size_t	command_argc(t_list* tokens)
 {
 	size_t		res;
@@ -16,6 +31,11 @@ size_t	command_argc(t_list* tokens)
 	return (res);
 }
 
+/*
+**	Remplit la commande command à partir des tokens contenus dans 'tokens'
+**	Si c'est un opérateur contôle, le copie dans la commande et return tout de suite
+**	Sinon, tant que ce n'est pas un opérateur contrôle, ajoute le mot à la commande
+*/
 t_list	*fill_command(t_list *tokens, t_list **command)
 {
 	t_token	*content;
@@ -36,6 +56,11 @@ t_list	*fill_command(t_list *tokens, t_list **command)
 	return (tokens);
 }
 
+/*
+**	Compose les commandes à partir de shell->tokens et les
+**	mets dans shell->commands
+**	Les commandes sont séparées par les control operators
+*/
 void	parse_command(t_shell *shell)
 {
 	t_list		*tokens;
