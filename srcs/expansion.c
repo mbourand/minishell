@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/25 20:02:55 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/26 02:14:15 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 **	Retire toutes les "unquoted quotes" qui ne sont pas dans une range de protected
 */
-static void		remove_quotes(t_token *token, t_list *protected)
+void		remove_quotes(t_token *token, t_list *protected)
 {
 	t_range	*range;
 	char	*res;
@@ -23,26 +23,22 @@ static void		remove_quotes(t_token *token, t_list *protected)
 	int		in_quote;
 
 	i = 0;
-	range = protected ? (t_range*)protected->content : NULL;
 	res = NULL;
 	in_quote = 0;
 	while (token->text[i])
 	{
+		range = protected ? (t_range*)protected->content : NULL;
 		if (protected && i == range->min)
 		{
 			while (i < range->max)
 				ft_straddchar(&res, token->text[i++], 1);
 			i--;
 			protected = protected->next;
-			range = protected ? (t_range*)protected->content : NULL;
 		}
+		else if (in_quote && is_quote(token->text[i]))
+			in_quote = !in_quote;
 		else if (in_quote || !is_quote(token->text[i]))
-		{
-			if (is_quote(token->text[i]))
-				in_quote = !in_quote;
-			else
-				ft_straddchar(&res, token->text[i], 1);
-		}
+			ft_straddchar(&res, token->text[i], 1);
 		i++;
 	}
 	if (!(token->text = (res ? res : malloc_zero(sizeof(char) * 1))))
