@@ -28,6 +28,10 @@ RED= \033[31;1m
 GRN= \033[32;1m
 YEL= \033[33;1m
 
+ifeq ($(DB),1)
+	CFLAGS	+= -g3
+endif
+
 .PHONY: all re clean fclean
 
 all: $(NAME)
@@ -35,7 +39,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@echo "$(RED)[minishell] : $(DEF)Compilation..."
 	@make -C libft
-	@gcc $(CFLAGS) -fsanitize=address -g -o $(NAME) $(OBJ) $(INC) $(LIB)
+	@gcc $(CFLAGS) -fsanitize=address -o $(NAME) $(OBJ) $(INC) $(LIB)
 	@echo "$(RED)[minishell] : $(DEF)Compilation                 $(GRN)[OK]$(DEF)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
