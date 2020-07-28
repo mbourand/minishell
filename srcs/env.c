@@ -13,7 +13,7 @@
 # include "minishell.h"
 
 /*
-**	Met ce qu'il y a avant le 1er '=' de str dabs env->key
+**	Met ce qu'il y a avant le 1er '=' de str dans env->key
 **	Et le reste dans env->val (sans le =)
 */
 t_env	*parse_env(char *str)

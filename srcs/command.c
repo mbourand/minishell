@@ -56,6 +56,8 @@ void	process_command(t_shell *shell)
 		perform_expansion(shell->commands + i, shell->env);
 		//perform_redirection(shell->commands[i]); PROTOTYPES TEMPORAIRES
 		//execute_command(shell->commands[i]);
+		if (!ft_strncmp(((t_token*)shell->commands[i]->content)->text, "export", 7)) //very temporary
+			btin_export(shell->env, shell->commands[i]);
 		i++;
 	}
 	free_shell(shell);

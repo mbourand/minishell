@@ -7,7 +7,13 @@
 # include <string.h>
 # include <errno.h>
 
-# define BUFF_SIZE 2
+# define DEBUG		1
+
+# define BUFF_SIZE	2
+# define TRUE		1
+# define FALSE		0
+# define SUCCESS	0
+# define FAILURE	-1
 
 typedef struct	s_token
 {
@@ -49,6 +55,7 @@ size_t	operator_length(char *str);
 int		is_blank(char c);
 int		is_quote(char c);
 void	parse_command(t_shell *shell);
+t_env	*parse_env(char *str);
 size_t	ctrloperator_length(char *str);
 t_list	*init_env(char **env);
 void	ft_perror(char *s);
@@ -59,5 +66,6 @@ char	*ft_strcut(char *src, size_t cut_start, size_t len);
 char	*get_var_name(char *str);
 t_range	*new_range(size_t min, size_t max);
 void	free_shell(t_shell *shell);
+int		btin_export(t_list *env, t_list	*command);
 
 #endif
