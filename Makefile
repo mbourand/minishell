@@ -29,6 +29,10 @@ RED= \033[31;1m
 GRN= \033[32;1m
 YEL= \033[33;1m
 
+ifeq ($(DB),1)
+	CFLAGS	+= -g3
+endif
+
 .PHONY: all re clean fclean
 
 all: $(NAME)
