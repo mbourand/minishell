@@ -6,14 +6,26 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/26 02:14:15 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/27 01:29:26 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	process_protected(char **res, t_token *token, t_list **prot, size_t *i)
+{
+	t_range	*range;
+
+	range = (t_range*)((*prot)->content);
+	while (*i < range->max)
+		ft_straddchar(res, token->text[(*i)++], 1);
+	(*i)--;
+	*prot = (*prot)->next;
+}
+
 /*
-**	Retire toutes les "unquoted quotes" qui ne sont pas dans une range de protected
+**	Retire toutes les "unquoted quotes" qui ne sont pas dans une range de
+**	protected
 */
 void		remove_quotes(t_token *token, t_list *protected)
 {
@@ -29,19 +41,15 @@ void		remove_quotes(t_token *token, t_list *protected)
 	{
 		range = protected ? (t_range*)protected->content : NULL;
 		if (protected && i == range->min)
-		{
-			while (i < range->max)
-				ft_straddchar(&res, token->text[i++], 1);
-			i--;
-			protected = protected->next;
-		}
+			process_protected(&res, token, &protected, &i);
 		else if (in_quote && is_quote(token->text[i]))
 			in_quote = !in_quote;
 		else if (in_quote || !is_quote(token->text[i]))
 			ft_straddchar(&res, token->text[i], 1);
 		i++;
 	}
-	if (!(token->text = (res ? res : malloc_zero(sizeof(char) * 1))))
+	ft_free(&(token->text));
+	if (!(token->text = (res ? res : ft_strnew(""))))
 		exit(1);
 }
 
@@ -75,6 +83,7 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 		ft_strncpy(res + i + ft_strlen(env->val), token->text + i + ft_strlen(name) + 1, ft_strlen(token->text) - ft_strlen(name) - i - 1);
 	}
 	ft_free(&(token->text));
+	ft_free(&name);
 	token->text = res;
 	return (env ? ft_strlen(env->val) : 0);
 }

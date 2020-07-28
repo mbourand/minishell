@@ -87,7 +87,7 @@ static void process_operator(t_token **token, t_shell *shell, size_t *i, t_list 
 */
 static void process_character(t_token *token, t_shell *shell, size_t *i)
 {
-	token->text = ft_strnjoin(token->text, shell->input + *i, 1);
+	ft_straddchar(&(token->text), shell->input[*i], 1);
 	(*i)++;
 }
 

@@ -12,10 +12,9 @@
 typedef struct	s_token
 {
 	char		*text;
-	char		*quote_removal;
 }				t_token;
 
-/** 
+/**
  * Tokens : liste de t_token
  * Commands : liste de char**
  * */
@@ -59,5 +58,6 @@ t_env	*get_env(t_list *env, char *key);
 char	*ft_strcut(char *src, size_t cut_start, size_t len);
 char	*get_var_name(char *str);
 t_range	*new_range(size_t min, size_t max);
+void	free_shell(t_shell *shell);
 
 #endif

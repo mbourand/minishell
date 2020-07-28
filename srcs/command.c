@@ -58,4 +58,5 @@ void	process_command(t_shell *shell)
 		//execute_command(shell->commands[i]);
 		i++;
 	}
+	free_shell(shell);
 }

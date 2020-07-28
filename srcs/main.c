@@ -15,6 +15,10 @@
 int init_shell(t_shell *shell, char **env)
 {
 	shell->cwd = NULL;
+	shell->commands = NULL;
+	shell->input = NULL;
+	shell->tokens = NULL;
+	shell->env = NULL;
 	if (!(set_cwd(&(shell->cwd), 1)))
 		return (0);
 	if (!(shell->env = init_env(env)))

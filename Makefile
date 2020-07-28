@@ -16,7 +16,8 @@ CFLAGS	= -Wall -Wextra -Werror
 SRC_PATH= srcs/
 OBJ_PATH= objs/
 
-SRC_NAME= main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacters.c command_parser.c env.c utils.c expansion.c
+SRC_NAME=	main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacters.c \
+			command_parser.c env.c utils.c expansion.c free_utils.c
 OBJ_NAME= $(SRC_NAME:.c=.o)
 
 INC= -I incs/ -I libft/ -I libft/printf/ -I libft/get_next_line/
@@ -35,7 +36,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@echo "$(RED)[minishell] : $(DEF)Compilation..."
 	@make -C libft
-	@gcc $(CFLAGS) -fsanitize=address -g -o $(NAME) $(OBJ) $(INC) $(LIB)
+	@gcc $(CFLAGS) -fsanitize=address -o $(NAME) $(OBJ) $(INC) $(LIB)
 	@echo "$(RED)[minishell] : $(DEF)Compilation                 $(GRN)[OK]$(DEF)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
