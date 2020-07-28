@@ -6,56 +6,79 @@
 #    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/25 18:18:54 by mbourand         ###   ########.fr        #
+#    Updated: 2020/07/29 00:53:54 by mbourand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
-OPTIONS		= -c -I. -Iprintf -Iget_next_line
-FOLDER		= ./
+INCS		= -I. -Iprintf -Iget_next_line
+SRCS_PATH	= ./
 PRINTF		= ./printf/
 GNL			= ./get_next_line/
 NAME		= libft.a
-SRCS =	$(FOLDER)ft_lstnew.c $(FOLDER)ft_lstdelone.c $(FOLDER)ft_lstsize.c $(FOLDER)ft_lstclear.c \
-		$(FOLDER)ft_lstlast.c $(FOLDER)ft_lstadd_front.c $(FOLDER)ft_lstadd_back.c $(FOLDER)ft_lstiter.c \
-		$(FOLDER)ft_lstmap.c $(FOLDER)malloc_zero.c $(FOLDER)ft_strcmp.c $(FOLDER)ft_strjoinuntil.c \
-		$(FOLDER)ft_atoi.c $(FOLDER)ft_strnstr.c $(FOLDER)ft_strlcat.c $(FOLDER)ft_strlcpy.c \
-		$(FOLDER)ft_strncmp.c $(FOLDER)ft_strrchr.c $(FOLDER)ft_strchr.c $(FOLDER)ft_tolower.c \
-		$(FOLDER)ft_toupper.c $(FOLDER)ft_isprint.c $(FOLDER)ft_isascii.c $(FOLDER)ft_isalnum.c \
-		$(FOLDER)ft_isalpha.c $(FOLDER)ft_isdigit.c $(FOLDER)ft_strlen.c $(FOLDER)ft_memcmp.c \
-		$(FOLDER)ft_memchr.c $(FOLDER)ft_memmove.c $(FOLDER)ft_memccpy.c $(FOLDER)ft_memcpy.c \
-		$(FOLDER)ft_bzero.c $(FOLDER)ft_memset.c $(FOLDER)ft_calloc.c $(FOLDER)ft_strdup.c $(FOLDER)ft_substr.c \
-		$(FOLDER)ft_strjoin.c $(FOLDER)ft_strtrim.c $(FOLDER)ft_split.c $(FOLDER)ft_itoa.c $(FOLDER)ft_strmapi.c \
-		$(FOLDER)ft_putchar_fd.c $(FOLDER)ft_putendl_fd.c $(FOLDER)ft_putstr_fd.c $(FOLDER)ft_putnbr_fd.c \
-		$(FOLDER)ft_min_max.c $(FOLDER)ft_strlenuntil.c $(FOLDER)ft_strnjoin.c $(FOLDER)ft_straddchar.c \
-		$(FOLDER)ft_strcut.c $(FOLDER)ft_strcpy.c $(FOLDER)ft_strnew.c $(FOLDER)ft_memdel.c \
-		$(FOLDER)ft_free.c $(FOLDER)ft_lstdelat.c $(FOLDER)ft_lstat.c $(FOLDER)ft_strncpy.c $(FOLDER)ft_strndup.c \
-		$(PRINTF)ft_abs.c $(PRINTF)ft_get_arg.c $(PRINTF)ft_numberlen.c $(PRINTF)ft_numberlenl.c $(PRINTF)ft_printf.c \
-		$(PRINTF)ft_printutils.c $(PRINTF)ft_putunsignednbr_fd.c $(PRINTF)ft_tobase.c $(PRINTF)print_char.c $(PRINTF)print_hex.c \
-		$(PRINTF)print_int.c $(PRINTF)print_pointer.c $(PRINTF)print_string.c $(PRINTF)print_unsigned_int.c \
-		$(GNL)get_next_line.c $(GNL)get_next_line_utils.c
-OBJECTS		= $(SRCS:.c=.o)
+SRCS_NAME	=	ft_lstnew.c ft_lstdelone.c ft_lstsize.c ft_lstclear.c ft_lstlast.c ft_lstadd_front.c \
+				ft_lstadd_back.c ft_lstiter.c ft_lstmap.c malloc_zero.c ft_strcmp.c ft_strjoinuntil.c \
+				ft_atoi.c ft_strnstr.c ft_strlcat.c ft_strlcpy.c ft_strncmp.c ft_strrchr.c ft_strchr.c \
+				ft_tolower.c ft_toupper.c ft_isprint.c ft_isascii.c ft_isalnum.c ft_isalpha.c ft_isdigit.c \
+				ft_strlen.c ft_memcmp.c ft_memchr.c ft_memmove.c ft_memccpy.c ft_memcpy.c ft_bzero.c \
+				ft_memset.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c \
+				ft_itoa.c ft_strmapi.c ft_putchar_fd.c ft_putendl_fd.c ft_putstr_fd.c ft_putnbr_fd.c \
+				ft_min_max.c ft_strlenuntil.c ft_strnjoin.c ft_straddchar.c ft_strcut.c ft_strcpy.c \
+				ft_strnew.c ft_memdel.c ft_free.c ft_lstdelat.c ft_lstat.c ft_strncpy.c ft_strndup.c
 
-.PHONY: clean all fclean re bonus .c.o
+GNL_NAME	=	get_next_line.c get_next_line_utils.c
 
-all: $(NAME)
+PRINTF_NAME	=	ft_abs.c ft_get_arg.c ft_numberlen.c ft_numberlenl.c ft_printf.c \
+				ft_printutils.c ft_putunsignednbr_fd.c ft_tobase.c print_char.c print_hex.c \
+				print_int.c print_pointer.c print_string.c print_unsigned_int.c
 
-.c.o:
-	@echo "Compiling $<..."
-	@$(CC) $(CFLAGS) $(OPTIONS) $< -o $(<:.c=.o)
+PRINTF_OBJS_PATH = printf/objs/
+GNL_OBJS_PATH = get_next_line/objs/
 
-$(NAME): $(OBJECTS)
-	@echo "Compiling libft..."
-	@ar -rc $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
+SRCS	= $(addprefix $(SRCS_PATH), $(SRCS_NAME))
+
+OBJS_PATH = ./objs/
+OBJS	= $(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
+
+ALL_OBJS = $(addprefix $(OBJS_PATH), $(SRCS_NAME:.c=.o))
+ALL_OBJS += $(addprefix $(GNL_OBJS_PATH), $(GNL_NAME:.c=.o))
+ALL_OBJS += $(addprefix $(PRINTF_OBJS_PATH), $(PRINTF_NAME:.c=.o))
+
+DEF= \033[0m
+RED= \033[31;1m
+GRN= \033[32;1m
+YEL= \033[33;1m
+
+.PHONY: all re clean fclean
+
+all: compile
+
+$(NAME): $(OBJS)
+	@echo "$(RED)[libft]$(DEF) Compiling..."
+	@ar -rcs $(NAME) $(ALL_OBJS)
+	@echo "$(RED)[libft]$(DEF) Compilation $(GRN)[OK]$(DEF)"
+
+compile:
+	@$(MAKE) -C get_next_line SRCS_NAME="$(GNL_NAME)" | sed '/^make\[/d'
+	@$(MAKE) -C printf SRCS_NAME="$(PRINTF_NAME)" | sed '/^make\[/d'
+	@$(MAKE) $(NAME) | sed '/^make\[/d'
+
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c
+	@mkdir $(OBJS_PATH) 2> /dev/null || true
+	@echo "$(RED)[libft]$(DEF) Compiling $<"
+	@$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
 clean:
-	@echo "Cleaning libft..."
-	@rm -rf $(OBJECTS) $(BONUS)
+	@$(MAKE) -C printf clean | sed '/^make\[/d'
+	@$(MAKE) -C get_next_line clean | sed '/^make\[/d'
+	@rm -rf $(OBJS_PATH)
+	@echo "$(RED)[libft]$(DEF) Cleaning $(GRN)[OK]$(DEF)"
 
 fclean: clean
-	@echo "Full cleaning libft..."
+	@$(MAKE) -C printf fclean | sed '/^make\[/d'
+	@$(MAKE) -C get_next_line fclean | sed '/^make\[/d'
 	@rm -rf $(NAME)
+	@echo "$(RED)[libft]$(DEF) Full Cleaning $(GRN)[OK]$(DEF)"
 
 re: fclean all

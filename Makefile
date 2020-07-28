@@ -38,10 +38,10 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "$(RED)[minishell] : $(DEF)Compilation..."
-	@make -C libft
+	@echo "$(RED)[minishell] : $(DEF)Compiling..."
+	@make -C libft | sed '/^make\[/d'
 	@gcc $(CFLAGS) -fsanitize=address -o $(NAME) $(OBJ) $(INC) $(LIB)
-	@echo "$(RED)[minishell] : $(DEF)Compilation                 $(GRN)[OK]$(DEF)"
+	@echo "$(RED)[minishell] : $(DEF)Compilation $(GRN)[OK]$(DEF)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
@@ -49,13 +49,13 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@make -C libft clean
+	@make -C libft clean | sed '/^make\[/d'
 	@rm -rf $(OBJ_PATH)
-	@echo "$(RED)[minishell] : $(DEF)Cleaning           $(GRN)[OK]$(DEF)"
+	@echo "$(RED)[minishell] : $(DEF)Cleaning $(GRN)[OK]$(DEF)"
 
 fclean: clean
-	@make -C libft fclean
+	@make -C libft fclean | sed '/^make\[/d'
 	@rm -rf $(NAME)
-	@echo "$(RED)[minishell] : $(DEF)Full Cleaning       $(GRN)[OK]$(DEF)"
+	@echo "$(RED)[minishell] : $(DEF)Full Cleaning $(GRN)[OK]$(DEF)"
 
 re: fclean all
