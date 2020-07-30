@@ -17,7 +17,9 @@ SRC_PATH= srcs/
 OBJ_PATH= objs/
 
 SRC_NAME=	main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacters.c \
-			command_parser.c env.c utils.c expansion.c free_utils.c builtin_export.c
+			command_parser.c env.c utils.c expansion.c free_utils.c builtin_export.c \
+			syntax_command.c
+
 OBJ_NAME= $(SRC_NAME:.c=.o)
 
 INC= -I incs/ -I libft/ -I libft/printf/ -I libft/get_next_line/

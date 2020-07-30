@@ -67,5 +67,9 @@ char	*get_var_name(char *str);
 t_range	*new_range(size_t min, size_t max);
 void	free_shell(t_shell *shell);
 int		btin_export(t_list *env, t_list	*command);
+int		check_pipe(t_list *command, size_t i);
+int		check_red(t_list *command, size_t i);
+int		check_semicol(t_list *command, size_t i);
+int		commands_valid(t_shell *shell);
 
 #endif

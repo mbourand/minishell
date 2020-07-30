@@ -51,13 +51,17 @@ void	process_command(t_shell *shell)
 	get_command(shell);
 	get_tokens(shell);
 	parse_command(shell);
+	if (!commands_valid(shell))
+	{
+		ft_putendl_fd("Commande invalide", 2);
+		free_shell(shell);
+		return ;
+	}
 	while (shell->commands[i])
 	{
 		perform_expansion(shell->commands + i, shell->env);
 		//perform_redirection(shell->commands[i]); PROTOTYPES TEMPORAIRES
 		//execute_command(shell->commands[i]);
-		if (!ft_strncmp(((t_token*)shell->commands[i]->content)->text, "export", 7)) //very temporary
-			btin_export(shell->env, shell->commands[i]);
 		i++;
 	}
 	free_shell(shell);

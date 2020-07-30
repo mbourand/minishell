@@ -45,8 +45,12 @@ void	new_word(t_list **iter, t_token** token)
 */
 static void	process_quote(t_token *token, t_shell *shell, size_t *i)
 {
+	char	*tmp;
+
 	ft_straddchar(&(token->text), shell->input[*i], 1);
+	tmp = token->text;
 	token->text = ft_strjoinuntil(token->text, shell->input + *i + 1, shell->input[*i]);
+	ft_free(&tmp);
 	(*i) += ft_strlenuntil(shell->input + *i + 1, shell->input[*i]) + 2;
 	ft_straddchar(&(token->text), shell->input[*i - 1], 1);
 }
@@ -70,11 +74,14 @@ static void process_space(t_token **token, t_shell *shell, size_t *i, t_list **i
 static void process_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 {
 	size_t	op_len;
+	char	*tmp;
 
 	op_len = operator_length(shell->input + *i);
 	if (ft_strlen((*token)->text))
 		new_word(iter, token);
+	tmp = (*token)->text;
 	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, op_len);
+	ft_free(&tmp);
 	(*i) += op_len;
 	while (is_blank(shell->input[*i]))
 		(*i)++;
