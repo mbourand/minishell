@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelat.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 19:44:13 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/23 13:28:29 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/31 17:07:13 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstdelat(t_list **lst, size_t at, void (*del)(void*))
 {
-	t_list *lstat; 
+	t_list *lstat;
 	t_list *tmp;
 
 	if (!lst || !(*lst) || !del)

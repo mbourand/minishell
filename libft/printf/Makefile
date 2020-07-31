@@ -3,18 +3,24 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
+#    By: nforay <nforay@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/29 01:01:59 by mbourand         ###   ########.fr        #
+#    Created: 2020/07/31 16:42:25 by nforay            #+#    #+#              #
+#    Updated: 2020/07/31 17:33:12 by nforay           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
-INCS		= -I.. -I../get_next_line -I.
-SRCS_PATH	= ./
 
+ifeq ($(DB),1)
+    CFLAGS	=  -g3 -Wall -Wextra -Werror
+else
+	CFLAGS	=  -Wall -Wextra -Werror
+endif
+
+INCS			= -I. -I.. -I../get_next_line
+
+SRCS_PATH	= ./srcs/
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
 OBJS_PATH	= ./objs/
@@ -24,8 +30,6 @@ DEF= \033[0m
 RED= \033[31;1m
 GRN= \033[32;1m
 YEL= \033[33;1m
-
-.PHONY: all re clean fclean
 
 all: $(OBJS)
 	@echo -n "" > /dev/null
@@ -42,3 +46,5 @@ clean:
 fclean: clean
 
 re: fclean all
+
+.PHONY: all clean fclean re

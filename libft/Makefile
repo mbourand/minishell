@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
+#    By: nforay <nforay@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/29 00:53:54 by mbourand         ###   ########.fr        #
+#    Updated: 2020/07/31 17:38:04 by nforay           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,15 @@ SRCS_NAME	=	ft_lstnew.c ft_lstdelone.c ft_lstsize.c ft_lstclear.c ft_lstlast.c f
 
 GNL_NAME	=	get_next_line.c get_next_line_utils.c
 
-PRINTF_NAME	=	ft_abs.c ft_get_arg.c ft_numberlen.c ft_numberlenl.c ft_printf.c \
-				ft_printutils.c ft_putunsignednbr_fd.c ft_tobase.c print_char.c print_hex.c \
-				print_int.c print_pointer.c print_string.c print_unsigned_int.c
+PRINTF_NAME	=	ft_printf.c ft_printf_conv.c ft_printf_conv_int.c ft_printf_conv_int_utils.c \
+				ft_printf_conv_int_hh.c ft_printf_conv_int_hh_utils.c ft_printf_conv_int_ll.c \
+				ft_printf_conv_int_ll_utils.c ft_printf_conv_int_h.c ft_printf_conv_int_h_utils.c \
+				ft_printf_conv_int_l.c ft_printf_conv_int_l_utils.c ft_printf_conv_str.c \
+				ft_printf_conv_ptr.c ft_printf_conv_uns.c ft_printf_conv_uns_utils.c \
+				ft_printf_conv_uns_hh.c ft_printf_conv_uns_hh_utils.c ft_printf_conv_uns_ll.c \
+				ft_printf_conv_uns_ll_utils.c ft_printf_conv_uns_h.c ft_printf_conv_uns_h_utils.c \
+				ft_printf_conv_uns_l.c ft_printf_conv_uns_l_utils.c ft_printf_conv_n.c \
+				ft_printf_utils.c ft_dprintf.c
 
 PRINTF_OBJS_PATH = printf/objs/
 GNL_OBJS_PATH = get_next_line/objs/

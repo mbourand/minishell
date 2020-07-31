@@ -22,7 +22,7 @@ SRC_NAME=	main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacte
 
 OBJ_NAME= $(SRC_NAME:.c=.o)
 
-INC= -I incs/ -I libft/ -I libft/printf/ -I libft/get_next_line/
+INC= -I incs/ -I libft/ -I libft/printf -I libft/get_next_line/
 SRC= $(addprefix $(SRC_PATH), $(SRC_NAME))
 OBJ= $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 LIB= -L libft/ -lft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 17:32:41 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/26 15:05:52 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/07/31 17:25:32 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	ft_perror(char *s)
 		prefix = "";
 	else
 		prefix = ": ";
-	ft_putstr_fd((char *)s, 2);
-	ft_putstr_fd((char *)prefix, 2);
-	ft_putendl_fd((char *)errstr, 2); //ft_dprintf plus clean maybe
+	ft_dprintf(2, "%s%s%s\n", s, prefix, errstr);
 }
 
 t_range	*new_range(size_t min, size_t max)
