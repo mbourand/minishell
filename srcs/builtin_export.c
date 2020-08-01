@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/28 23:11:02 by nforay           ###   ########.fr       */
+/*   Updated: 2020/07/31 20:21:41 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	export_print(t_env *env)
 	ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
 }
 
-int	btin_export(t_list *env, t_list	*command)
+int	btin_export(t_list *env, t_list *command)
 {
 	t_env	*new;
 	t_env	*tmp;
@@ -39,7 +39,7 @@ int	btin_export(t_list *env, t_list	*command)
 	else
 	{
 		ft_lstadd_back(&env, ft_lstnew(new));
-		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mt_env added to env.\n");
+		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mt_env added to env at position %d.\n", ft_lstsize(env) - 1);
 	}
 	return (SUCCESS);
 }
