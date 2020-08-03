@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/03 03:19:37 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/03 16:17:56 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ t_list	*first_with_target(int target, t_list *lst)
 }
 
 /*
-**	Ferme le fd de from
-**	ouvre le fichier destination à l'ancien fd de from
+**	Redirige le fd de filename sur le fd de to
+**	-> man dup
+**	-> man open
+**	Mets dans lst_redir les infos de la redirection pour l'annuler après
 */
 
 void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
@@ -51,9 +53,41 @@ void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
 }
 
 /*
+**	Choisis les fd à rediriger en fonction de l'opérateur,
+**	appelle redirect() pour faire la redirection
+**	puis supprime de la commande les mots servant à la redirection
+**	ex. "echo coucou > test" devient "echo coucou"
+*/
+
+void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command, size_t *i)
+{
+	int to;
+	int flags;
+	t_token	*content;
+
+	content = (t_token*)(*iter)->content;
+	if (!(ft_strcmp(content->text, OP_REDIRIN)))
+	{
+		to = 0;
+		flags = O_RDONLY;
+	}
+	else
+	{
+		to = 1;
+		flags = O_WRONLY | O_CREAT;
+		if (!(ft_strcmp(content->text, OP_APPEND)))
+			flags |= O_APPEND;
+		else
+			flags |= O_TRUNC;
+	}
+	redirect(((t_token*)(*iter)->next->content)->text, to, lst_redir, flags);
+	ft_lstdelat(command, *i, &free_token);
+	ft_lstdelat(command, *i, &free_token);
+	*iter = ft_lstat(*command, --(*i));
+}
+
+/*
 **	Fais toutes les redirections d'une commande
-**	les sauvegarde dans lst_redir pour pouvoir les annuler après la commande
-**	Supprime des arguments de la commande l'opérateur et le nom du fichier
 */
 
 t_list	*perform_redirection(t_list **command)
@@ -62,7 +96,6 @@ t_list	*perform_redirection(t_list **command)
 	t_token	*content;
 	t_list	*iter;
 	size_t	i;
-	int		to;
 
 	lst_redir = NULL;
 	iter = *command;
@@ -71,19 +104,7 @@ t_list	*perform_redirection(t_list **command)
 	{
 		content = (t_token*)iter->content;
 		if (content->is_operator && rediroperator_length(content->text))
-		{
-			if (!(ft_strcmp(content->text, OP_APPEND)))
-			{
-			}
-			else
-			{
-				to = !ft_strcmp(content->text, OP_REDIRIN) ? 0 : 1;
-				redirect(((t_token*)iter->next->content)->text, to, &lst_redir, to == 0 ? O_RDONLY : (O_WRONLY | O_CREAT));
-				ft_lstdelat(command, i, &free_token);
-				ft_lstdelat(command, i, &free_token);
-				iter = ft_lstat(*command, --i);
-			}
-		}
+			prcs_op_redir(&iter, &lst_redir, command, &i);
 		iter = iter->next;
 		i++;
 	}
