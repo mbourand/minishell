@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 14:53:08 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/27 01:35:15 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/03 04:03:33 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	free_shell(t_shell *shell)
 	i = 0;
 	cast = (void*)shell->commands;
 	ft_free(&(shell->input));
-	ft_lstclear(&(shell->tokens), &free_token);
+	ft_lstclear(&(shell->tokens), &free_nothing);
 	while (shell->commands[i])
-		ft_lstclear(&(shell->commands[i++]), &free_nothing);
+		ft_lstclear(&(shell->commands[i++]), &free_token);
 	ft_memdel(&cast);
 }

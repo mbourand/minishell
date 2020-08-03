@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/01 14:20:00 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/03 03:08:13 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,16 @@
 # define SUCCESS	0
 # define FAILURE	-1
 
+# define OP_SEMICOL ";"
+# define OP_PIPE "|"
+# define OP_APPEND ">>"
+# define OP_REDIROUT ">"
+# define OP_REDIRIN "<"
+
 typedef struct	s_token
 {
 	char		*text;
+	int			is_operator;
 }				t_token;
 
 /**
@@ -43,11 +50,21 @@ typedef struct	s_env
 	char *val;
 }				t_env;
 
-typedef struct s_range
+typedef struct	s_range
 {
 	size_t min;
 	size_t max;
 }				t_range;
+
+/*
+**	save = sauvegarde du fd écrasé (valeur obenue avec dup())
+**	target = le fd redirigé (donc 1 pour '>' et 0 pour '<' par exemple)
+*/
+typedef struct	s_redir
+{
+	int	save;
+	int	target;
+}				t_redir;
 
 
 typedef struct	s_shell
@@ -57,6 +74,7 @@ typedef struct	s_shell
 	t_list	*tokens;
 	t_list	*env;
 	t_list	**commands;
+	t_list	*lst_redir;
 }				t_shell;
 
 int		set_cwd(char **cwd, size_t size);
@@ -85,5 +103,8 @@ int		check_pipe(t_list *command, size_t i);
 int		check_red(t_list *command, size_t i);
 int		check_semicol(t_list *command, size_t i);
 int		commands_valid(t_shell *shell);
+t_list	*perform_redirection(t_list **command);
+size_t	rediroperator_length(char *str);
+void	revert_redirections(t_list *lst_redir);
 
 #endif

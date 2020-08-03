@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 18:38:02 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/31 18:37:06 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/02 13:37:45 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_token	*create_token(char *text)
 	if (!(token = malloc(sizeof(t_token) * 1)))
 		exit(1);
 	token->text = text;
+	token->is_operator = 0;
 	return (token);
 }
 
@@ -86,6 +87,7 @@ void	prcs_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 		new_word(iter, token);
 	tmp = (*token)->text;
 	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, op_len);
+	(*token)->is_operator = 1;
 	ft_free(&tmp);
 	(*i) += op_len;
 	while (is_blank(shell->input[*i]))
@@ -98,7 +100,7 @@ void	prcs_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 **	Copie le caractère dans token->text
 */
 
-void	process_character(t_token *token, t_shell *shell, size_t *i)
+void	prcs_character(t_token *token, t_shell *shell, size_t *i)
 {
 	ft_straddchar(&(token->text), shell->input[*i], 1);
 	(*i)++;

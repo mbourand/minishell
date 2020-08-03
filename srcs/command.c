@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/26 02:47:42 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/03 03:57:41 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,12 @@ void	process_command(t_shell *shell)
 	while (shell->commands[i])
 	{
 		perform_expansion(shell->commands + i, shell->env);
-		//perform_redirection(shell->commands[i]); PROTOTYPES TEMPORAIRES
+		shell->lst_redir = perform_redirection(shell->commands + i);
+		for (t_list *iter = shell->commands[i]; iter; iter = iter->next)
+			ft_printf("%s", ((t_token*)(iter->content))->text);
 		//execute_command(shell->commands[i]);
+		revert_redirections(shell->lst_redir);
+		ft_lstclear(&(shell->lst_redir), &free);
 		i++;
 	}
 	free_shell(shell);

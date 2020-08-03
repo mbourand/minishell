@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nforay <nforay@student.42.fr>              +#+  +:+       +#+         #
+#    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/07/31 17:38:04 by nforay           ###   ########.fr        #
+#    Updated: 2020/08/03 03:08:22 by mbourand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS_NAME	=	ft_lstnew.c ft_lstdelone.c ft_lstsize.c ft_lstclear.c ft_lstlast.c f
 				ft_memset.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c \
 				ft_itoa.c ft_strmapi.c ft_putchar_fd.c ft_putendl_fd.c ft_putstr_fd.c ft_putnbr_fd.c \
 				ft_min_max.c ft_strlenuntil.c ft_strnjoin.c ft_straddchar.c ft_strcut.c ft_strcpy.c \
-				ft_strnew.c ft_memdel.c ft_free.c ft_lstdelat.c ft_lstat.c ft_strncpy.c ft_strndup.c
+				ft_strnew.c ft_memdel.c ft_free.c ft_lstdelat.c ft_lstat.c ft_strncpy.c ft_strndup.c \
+				ft_lstreplace.c
 
 GNL_NAME	=	get_next_line.c get_next_line_utils.c
 
