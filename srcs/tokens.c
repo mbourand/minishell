@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 18:38:02 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/02 13:37:45 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/04 21:06:47 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,27 @@ void	new_word(t_list **iter, t_token **token)
 	ft_lstadd_back(iter, ft_lstnew(create_token(ft_strnew(""))));
 	(*iter) = (*iter)->next;
 	(*token) = (t_token*)(*iter)->content;
+}
+
+void	prcs_redirection(t_token **token, t_shell *shell, size_t *i, t_list **iter)
+{
+	char	*tmp;
+	size_t	len;
+
+	while (!(len = rediroperator_length(shell->input + *i)))
+	{
+		ft_straddchar(&((*token)->text), shell->input[*i], 1);
+		(*i)++;
+	}
+	tmp = (*token)->text;
+	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, len);
+	(*token)->is_operator = 1;
+	ft_free(&tmp);
+	*i += len;
+	while (is_blank(shell->input[*i]))
+		(*i)++;
+	if (shell->input[*i])
+		new_word(iter, token);
 }
 
 /*
@@ -125,10 +146,13 @@ void	get_tokens(t_shell *shell)
 		i++;
 	while (shell->input[i])
 	{
+		// Si il y a rien dans le token, si derrière shell->input + i + longueur de atoi c'est un opérateur de redir, c'est une redirection avec fd
 		if (is_quote(shell->input[i]))
 			prcs_quote(token, shell, &i);
 		else if (is_blank(shell->input[i]))
 			prcs_space(&token, shell, &i, &iter);
+		else if (!token->text[0] && is_redirection(shell->input + i) == 2)
+			prcs_redirection(&token, shell, &i, &iter);
 		else if (operator_length(shell->input + i) > 0)
 			prcs_operator(&token, shell, &i, &iter);
 		else

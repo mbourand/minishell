@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:08:44 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/31 18:08:45 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/04 21:37:23 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,34 @@
 int		check_operators(t_list **commands)
 {
 	size_t	i;
-	size_t	size;
 	t_token	*content;
+	t_list	*iter;
+	t_list	*prev;
 	int valid;
 
+	prev = NULL;
 	i = 0;
-	size = 0;
-	while (commands[size])
-		size++;
 	while (commands[i])
 	{
-		content = (t_token*)(commands[i]->content);
-		if (operator_length(content->text))
+		iter = commands[i];
+		while (iter)
 		{
-			if (!ft_strcmp(content->text, ";"))
-				valid = (i > 0 && !operator_length(((t_token*)commands[i - 1]->content)->text));
-			else
-				valid = (i > 0 && i < size - 1 && !operator_length(((t_token*)commands[i - 1]->content)->text) && !operator_length(((t_token*)commands[i + 1]->content)->text));
-			if (!valid)
-				break ;
+			content = (t_token*)(iter->content);
+			if (is_operator(content->text))
+			{
+				if (!ft_strcmp(content->text, ";"))
+					valid = (prev && !is_operator(((t_token*)prev->content)->text));
+				else
+					valid = (prev && iter->next && !is_operator(((t_token*)prev->content)->text) && !is_operator(((t_token*)iter->next->content)->text));
+				if (!valid)
+					return (0);
+			}
+			prev = iter;
+			iter = iter->next;
 		}
 		i++;
 	}
-	return (valid);
+	return (1);
 }
 
 /*

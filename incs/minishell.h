@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/03 03:08:13 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/04 22:32:01 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ typedef struct	s_token
 	int			is_operator;
 }				t_token;
 
-/**
- * Tokens : liste de t_token
- * Commands : liste de char**
- * */
+/*
+**	Tokens : liste de t_token
+**	Commands : liste de char**
+*/
 
 typedef struct	s_env
 {
@@ -106,5 +106,8 @@ int		commands_valid(t_shell *shell);
 t_list	*perform_redirection(t_list **command);
 size_t	rediroperator_length(char *str);
 void	revert_redirections(t_list *lst_redir);
+int		contains_rediroperator(char *str);
+int		is_redirection(char *str);
+int		is_operator(char *str);
 
 #endif

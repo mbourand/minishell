@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/03 16:17:56 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/04 18:59:47 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
 		exit(1);
 	if ((fd = open(filename, oflag, 0666)) < 0)
 		exit(1);
+	if (fd != to && (dup2(fd, to) < 0 || close(fd) < 0))
+		exit(1);
 }
 
 /*
@@ -64,22 +66,21 @@ void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command, size_t *
 	int to;
 	int flags;
 	t_token	*content;
+	size_t	offset;
 
+	offset = 0;
 	content = (t_token*)(*iter)->content;
-	if (!(ft_strcmp(content->text, OP_REDIRIN)))
-	{
-		to = 0;
-		flags = O_RDONLY;
-	}
+	if (rediroperator_length(content->text))
+		to = !ft_strcmp(content->text, OP_REDIRIN) ? 0 : 1;
 	else
 	{
-		to = 1;
-		flags = O_WRONLY | O_CREAT;
-		if (!(ft_strcmp(content->text, OP_APPEND)))
-			flags |= O_APPEND;
-		else
-			flags |= O_TRUNC;
+		to = ft_atoi(content->text);
+		offset = ft_numlen(to, 10);
 	}
+	if (!(ft_strcmp(content->text + offset, OP_REDIRIN)))
+		flags = O_RDONLY;
+	else
+		flags = O_WRONLY | O_CREAT | (!ft_strcmp(content->text + offset, OP_APPEND) ? O_APPEND : O_TRUNC);
 	redirect(((t_token*)(*iter)->next->content)->text, to, lst_redir, flags);
 	ft_lstdelat(command, *i, &free_token);
 	ft_lstdelat(command, *i, &free_token);
@@ -103,7 +104,7 @@ t_list	*perform_redirection(t_list **command)
 	while (iter)
 	{
 		content = (t_token*)iter->content;
-		if (content->is_operator && rediroperator_length(content->text))
+		if (content->is_operator && rediroperator_length(content->text + (ft_isdigit(content->text[0]) ? ft_numlen(ft_atoi(content->text), 10) : 0)))
 			prcs_op_redir(&iter, &lst_redir, command, &i);
 		iter = iter->next;
 		i++;
