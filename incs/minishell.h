@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/04 22:32:01 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/05 16:39:12 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # include <string.h>
 # include <errno.h>
+# include <dirent.h>
 
 # define DEBUG		1
 
@@ -71,6 +72,7 @@ typedef struct	s_shell
 {
 	char	*cwd;
 	char	*input;
+	char	**path;
 	t_list	*tokens;
 	t_list	*env;
 	t_list	**commands;
@@ -109,5 +111,7 @@ void	revert_redirections(t_list *lst_redir);
 int		contains_rediroperator(char *str);
 int		is_redirection(char *str);
 int		is_operator(char *str);
+char	**parse_path(t_env *env);
+char	*find_exe(char **path, char *name);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:54 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/26 02:47:54 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/05 16:40:54 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int init_shell(t_shell *shell, char **env)
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->env = NULL;
+	shell->lst_redir = NULL;
+	shell->path = NULL;
 	if (!(set_cwd(&(shell->cwd), 1)))
 		return (0);
 	if (!(shell->env = init_env(env)))

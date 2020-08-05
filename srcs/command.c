@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/05 13:50:31 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/05 17:16:44 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	process_command(t_shell *shell)
 	{
 		perform_expansion(shell->commands + i, shell->env);
 		shell->lst_redir = perform_redirection(shell->commands + i);
+		shell->path = parse_path(get_env(shell->env, "PATH"));
 		//execute_command(shell->commands[i]);
 		revert_redirections(shell->lst_redir);
 		ft_lstclear(&(shell->lst_redir), &free);
