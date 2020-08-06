@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/05 16:39:12 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/06 03:25:33 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <string.h>
 # include <errno.h>
 # include <dirent.h>
+# include <sys/wait.h>
 
-# define DEBUG		1
+# define DEBUG		0
 
 # define BUFF_SIZE	2
 # define TRUE		1
@@ -33,6 +34,10 @@
 # define OP_APPEND ">>"
 # define OP_REDIROUT ">"
 # define OP_REDIRIN "<"
+
+# define BTIN_ENV "env"
+# define BTIN_UNSET "unset"
+# define BTIN_EXPORT "export"
 
 typedef struct	s_token
 {
@@ -113,5 +118,6 @@ int		is_redirection(char *str);
 int		is_operator(char *str);
 char	**parse_path(t_env *env);
 char	*find_exe(char **path, char *name);
+void	exec_command(t_list *command, char **path, t_list *env);
 
 #endif
