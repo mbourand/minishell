@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/06 03:25:33 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/06 17:58:55 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct	s_shell
 	t_list	*env;
 	t_list	**commands;
 	t_list	*lst_redir;
+	int		exit_code;
 }				t_shell;
 
 int		set_cwd(char **cwd, size_t size);
@@ -118,6 +119,6 @@ int		is_redirection(char *str);
 int		is_operator(char *str);
 char	**parse_path(t_env *env);
 char	*find_exe(char **path, char *name);
-void	exec_command(t_list *command, char **path, t_list *env);
+int		exec_command(t_list *command, char **path, t_list *env);
 
 #endif

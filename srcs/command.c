@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/06 01:01:43 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/06 22:32:37 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ void	process_command(t_shell *shell)
 		perform_expansion(shell->commands + i, shell->env);
 		shell->lst_redir = perform_redirection(shell->commands + i);
 		shell->path = parse_path(get_env(shell->env, "PATH"));
-		exec_command(shell->commands[i], shell->path, shell->env);
+		if (shell->commands[i])
+			shell->exit_code = exec_command(shell->commands[i], shell->path, shell->env);
+		//ft_printf("exit code: %d\n", shell->exit_code);
 		revert_redirections(shell->lst_redir);
 		ft_lstclear(&(shell->lst_redir), &free);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 09:58:37 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/06 01:04:46 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/06 21:52:34 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ void				ft_memdel(void **ptr);
 void				ft_lstreplace(t_list *lst, size_t at, void(*del)(void*), void *content);
 size_t				ft_numlen(int i, size_t base);
 int					ft_contains(char *s1, char *s2);
+void				ft_free_tab(char ***tab);
 
 #endif
