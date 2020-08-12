@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/12 14:19:27 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/13 00:02:06 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@
 # define BTIN_UNSET "unset"
 # define BTIN_EXPORT "export"
 
-# define NO_PIPES 0
 # define PIPE_BEFORE 1
 # define PIPE_AFTER 2
-# define PIPE_BOTH 3
 
 typedef struct	s_token
 {
@@ -134,5 +132,6 @@ char	**serialize_env(t_list *env);
 int		exec_btin(size_t i, t_list *cmd, t_list *env);
 void	redirect_fd(int fd, int to);
 int		get_near_pipes(t_list **command, size_t i);
+void	pipe_redirection(t_shell *shell, int pipes, int pipe_index);
 
 #endif

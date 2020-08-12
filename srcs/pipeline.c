@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/12 21:32:27 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/12 23:58:37 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,6 @@ void	fill_pipeline(t_shell *shell, size_t i)
 	}
 }
 
-void	pipe_redirection(t_shell *shell, int pipes, int pipe_index)
-{
-	size_t	i;
-
-	i = 0;
-	if (pipes & PIPE_AFTER)
-	{
-		if (dup2(shell->pipeline[pipe_index][1], STDOUT_FILENO) == -1)
-			ft_perror("Redirection error");
-	}
-	if (pipes & PIPE_BEFORE)
-	{
-		if (dup2(shell->pipeline[pipe_index - 1][0], STDIN_FILENO) == -1)
-			ft_perror("Redirection error");
-	}
-	while (shell->pipeline[i])
-	{
-		close(shell->pipeline[i][0]);
-		close(shell->pipeline[i][1]);
-		i++;
-	}
-}
-
 void	process_pipeline(t_shell *shell, size_t *i)
 {
 	size_t	pipe_index;
@@ -159,8 +136,8 @@ void	process_pipeline(t_shell *shell, size_t *i)
 	j = 0;
 	while (shell->pipeline[j])
 	{
-		ft_memdel((void**)(shell->pipeline + j));
+		free(shell->pipeline[j]);
 		j++;
 	}
-	ft_memdel((void**)shell->pipeline);
+	free(shell->pipeline);
 }
