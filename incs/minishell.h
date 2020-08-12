@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/06 17:58:55 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/12 14:19:27 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@
 # define BTIN_ENV "env"
 # define BTIN_UNSET "unset"
 # define BTIN_EXPORT "export"
+
+# define NO_PIPES 0
+# define PIPE_BEFORE 1
+# define PIPE_AFTER 2
+# define PIPE_BOTH 3
 
 typedef struct	s_token
 {
@@ -82,6 +87,7 @@ typedef struct	s_shell
 	t_list	*env;
 	t_list	**commands;
 	t_list	*lst_redir;
+	int		**pipeline;
 	int		exit_code;
 }				t_shell;
 
@@ -120,5 +126,13 @@ int		is_operator(char *str);
 char	**parse_path(t_env *env);
 char	*find_exe(char **path, char *name);
 int		exec_command(t_list *command, char **path, t_list *env);
+void	execute_pipeline_cmd(t_list *command, t_list *env, char **path, int *exit_status);
+void	process_pipeline(t_shell *shell, size_t *i);
+int		is_pipe(t_list *command);
+char	**serialize_cmd(t_list *cmd);
+char	**serialize_env(t_list *env);
+int		exec_btin(size_t i, t_list *cmd, t_list *env);
+void	redirect_fd(int fd, int to);
+int		get_near_pipes(t_list **command, size_t i);
 
 #endif
