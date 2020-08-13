@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/11 16:17:21 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/13 20:38:04 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	free_shell(t_shell *shell);
 int		btin_cd(t_shell *shell, t_list *command);
 int		btin_env(t_list *env, t_list *command);
 int		btin_export(t_list *env, t_list	*command);
+void	btin_pwd(t_shell *shell, t_list *command);
 int		btin_unset(t_list *env, t_list *command);
 int		check_pipe(t_list *command, size_t i);
 int		check_red(t_list *command, size_t i);
