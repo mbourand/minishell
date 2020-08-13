@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/05 16:39:12 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/11 16:17:21 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ char	*ft_strcut(char *src, size_t cut_start, size_t len);
 char	*get_var_name(char *str);
 t_range	*new_range(size_t min, size_t max);
 void	free_shell(t_shell *shell);
+int		btin_cd(t_shell *shell, t_list *command);
 int		btin_env(t_list *env, t_list *command);
 int		btin_export(t_list *env, t_list	*command);
 int		btin_unset(t_list *env, t_list *command);
