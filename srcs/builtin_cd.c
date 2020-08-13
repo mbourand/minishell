@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 14:57:45 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/13 17:12:39 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/13 17:21:19 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	update_env_pwd(t_list *env, char *pwd)
 	(get_env(env, "PWD"))->val = ft_strdup(pwd);
 }
 
-static int	changedir_home(t_list *env, t_shell *shell, t_list *command)
+static int	changedir_home(t_list *env, t_shell *shell)
 {
 	//DIR		*folder; //Maybe unnecessary to try open before chdir
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", (get_env(env, "HOME"))->val);
@@ -64,7 +64,7 @@ int			btin_cd(t_shell *shell, t_list *command)
 
 	env = shell->env;
 	if (!((t_token*)command->next))
-		return (changedir_home(env, shell, command));
+		return (changedir_home(env, shell));
 	else
 		return (changedir_path(env, shell, command));
 }
