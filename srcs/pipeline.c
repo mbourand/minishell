@@ -6,11 +6,20 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/12 23:58:37 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/14 17:03:10 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	run_command_child(t_shell *shell, size_t *i, int pipe_index)
+{
+	shell->path = parse_path(get_env(shell->env, "PATH"));
+	pipe_redirection(shell, get_near_pipes(shell->commands, *i), pipe_index);
+	shell->lst_redir = perform_redirection(shell->commands + *i);
+	execute_pipeline_cmd(shell->commands[*i], shell->env, shell->path, &(shell->exit_code));
+	exit(EXIT_FAILURE);
+}
 
 void	close_pipes(t_shell *shell, pid_t pids[], size_t size)
 {
@@ -88,18 +97,52 @@ void	fill_pipeline(t_shell *shell, size_t i)
 	}
 }
 
+void	free_pipeline(pid_t *pids, t_shell *shell)
+{
+	size_t	i;
+
+	i = 0;
+	free(pids);
+	while (shell->pipeline[i])
+		free(shell->pipeline[i++]);
+	free(shell->pipeline);
+}
+
+/*
+**	Fork et lance la commande dans l'enfant
+**	passe à la commande d'après dans le parent
+**	retourne 1 si c'était la dernière commande
+*/
+int		fork_and_run(t_shell *shell, size_t *i, size_t *pipe_index, pid_t *pids)
+{
+	pid_t	tmp;
+
+	tmp = fork();
+	if (tmp == 0)
+	{
+		run_command_child(shell, i, *pipe_index);
+		return (0);
+	}
+	else
+	{
+		pids[(*pipe_index)++] = tmp;
+		if (is_pipe(shell->commands[*i + 1]))
+			*i += 2;
+		else
+			return (1);
+		return (0);
+	}
+}
+
 void	process_pipeline(t_shell *shell, size_t *i)
 {
 	size_t	pipe_index;
 	pid_t	*pids;
-	pid_t	tmp;
-	size_t	j;
 	size_t	size;
 
-	j = 0;
 	pipe_index = 0;
-	fill_pipeline(shell, *i);
 	size = 0;
+	fill_pipeline(shell, *i);
 	while (shell->pipeline[size])
 		size++;
 	if (!(pids = malloc_zero(sizeof(pid_t) * (size + 2))))
@@ -107,37 +150,10 @@ void	process_pipeline(t_shell *shell, size_t *i)
 	while (shell->commands[*i])
 	{
 		perform_expansion(shell->commands + *i, shell->env);
-		tmp = fork();
-		if (tmp == 0)
-		{
-			shell->path = parse_path(get_env(shell->env, "PATH"));
-			pipe_redirection(shell, get_near_pipes(shell->commands, *i), pipe_index);
-			shell->lst_redir = perform_redirection(shell->commands + *i);
-			execute_pipeline_cmd(shell->commands[*i], shell->env, shell->path, &(shell->exit_code));
-			exit(EXIT_FAILURE);
-			return ;
-		}
-		else if (is_pipe(shell->commands[*i + 1]))
-		{
-			pids[j] = tmp;
-			*i += 2;
-			pipe_index++;
-			j++;
-		}
-		else
-		{
-			pids[j] = tmp;
+		if (fork_and_run(shell, i, &pipe_index, pids))
 			break ;
-		}
 	}
 	close_pipes(shell, pids, size + 1);
+	free_pipeline(pids, shell);
 	(*i)++;
-	free(pids);
-	j = 0;
-	while (shell->pipeline[j])
-	{
-		free(shell->pipeline[j]);
-		j++;
-	}
-	free(shell->pipeline);
 }
