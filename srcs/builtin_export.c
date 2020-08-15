@@ -6,22 +6,24 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/31 20:21:41 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/15 22:33:42 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	export_print(t_env *env)
 {
 	ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
 }
 
-int	btin_export(t_list *env, t_list *command)
+int	btin_export(t_shell *shell, t_list *command)
 {
 	t_env	*new;
 	t_env	*tmp;
+	t_list	*env;
 
+	env = shell->env;
 	if (!((t_token*)command->next))
 	{
 		ft_lstiter(env, (void*)&export_print);

@@ -6,11 +6,11 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:50:21 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/31 20:53:22 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/15 22:35:05 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	remove_key(t_list *env)
 {
@@ -19,12 +19,14 @@ static void	remove_key(t_list *env)
 	free(((t_env*)env)->val);
 }
 
-int	btin_unset(t_list *env, t_list *command)
+int			btin_unset(t_shell *shell, t_list *command)
 {
 	t_list *tmp;
 	t_list	*envtmp;
 	size_t	i;
+	t_list	*env;
 
+	env = shell->env;
 	envtmp = env;
 	i = 0;
 	while (envtmp)
