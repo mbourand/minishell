@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/09 16:16:52 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 00:16:06 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,20 @@ int		run_exec(char *name, char **cmd, char **env)
 	return (status);
 }
 
-int	exec_btin(size_t i, t_list *cmd, t_list *env)
+int	exec_btin(size_t i, t_list *cmd, t_shell *shell)
 {
-	static int (*btins[])(t_list*, t_list*) = { &btin_env, &btin_export,
-		&btin_unset, 0 };
-	return ((btins[i])(env, cmd));
+	static int (*btins[])(t_shell*, t_list*) = { &btin_env, &btin_export,
+		&btin_unset, &btin_cd, &btin_echo, &btin_pwd, 0 };
+	return ((btins[i])(shell, cmd));
 }
 
 /*
 **	https://www.gnu.org/software/bash/manual/html_node/Command-Search-and-Execution.html#Command-Search-and-Execution
 */
-int		exec_command(t_list *command, char **path, t_list *env)
+int		exec_command(t_list *command, char **path, t_list *env, t_shell *shell)
 {
-	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, 0 };
+	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, BTIN_CD,
+		BTIN_ECHO, BTIN_PWD, 0 };
 	size_t		i;
 	t_token		*content;
 	char		*exec_name;
@@ -99,7 +100,7 @@ int		exec_command(t_list *command, char **path, t_list *env)
 	while (!exec_name && builtins[i])
 	{
 		if (!ft_strcmp(content->text, builtins[i]))
-			return (exec_btin(i, command, env));
+			return (exec_btin(i, command, shell));
 		i++;
 	}
 	if (!exec_name)

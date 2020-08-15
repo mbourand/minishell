@@ -6,17 +6,20 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 14:57:45 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/13 17:21:19 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 01:08:01 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_env_pwd(t_list *env, char *pwd)
+static void	update_env_pwd(t_list *env, t_shell *shell)
 {
+	char	buf[PATH_MAX];
+
+	shell->cwd = getcwd(buf, PATH_MAX);
 	free((get_env(env, "OLDPWD"))->val);
 	(get_env(env, "OLDPWD"))->val = (get_env(env, "PWD"))->val;
-	(get_env(env, "PWD"))->val = ft_strdup(pwd);
+	(get_env(env, "PWD"))->val = ft_strdup(shell->cwd);
 }
 
 static int	changedir_home(t_list *env, t_shell *shell)
@@ -27,8 +30,7 @@ static int	changedir_home(t_list *env, t_shell *shell)
 		return (FAILURE);*/
 	if (!(chdir((get_env(env, "HOME"))->val)))
 	{
-		shell->cwd = getcwd(NULL, 0);
-		update_env_pwd(env, shell->cwd);
+		update_env_pwd(env, shell);
 		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", shell->cwd);
 		return (SUCCESS);
 	}
@@ -45,8 +47,7 @@ static int	changedir_path(t_list *env, t_shell *shell, t_list *command)
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", ((t_token*)command->next->content)->text);
 	if (!(chdir(((t_token*)command->next->content)->text)))
 	{
-		shell->cwd = getcwd(NULL, 0);
-		update_env_pwd(env, shell->cwd);
+		update_env_pwd(env, shell);
 		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", shell->cwd);
 		return (SUCCESS);
 	}

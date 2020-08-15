@@ -6,13 +6,13 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 21:04:22 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/15 22:37:34 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 00:29:42 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	btin_echo(t_shell *shell, t_list *command)
+int	btin_echo(t_shell *shell, t_list *command)
 {
 	t_list	*tmp;
 
@@ -40,4 +40,5 @@ void	btin_echo(t_shell *shell, t_list *command)
 		}
 		ft_putendl_fd("", 1);
 	}
+	return (SUCCESS);
 }

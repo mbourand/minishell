@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:46 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/13 17:15:25 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 01:07:10 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,10 @@
 **	cwd = current working directory
 **	-> man getcwd
 */
-int	set_cwd(char **cwd, size_t size)
+int	set_cwd(char **cwd)
 {
-	char *buff;
+	char	buf[PATH_MAX];
 
-	(void)size;
-	buff = getcwd(NULL, 0);
-	ft_strcpy(*cwd, buff);
-	free(buff);
+	*cwd = getcwd(buf, PATH_MAX);
 	return (1);
 }
