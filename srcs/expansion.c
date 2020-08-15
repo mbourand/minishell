@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/27 01:29:26 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/07 14:19:59 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		remove_quotes(t_token *token, t_list *protected)
 	t_range	*range;
 	char	*res;
 	size_t	i;
-	int		in_quote;
+	char	in_quote;
 
 	i = 0;
 	res = NULL;
@@ -42,9 +42,9 @@ void		remove_quotes(t_token *token, t_list *protected)
 		range = protected ? (t_range*)protected->content : NULL;
 		if (protected && i == range->min)
 			process_protected(&res, token, &protected, &i);
-		else if (in_quote && is_quote(token->text[i]))
-			in_quote = !in_quote;
-		else if (in_quote || !is_quote(token->text[i]))
+		else if ((!in_quote && is_quote(token->text[i])) || in_quote == token->text[i])
+			in_quote = (in_quote == token->text[i] ? 0 : token->text[i]);
+		else
 			ft_straddchar(&res, token->text[i], 1);
 		i++;
 	}
@@ -68,7 +68,7 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 	name = get_var_name(token->text + i + 1);
 	if (!(env = get_env(lstenv, name)) || !(env->val[0]))
 	{
-		res = ft_substr(token->text, 0, i);
+		res = ft_substr(token->text, 0, i + (!name));
 		tmp = res;
 		res = ft_strjoin(res, token->text + i + ft_strlen(name) + 1);
 		ft_free(&tmp);
@@ -85,7 +85,7 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 	ft_free(&(token->text));
 	ft_free(&name);
 	token->text = res;
-	return (env ? ft_strlen(env->val) : 0);
+	return (env ? ft_strlen(env->val) : (name ? 0 : 1));
 }
 
 /*
@@ -97,12 +97,16 @@ static void expand_token(t_token *token, t_list *env)
 {
 	size_t	i;
 	t_list	*protected;
+	int		in_quote;
 
+	in_quote = 0;
 	i = 0;
 	protected = 0;
 	while (token->text[i])
 	{
-		if (token->text[i] == '\'')
+		if (token->text[i] == '\"')
+			in_quote = !in_quote;
+		if (!in_quote && token->text[i] == '\'')
 			i += ft_strlenuntil(token->text + i + 1, '\'') + 1;
 		if (token->text[i] == '$')
 			i += replace_var(token, i, env, &protected);

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/05 17:16:44 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/11 04:47:01 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ void	get_command(t_shell *shell)
 **
 **	7. Optionally waits for the command to complete and collects its exit status
 */
+
+/*
+*	Vérifier si c'est le début d'une pipeline, auquel cas exécuter
+*	une autre fonction qui fait les redirections et tout le bordel dans les fork directement
+*	Et faire les redirectgions des pipes avant les redirections des commandes !!!
+*/
 void	process_command(t_shell *shell)
 {
 	size_t i;
@@ -59,12 +65,25 @@ void	process_command(t_shell *shell)
 	}
 	while (shell->commands[i])
 	{
+		if (is_pipe(shell->commands[i + 1]))
+		{
+			process_pipeline(shell, &i);
+			continue ;
+		}
+		if (((t_token*)(shell->commands[i]->content))->is_operator)
+		{
+			i++;
+			continue ;
+		}
 		perform_expansion(shell->commands + i, shell->env);
 		shell->lst_redir = perform_redirection(shell->commands + i);
 		shell->path = parse_path(get_env(shell->env, "PATH"));
-		//execute_command(shell->commands[i]);
+		if (shell->commands[i])
+			shell->exit_code = exec_command(shell->commands[i], shell->path, shell->env);
+		//ft_printf("exit code: %d\n", shell->exit_code);
 		revert_redirections(shell->lst_redir);
 		ft_lstclear(&(shell->lst_redir), &free);
+		ft_free_tab(&(shell->path));
 		i++;
 	}
 	free_shell(shell);

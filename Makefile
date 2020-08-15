@@ -19,7 +19,8 @@ OBJ_PATH= objs/
 SRC_NAME=	main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacters.c \
 			command_parser.c env.c utils.c expansion.c free_utils.c builtin_export.c \
 			syntax_command.c builtin_unset.c builtin_env.c redirections.c revert_redirections.c \
-			parse_path.c builtin_cd.c builtin_pwd.c builtin_echo.c
+			parse_path.c builtin_cd.c builtin_pwd.c builtin_echo.c execute_command.c pipe.c \
+			pipeline.c execute_pipeline.c
 
 OBJ_NAME= $(SRC_NAME:.c=.o)
 
