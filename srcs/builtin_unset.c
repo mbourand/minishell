@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:50:21 by nforay            #+#    #+#             */
-/*   Updated: 2020/07/31 20:53:22 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/15 22:01:52 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	remove_key(t_list *env)
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mremoving key:%s val:%s\n", ((t_env*)env)->key, ((t_env*)env)->val);
 	free(((t_env*)env)->key);
 	free(((t_env*)env)->val);
+	free(env);
 }
 
 int	btin_unset(t_list *env, t_list *command)
