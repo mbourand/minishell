@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/15 22:42:04 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:01:41 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static void	export_print(t_env *env)
 	ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
 }
 
-int	btin_export(t_shell *shell, t_list *command)
+int	btin_export(t_list *command)
 {
 	t_env	*new;
 	t_env	*tmp;
 	t_list	*env;
 
-	env = shell->env;
+	env = g_shell.env;
 	if (!((t_token*)command->next))
 	{
 		ft_lstiter(env, (void*)&export_print);

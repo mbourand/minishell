@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 14:53:08 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/07 18:52:34 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 04:07:47 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ void	free_token(void *ptr)
 	ft_memdel(&ptr);
 }
 
-void	free_shell(t_shell *shell)
+void	free_shell()
 {
 	size_t	i;
 	void	*cast;
 
 	i = 0;
-	cast = (void*)shell->commands;
-	ft_free(&(shell->input));
-	ft_lstclear(&(shell->tokens), &free_nothing);
-	while (shell->commands[i])
-		ft_lstclear(&(shell->commands[i++]), &free_token);
+	cast = (void*)g_shell.commands;
+	ft_free(&(g_shell.input));
+	ft_lstclear(&(g_shell.tokens), &free_nothing);
+	while (g_shell.commands[i])
+		ft_lstclear(&(g_shell.commands[i++]), &free_token);
 	ft_memdel(&cast);
 	i = 0;
-	cast = (void*)shell->path;
+	cast = (void*)g_shell.path;
 	ft_memdel(&cast);
 }

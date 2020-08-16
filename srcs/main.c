@@ -3,43 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:54 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 01:12:22 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:08:26 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int init_shell(t_shell *shell, char **env)
+t_shell g_shell;
+
+int init_shell(char **env)
 {
-	shell->cwd = NULL;
-	shell->commands = NULL;
-	shell->input = NULL;
-	shell->tokens = NULL;
-	shell->env = NULL;
-	shell->lst_redir = NULL;
-	shell->path = NULL;
-	if (!(set_cwd(&(shell->cwd))))
+	g_shell.cwd = NULL;
+	g_shell.commands = NULL;
+	g_shell.input = NULL;
+	g_shell.tokens = NULL;
+	g_shell.env = NULL;
+	g_shell.lst_redir = NULL;
+	g_shell.path = NULL;
+	if (!(set_cwd(&(g_shell.cwd))))
 		return (0);
-	if (!(shell->env = init_env(env)))
+	if (!(g_shell.env = init_env(env)))
 		return (0);
 	return (1);
 }
 
 int main(int ac, char **av, char **env)
 {
-	t_shell shell;
 
 	(void)ac;
 	(void)av;
-	if (!init_shell(&shell, env))
+	if (!init_shell(env))
 		return (1);
 	while (1)
 	{
-		print_prompt(&shell);
-		process_command(&shell);
+		print_prompt();
+		process_command();
 	}
 	return (0);
 }

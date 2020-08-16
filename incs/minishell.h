@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 00:55:04 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 03:55:13 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ typedef struct	s_shell
 }				t_shell;
 
 int		set_cwd(char **cwd);
-void	print_prompt(t_shell *shell);
-void	process_command(t_shell *shell);
-void	get_tokens(t_shell *shell);
+void	print_prompt();
+void	process_command();
+void	get_tokens();
 size_t	operator_length(char *str);
 int		is_blank(char c);
 int		is_quote(char c);
-void	parse_command(t_shell *shell);
+void	parse_command();
 t_env	*parse_env(char *str);
 size_t	ctrloperator_length(char *str);
 t_list	*init_env(char **env);
@@ -111,17 +111,17 @@ t_env	*get_env(t_list *env, char *key);
 char	*ft_strcut(char *src, size_t cut_start, size_t len);
 char	*get_var_name(char *str);
 t_range	*new_range(size_t min, size_t max);
-void	free_shell(t_shell *shell);
-int		btin_cd(t_shell *shell, t_list *command);
-int		btin_echo(t_shell *shell, t_list *command);
-int		btin_env(t_shell *shell, t_list *command);
-int		btin_export(t_shell *shell, t_list	*command);
-int		btin_pwd(t_shell *shell, t_list *command);
-int		btin_unset(t_shell *shell, t_list *command);
+void	free_shell();
+int		btin_cd(t_list *command);
+int		btin_echo(t_list *command);
+int		btin_env(t_list *command);
+int		btin_export(t_list	*command);
+int		btin_pwd(t_list *command);
+int		btin_unset(t_list *command);
 int		check_pipe(t_list *command, size_t i);
 int		check_red(t_list *command, size_t i);
 int		check_semicol(t_list *command, size_t i);
-int		commands_valid(t_shell *shell);
+int		commands_valid();
 t_list	*perform_redirection(t_list **command);
 size_t	rediroperator_length(char *str);
 void	revert_redirections(t_list *lst_redir);
@@ -130,15 +130,17 @@ int		is_redirection(char *str);
 int		is_operator(char *str);
 char	**parse_path(t_env *env);
 char	*find_exe(char **path, char *name);
-int		exec_command(t_list *command, char **path, t_list *env, t_shell *shell);
-void	execute_pipeline_cmd(t_list *command, t_shell *shell, char **path, int *exit_status);
-void	process_pipeline(t_shell *shell, size_t *i);
+int		exec_command(t_list *command, char **path, t_list *env);
+void	execute_pipeline_cmd(t_list *command, char **path, int *exit_status);
+void	process_pipeline(size_t *i);
 int		is_pipe(t_list *command);
 char	**serialize_cmd(t_list *cmd);
 char	**serialize_env(t_list *env);
-int		exec_btin(size_t i, t_list *cmd, t_shell *shell);
+int		exec_btin(size_t i, t_list *cmd);
 void	redirect_fd(int fd, int to);
 int		get_near_pipes(t_list **command, size_t i);
-void	pipe_redirection(t_shell *shell, int pipes, int pipe_index);
+void	pipe_redirection(int pipes, int pipe_index);
+
+extern t_shell g_shell;
 
 #endif

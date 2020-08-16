@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 18:38:02 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/04 21:06:47 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 04:14:45 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ void	new_word(t_list **iter, t_token **token)
 	(*token) = (t_token*)(*iter)->content;
 }
 
-void	prcs_redirection(t_token **token, t_shell *shell, size_t *i, t_list **iter)
+void	prcs_redirection(t_token **token, size_t *i, t_list **iter)
 {
 	char	*tmp;
 	size_t	len;
 
-	while (!(len = rediroperator_length(shell->input + *i)))
+	while (!(len = rediroperator_length(g_shell.input + *i)))
 	{
-		ft_straddchar(&((*token)->text), shell->input[*i], 1);
+		ft_straddchar(&((*token)->text), g_shell.input[*i], 1);
 		(*i)++;
 	}
 	tmp = (*token)->text;
-	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, len);
+	(*token)->text = ft_strnjoin((*token)->text, g_shell.input + *i, len);
 	(*token)->is_operator = 1;
 	ft_free(&tmp);
 	*i += len;
-	while (is_blank(shell->input[*i]))
+	while (is_blank(g_shell.input[*i]))
 		(*i)++;
-	if (shell->input[*i])
+	if (g_shell.input[*i])
 		new_word(iter, token);
 }
 
@@ -67,28 +67,28 @@ void	prcs_redirection(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 **	Copie de shell->input dans token->text tout ce qui est entre quote
 */
 
-void	prcs_quote(t_token *token, t_shell *shell, size_t *i)
+void	prcs_quote(t_token *token, size_t *i)
 {
 	char	*tmp;
 
-	ft_straddchar(&(token->text), shell->input[*i], 1);
+	ft_straddchar(&(token->text), g_shell.input[*i], 1);
 	tmp = token->text;
-	token->text = ft_strjoinuntil(token->text, shell->input + *i + 1,
-		shell->input[*i]);
+	token->text = ft_strjoinuntil(token->text, g_shell.input + *i + 1,
+		g_shell.input[*i]);
 	ft_free(&tmp);
-	(*i) += ft_strlenuntil(shell->input + *i + 1, shell->input[*i]) + 2;
-	ft_straddchar(&(token->text), shell->input[*i - 1], 1);
+	(*i) += ft_strlenuntil(g_shell.input + *i + 1, g_shell.input[*i]) + 2;
+	ft_straddchar(&(token->text), g_shell.input[*i - 1], 1);
 }
 
 /*
 **	Crée un nouveau mot si il y a d'autres mots après les espaces
 */
 
-void	prcs_space(t_token **token, t_shell *shell, size_t *i, t_list **iter)
+void	prcs_space(t_token **token, size_t *i, t_list **iter)
 {
-	if (shell->input[*i + 1])
+	if (g_shell.input[*i + 1])
 		new_word(iter, token);
-	while (is_blank(shell->input[*i]))
+	while (is_blank(g_shell.input[*i]))
 		(*i)++;
 }
 
@@ -98,22 +98,22 @@ void	prcs_space(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 **	Crée un nouveau mot si il y a d'autres mots après
 */
 
-void	prcs_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
+void	prcs_operator(t_token **token, size_t *i, t_list **iter)
 {
 	size_t	op_len;
 	char	*tmp;
 
-	op_len = operator_length(shell->input + *i);
+	op_len = operator_length(g_shell.input + *i);
 	if (ft_strlen((*token)->text))
 		new_word(iter, token);
 	tmp = (*token)->text;
-	(*token)->text = ft_strnjoin((*token)->text, shell->input + *i, op_len);
+	(*token)->text = ft_strnjoin((*token)->text, g_shell.input + *i, op_len);
 	(*token)->is_operator = 1;
 	ft_free(&tmp);
 	(*i) += op_len;
-	while (is_blank(shell->input[*i]))
+	while (is_blank(g_shell.input[*i]))
 		(*i)++;
-	if (shell->input[*i + 1])
+	if (g_shell.input[*i + 1])
 		new_word(iter, token);
 }
 
@@ -121,9 +121,9 @@ void	prcs_operator(t_token **token, t_shell *shell, size_t *i, t_list **iter)
 **	Copie le caractère dans token->text
 */
 
-void	prcs_character(t_token *token, t_shell *shell, size_t *i)
+void	prcs_character(t_token *token, size_t *i)
 {
-	ft_straddchar(&(token->text), shell->input[*i], 1);
+	ft_straddchar(&(token->text), g_shell.input[*i], 1);
 	(*i)++;
 }
 
@@ -131,7 +131,7 @@ void	prcs_character(t_token *token, t_shell *shell, size_t *i)
 **	Découpe l'input complet shell->input en mots et les place dans shell->tokens
 */
 
-void	get_tokens(t_shell *shell)
+void	get_tokens()
 {
 	t_list	*begin;
 	t_list	*iter;
@@ -142,21 +142,21 @@ void	get_tokens(t_shell *shell)
 	iter = begin;
 	token = (t_token*)iter->content;
 	i = 0;
-	while (is_blank(shell->input[i]))
+	while (is_blank(g_shell.input[i]))
 		i++;
-	while (shell->input[i])
+	while (g_shell.input[i])
 	{
 		// Si il y a rien dans le token, si derrière shell->input + i + longueur de atoi c'est un opérateur de redir, c'est une redirection avec fd
-		if (is_quote(shell->input[i]))
-			prcs_quote(token, shell, &i);
-		else if (is_blank(shell->input[i]))
-			prcs_space(&token, shell, &i, &iter);
-		else if (!token->text[0] && is_redirection(shell->input + i) == 2)
-			prcs_redirection(&token, shell, &i, &iter);
-		else if (operator_length(shell->input + i) > 0)
-			prcs_operator(&token, shell, &i, &iter);
+		if (is_quote(g_shell.input[i]))
+			prcs_quote(token, &i);
+		else if (is_blank(g_shell.input[i]))
+			prcs_space(&token, &i, &iter);
+		else if (!token->text[0] && is_redirection(g_shell.input + i) == 2)
+			prcs_redirection(&token, &i, &iter);
+		else if (operator_length(g_shell.input + i) > 0)
+			prcs_operator(&token, &i, &iter);
 		else
-			prcs_character(token, shell, &i);
+			prcs_character(token, &i);
 	}
-	shell->tokens = begin;
+	g_shell.tokens = begin;
 }

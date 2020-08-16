@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 00:10:19 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:11:49 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_command_child(t_shell *shell, size_t *i, int pipe_index)
+void	run_command_child(size_t *i, int pipe_index)
 {
-	shell->path = parse_path(get_env(shell->env, "PATH"));
-	pipe_redirection(shell, get_near_pipes(shell->commands, *i), pipe_index);
-	shell->lst_redir = perform_redirection(shell->commands + *i);
-	execute_pipeline_cmd(shell->commands[*i], shell, shell->path, &(shell->exit_code));
+	g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
+	pipe_redirection(get_near_pipes(g_shell.commands, *i), pipe_index);
+	g_shell.lst_redir = perform_redirection(g_shell.commands + *i);
+	execute_pipeline_cmd(g_shell.commands[*i], g_shell.path, &(g_shell.exit_code));
 	exit(EXIT_FAILURE);
 }
 
-void	close_pipes(t_shell *shell, pid_t pids[], size_t size)
+void	close_pipes(pid_t pids[], size_t size)
 {
 	size_t	i;
 	size_t	pid_ind;
@@ -35,19 +35,19 @@ void	close_pipes(t_shell *shell, pid_t pids[], size_t size)
 		while (pids[pid_ind] != pid && pid_ind < size)
 			pid_ind++;
 		if (pid_ind == 0)
-			close(shell->pipeline[0][1]);
+			close(g_shell.pipeline[0][1]);
 		else if (pid_ind == size - 1)
-			close(shell->pipeline[pid_ind - 1][0]);
+			close(g_shell.pipeline[pid_ind - 1][0]);
 		else
 		{
-			close(shell->pipeline[pid_ind - 1][0]);
-			close(shell->pipeline[pid_ind][1]);
+			close(g_shell.pipeline[pid_ind - 1][0]);
+			close(g_shell.pipeline[pid_ind][1]);
 		}
 		i++;
 	}
 }
 
-int		**alloc_pipes(t_shell *shell, size_t i)
+int		**alloc_pipes(size_t i)
 {
 	t_token	*content;
 	size_t	size;
@@ -56,9 +56,9 @@ int		**alloc_pipes(t_shell *shell, size_t i)
 
 	j = 0;
 	size = 0;
-	while (shell->commands[i])
+	while (g_shell.commands[i])
 	{
-		content = ((t_token*)shell->commands[i]->content);
+		content = ((t_token*)g_shell.commands[i]->content);
 		if (content->is_operator && !ft_strcmp(content->text, OP_PIPE))
 			size++;
 		i += 2;
@@ -74,20 +74,20 @@ int		**alloc_pipes(t_shell *shell, size_t i)
 	return (res);
 }
 
-void	fill_pipeline(t_shell *shell, size_t i)
+void	fill_pipeline(size_t i)
 {
 	t_token	*content;
 	size_t	pipe_index;
 
 	i++;
 	pipe_index = 0;
-	shell->pipeline = alloc_pipes(shell, i);
-	while (shell->commands[i])
+	g_shell.pipeline = alloc_pipes(i);
+	while (g_shell.commands[i])
 	{
-		content = ((t_token*)shell->commands[i]->content);
+		content = ((t_token*)g_shell.commands[i]->content);
 		if (content->is_operator && !ft_strcmp(content->text, OP_PIPE))
 		{
-			if (pipe(shell->pipeline[pipe_index]) == -1)
+			if (pipe(g_shell.pipeline[pipe_index]) == -1)
 				ft_perror("Pipe error");
 			pipe_index++;
 		}
@@ -97,15 +97,15 @@ void	fill_pipeline(t_shell *shell, size_t i)
 	}
 }
 
-void	free_pipeline(pid_t *pids, t_shell *shell)
+void	free_pipeline(pid_t *pids)
 {
 	size_t	i;
 
 	i = 0;
 	free(pids);
-	while (shell->pipeline[i])
-		free(shell->pipeline[i++]);
-	free(shell->pipeline);
+	while (g_shell.pipeline[i])
+		free(g_shell.pipeline[i++]);
+	free(g_shell.pipeline);
 }
 
 /*
@@ -113,20 +113,20 @@ void	free_pipeline(pid_t *pids, t_shell *shell)
 **	passe à la commande d'après dans le parent
 **	retourne 1 si c'était la dernière commande
 */
-int		fork_and_run(t_shell *shell, size_t *i, size_t *pipe_index, pid_t *pids)
+int		fork_and_run(size_t *i, size_t *pipe_index, pid_t *pids)
 {
 	pid_t	tmp;
 
 	tmp = fork();
 	if (tmp == 0)
 	{
-		run_command_child(shell, i, *pipe_index);
+		run_command_child(i, *pipe_index);
 		return (0);
 	}
 	else
 	{
 		pids[(*pipe_index)++] = tmp;
-		if (is_pipe(shell->commands[*i + 1]))
+		if (is_pipe(g_shell.commands[*i + 1]))
 			*i += 2;
 		else
 			return (1);
@@ -134,7 +134,7 @@ int		fork_and_run(t_shell *shell, size_t *i, size_t *pipe_index, pid_t *pids)
 	}
 }
 
-void	process_pipeline(t_shell *shell, size_t *i)
+void	process_pipeline(size_t *i)
 {
 	size_t	pipe_index;
 	pid_t	*pids;
@@ -142,18 +142,18 @@ void	process_pipeline(t_shell *shell, size_t *i)
 
 	pipe_index = 0;
 	size = 0;
-	fill_pipeline(shell, *i);
-	while (shell->pipeline[size])
+	fill_pipeline(*i);
+	while (g_shell.pipeline[size])
 		size++;
 	if (!(pids = malloc_zero(sizeof(pid_t) * (size + 2))))
 		exit(1);
-	while (shell->commands[*i])
+	while (g_shell.commands[*i])
 	{
-		perform_expansion(shell->commands + *i, shell->env);
-		if (fork_and_run(shell, i, &pipe_index, pids))
+		perform_expansion(g_shell.commands + *i, g_shell.env);
+		if (fork_and_run(i, &pipe_index, pids))
 			break ;
 	}
-	close_pipes(shell, pids, size + 1);
-	free_pipeline(pids, shell);
+	close_pipes(pids, size + 1);
+	free_pipeline(pids);
 	(*i)++;
 }

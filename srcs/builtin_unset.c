@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:50:21 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/15 22:42:06 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:02:44 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	remove_key(t_list *env)
 	free(env);
 }
 
-int			btin_unset(t_shell *shell, t_list *command)
+int			btin_unset(t_list *command)
 {
 	t_list *tmp;
 	t_list	*envtmp;
 	size_t	i;
 	t_list	*env;
 
-	env = shell->env;
+	env = g_shell.env;
 	envtmp = env;
 	i = 0;
 	while (envtmp)
