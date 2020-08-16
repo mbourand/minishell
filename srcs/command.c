@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:04:52 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 04:30:47 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	get_command(void)
 */
 
 /*
-*	Vérifier si c'est le début d'une pipeline, auquel cas exécuter
-*	une autre fonction qui fait les redirections et tout le bordel dans les fork directement
-*	Et faire les redirectgions des pipes avant les redirections des commandes !!!
+**	Vérifier si c'est le début d'une pipeline, auquel cas exécuter
+**	une autre fonction qui fait les redirections et tout le bordel dans les fork directement
+**	Et faire les redirectgions des pipes avant les redirections des commandes !!!
 */
 void	process_command()
 {
