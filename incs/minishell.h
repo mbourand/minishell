@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 03:55:13 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 16:54:28 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 
 # define BTIN_ENV "env"
 # define BTIN_UNSET "unset"
+# define BTIN_EXIT "exit"
 # define BTIN_EXPORT "export"
 # define BTIN_CD "cd"
 # define BTIN_ECHO "echo"
@@ -115,6 +116,7 @@ void	free_shell();
 int		btin_cd(t_list *command);
 int		btin_echo(t_list *command);
 int		btin_env(t_list *command);
+int		btin_exit(t_list *command);
 int		btin_export(t_list	*command);
 int		btin_pwd(t_list *command);
 int		btin_unset(t_list *command);

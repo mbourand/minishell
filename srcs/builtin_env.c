@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:50:00 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/16 04:01:19 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 16:22:16 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static void	env_print(t_env *env)
 
 int			btin_env(t_list *command)
 {
-	t_list	*env;
-
-	env = g_shell.env;
-	(void)command;
-	ft_lstiter(env, (void*)&env_print);
+	if ((t_token*)command->next)
+		ft_dprintf(STDERR_FILENO, "env: ‘%s’: No such file or directory\n",
+		((t_token*)command->next->content)->text);
+	else
+		ft_lstiter(g_shell.env, (void*)&env_print);
 	return (SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:06:13 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 16:55:08 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		run_exec(char *name, char **cmd, char **env)
 int	exec_btin(size_t i, t_list *cmd)
 {
 	static int (*btins[])(t_list*) = { &btin_env, &btin_export,
-		&btin_unset, &btin_cd, &btin_echo, &btin_pwd, 0 };
+		&btin_unset, &btin_cd, &btin_echo, &btin_pwd, &btin_exit, 0};
 	return ((btins[i])(cmd));
 }
 
@@ -88,7 +88,7 @@ int	exec_btin(size_t i, t_list *cmd)
 int		exec_command(t_list *command, char **path, t_list *env)
 {
 	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, BTIN_CD,
-		BTIN_ECHO, BTIN_PWD, 0 };
+		BTIN_ECHO, BTIN_PWD, BTIN_EXIT, 0};
 	size_t		i;
 	t_token		*content;
 	char		*exec_name;

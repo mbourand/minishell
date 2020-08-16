@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:07:05 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 16:55:24 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
 {
 	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, BTIN_CD,
-		BTIN_ECHO, BTIN_PWD, 0 };
+		BTIN_ECHO, BTIN_PWD, BTIN_EXIT, 0};
 	char	*exec_name;
 	t_token	*content;
 	size_t	i;
