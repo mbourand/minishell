@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:45:03 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/03 04:00:20 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 04:05:20 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_list	*fill_command(t_list *tokens, t_list **command)
 **	mets dans shell->commands
 **	Les commandes sont séparées par les control operators
 */
-void	parse_command(t_shell *shell)
+void	parse_command()
 {
 	t_list		*tokens;
 	t_list		**commands;
@@ -69,7 +69,7 @@ void	parse_command(t_shell *shell)
 	size_t		i;
 
 	i = 0;
-	tokens = shell->tokens;
+	tokens = g_shell.tokens;
 	argc = command_argc(tokens);
 	if (!(commands = malloc_zero(sizeof(t_list*) * (argc + 1))))
 		exit(1);
@@ -79,5 +79,5 @@ void	parse_command(t_shell *shell)
 		tokens = fill_command(tokens, commands + i);
 		i++;
 	}
-	shell->commands = commands;
+	g_shell.commands = commands;
 }

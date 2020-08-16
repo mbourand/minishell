@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/09 13:35:49 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/12 23:58:41 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 04:09:36 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,25 @@ int		get_near_pipes(t_list **command, size_t i)
 	return (res);
 }
 
-void	pipe_redirection(t_shell *shell, int pipes, int pipe_index)
+void	pipe_redirection(int pipes, int pipe_index)
 {
 	size_t	i;
 
 	i = 0;
 	if (pipes & PIPE_AFTER)
 	{
-		if (dup2(shell->pipeline[pipe_index][1], STDOUT_FILENO) == -1)
+		if (dup2(g_shell.pipeline[pipe_index][1], STDOUT_FILENO) == -1)
 			ft_perror("Redirection error");
 	}
 	if (pipes & PIPE_BEFORE)
 	{
-		if (dup2(shell->pipeline[pipe_index - 1][0], STDIN_FILENO) == -1)
+		if (dup2(g_shell.pipeline[pipe_index - 1][0], STDIN_FILENO) == -1)
 			ft_perror("Redirection error");
 	}
-	while (shell->pipeline[i])
+	while (g_shell.pipeline[i])
 	{
-		close(shell->pipeline[i][0]);
-		close(shell->pipeline[i][1]);
+		close(g_shell.pipeline[i][0]);
+		close(g_shell.pipeline[i][1]);
 		i++;
 	}
 }

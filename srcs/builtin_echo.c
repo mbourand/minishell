@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 21:04:22 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/16 00:29:42 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 03:56:29 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	btin_echo(t_shell *shell, t_list *command)
+int	btin_echo(t_list *command)
 {
 	t_list	*tmp;
 
-	(void)shell;
 	if (!((t_token*)command->next))
 		ft_putendl_fd("", 1);
 	else if (!(strncmp(((t_token*)command->next->content)->text, "-n", 3)))

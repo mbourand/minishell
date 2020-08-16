@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 00:16:06 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:06:13 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,17 @@ int		run_exec(char *name, char **cmd, char **env)
 	return (status);
 }
 
-int	exec_btin(size_t i, t_list *cmd, t_shell *shell)
+int	exec_btin(size_t i, t_list *cmd)
 {
-	static int (*btins[])(t_shell*, t_list*) = { &btin_env, &btin_export,
+	static int (*btins[])(t_list*) = { &btin_env, &btin_export,
 		&btin_unset, &btin_cd, &btin_echo, &btin_pwd, 0 };
-	return ((btins[i])(shell, cmd));
+	return ((btins[i])(cmd));
 }
 
 /*
 **	https://www.gnu.org/software/bash/manual/html_node/Command-Search-and-Execution.html#Command-Search-and-Execution
 */
-int		exec_command(t_list *command, char **path, t_list *env, t_shell *shell)
+int		exec_command(t_list *command, char **path, t_list *env)
 {
 	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, BTIN_CD,
 		BTIN_ECHO, BTIN_PWD, 0 };
@@ -100,7 +100,7 @@ int		exec_command(t_list *command, char **path, t_list *env, t_shell *shell)
 	while (!exec_name && builtins[i])
 	{
 		if (!ft_strcmp(content->text, builtins[i]))
-			return (exec_btin(i, command, shell));
+			return (exec_btin(i, command));
 		i++;
 	}
 	if (!exec_name)

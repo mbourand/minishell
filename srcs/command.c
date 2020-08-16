@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/15 23:43:08 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:04:52 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 /*
 ** Lit une commande du terminal et la met dans shell->input
 */
-void	get_command(t_shell *shell)
+void	get_command(void)
 {
 	char	*input;
 
 	if (!(get_next_line(0, &input)))
 		exit(1);
-	shell->input = input;
+	g_shell.input = input;
 }
 
 /*	https://www.gnu.org/software/bash/manual/html_node/Shell-Operation.html#Shell-Operation
@@ -49,42 +49,42 @@ void	get_command(t_shell *shell)
 *	une autre fonction qui fait les redirections et tout le bordel dans les fork directement
 *	Et faire les redirectgions des pipes avant les redirections des commandes !!!
 */
-void	process_command(t_shell *shell)
+void	process_command()
 {
 	size_t i;
 
 	i = 0;
-	get_command(shell);
-	get_tokens(shell);
-	parse_command(shell);
-	if (!commands_valid(shell))
+	get_command();
+	get_tokens();
+	parse_command();
+	if (!commands_valid())
 	{
 		ft_putendl_fd("Commande invalide", 2);
-		free_shell(shell);
+		free_shell();
 		return ;
 	}
-	while (shell->commands[i])
+	while (g_shell.commands[i])
 	{
-		if (is_pipe(shell->commands[i + 1]))
+		if (is_pipe(g_shell.commands[i + 1]))
 		{
-			process_pipeline(shell, &i);
+			process_pipeline(&i);
 			continue ;
 		}
-		if (((t_token*)(shell->commands[i]->content))->is_operator)
+		if (((t_token*)(g_shell.commands[i]->content))->is_operator)
 		{
 			i++;
 			continue ;
 		}
-		perform_expansion(shell->commands + i, shell->env);
-		shell->lst_redir = perform_redirection(shell->commands + i);
-		shell->path = parse_path(get_env(shell->env, "PATH"));
-		if (shell->commands[i])
-			shell->exit_code = exec_command(shell->commands[i], shell->path, shell->env, shell);
+		perform_expansion(g_shell.commands + i, g_shell.env);
+		g_shell.lst_redir = perform_redirection(g_shell.commands + i);
+		g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
+		if (g_shell.commands[i])
+			g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path, g_shell.env);
 		//ft_printf("exit code: %d\n", shell->exit_code);
-		revert_redirections(shell->lst_redir);
-		ft_lstclear(&(shell->lst_redir), &free);
-		ft_free_tab(&(shell->path));
+		revert_redirections(g_shell.lst_redir);
+		ft_lstclear(&(g_shell.lst_redir), &free);
+		ft_free_tab(&(g_shell.path));
 		i++;
 	}
-	free_shell(shell);
+	free_shell();
 }

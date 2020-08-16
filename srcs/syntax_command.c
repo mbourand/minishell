@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:08:44 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/11 05:00:25 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 04:12:38 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int		check_operators(t_list **commands)
 /*
 **	Quand on trouvera d'autres erreurs de parsing on pourra rajouter ici
 */
-int		commands_valid(t_shell *shell)
+int		commands_valid()
 {
-	if (!check_operators(shell->commands))
+	if (!check_operators(g_shell.commands))
 		return (0);
 	return (1);
 }

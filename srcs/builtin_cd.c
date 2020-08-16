@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 14:57:45 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/16 01:08:01 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/16 04:00:28 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_env_pwd(t_list *env, t_shell *shell)
+static void	update_env_pwd(t_list *env)
 {
 	char	buf[PATH_MAX];
 
-	shell->cwd = getcwd(buf, PATH_MAX);
+	g_shell.cwd = getcwd(buf, PATH_MAX);
 	free((get_env(env, "OLDPWD"))->val);
 	(get_env(env, "OLDPWD"))->val = (get_env(env, "PWD"))->val;
-	(get_env(env, "PWD"))->val = ft_strdup(shell->cwd);
+	(get_env(env, "PWD"))->val = ft_strdup(g_shell.cwd);
 }
 
-static int	changedir_home(t_list *env, t_shell *shell)
+static int	changedir_home(t_list *env)
 {
 	//DIR		*folder; //Maybe unnecessary to try open before chdir
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", (get_env(env, "HOME"))->val);
@@ -30,42 +30,42 @@ static int	changedir_home(t_list *env, t_shell *shell)
 		return (FAILURE);*/
 	if (!(chdir((get_env(env, "HOME"))->val)))
 	{
-		update_env_pwd(env, shell);
-		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", shell->cwd);
+		update_env_pwd(env);
+		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", g_shell.cwd);
 		return (SUCCESS);
 	}
 	else //try unset HOME
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: cd: ");
+		ft_dprintf(STDERR_FILENO, "minig_shell: cd: ");
 		ft_perror((get_env(env, "HOME"))->val);
 		return (FAILURE);
 	}
 }
 
-static int	changedir_path(t_list *env, t_shell *shell, t_list *command)
+static int	changedir_path(t_list *env, t_list *command)
 {
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", ((t_token*)command->next->content)->text);
 	if (!(chdir(((t_token*)command->next->content)->text)))
 	{
-		update_env_pwd(env, shell);
-		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", shell->cwd);
+		update_env_pwd(env);
+		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", g_shell.cwd);
 		return (SUCCESS);
 	}
 	else
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: cd: ");
+		ft_dprintf(STDERR_FILENO, "minig_shell: cd: ");
 		ft_perror(((t_token*)command->next->content)->text);
 		return (FAILURE);
 	}
 }
 
-int			btin_cd(t_shell *shell, t_list *command)
+int			btin_cd(t_list *command)
 {
 	t_list	*env;
 
-	env = shell->env;
+	env = g_shell.env;
 	if (!((t_token*)command->next))
-		return (changedir_home(env, shell));
+		return (changedir_home(env));
 	else
-		return (changedir_path(env, shell, command));
+		return (changedir_path(env, command));
 }
