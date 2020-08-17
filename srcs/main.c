@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:54 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 20:19:18 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/17 15:44:17 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	if (!init_shell(env))
 		return (1);
+	sighandler();
 	while (1)
 	{
 		print_prompt();

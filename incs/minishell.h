@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 12:58:00 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/17 15:47:10 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 
-# define DEBUG		0
+# define DEBUG		1
 
 # define BUFF_SIZE	2
 # define TRUE		1
@@ -143,6 +143,7 @@ int		exec_btin(size_t i, t_list *cmd);
 void	redirect_fd(int fd, int to);
 int		get_near_pipes(t_list **command, size_t i);
 void	pipe_redirection(int pipes, int pipe_index);
+void	sighandler(void);
 
 extern t_shell g_shell;
 
