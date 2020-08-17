@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:30:47 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/16 23:17:34 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	get_command(void)
 	char	*input;
 
 	if (!(get_next_line(0, &input)))
-		exit(1);
+	{
+		ft_dprintf(STDERR_FILENO, "exit\n");
+		exit(0);
+	}
 	g_shell.input = input;
 }
 

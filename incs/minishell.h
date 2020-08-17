@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 16:54:28 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/17 12:58:00 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 # define DEBUG		0
 
