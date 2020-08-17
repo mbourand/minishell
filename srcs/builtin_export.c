@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/16 04:01:41 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/17 17:03:19 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	btin_export(t_list *command)
 		free(tmp->val);
 		tmp->val = new->val;
 		free(new->key);
+		free(new);
 		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mkey found, changing value.\n");
 	}
 	else

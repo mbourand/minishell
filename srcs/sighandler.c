@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 14:57:23 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/17 16:44:59 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/17 16:47:35 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ static void	sig_int(int sig)
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mSigInt\n");
 	ft_putendl_fd("", 1);
 	if (!g_shell.input)
-	{
 		print_prompt();
-	}
 	else
 		g_shell.interrupted = 1;
 }
