@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 16:09:16 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/17 16:40:57 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 
-# define DEBUG		1
+# define DEBUG		0
 
 # define BUFF_SIZE	2
 # define TRUE		1
@@ -93,6 +93,7 @@ typedef struct	s_shell
 	t_list	*lst_redir;
 	int		**pipeline;
 	int		is_parent;
+	int		interrupted;
 	int		exit_code;
 }				t_shell;
 

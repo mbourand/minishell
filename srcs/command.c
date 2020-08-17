@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 15:36:36 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/17 16:41:30 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	process_command()
 		free_shell();
 		return ;
 	}
-	while (g_shell.commands[i])
+	while (g_shell.commands[i] && !g_shell.interrupted)
 	{
 		if (is_pipe(g_shell.commands[i + 1]))
 		{
@@ -89,5 +89,6 @@ void	process_command()
 		ft_free_tab(&(g_shell.path));
 		i++;
 	}
+	g_shell.interrupted = 0;
 	free_shell();
 }

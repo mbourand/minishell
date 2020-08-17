@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:54 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 16:09:30 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/17 16:41:40 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int init_shell(char **env)
 	g_shell.lst_redir = NULL;
 	g_shell.path = NULL;
 	g_shell.is_parent = 1;
+	g_shell.interrupted = 0;
 	if (!(set_cwd(&(g_shell.cwd))))
 		return (0);
 	if (!(g_shell.env = init_env(env)))
