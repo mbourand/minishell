@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:11:49 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/08/17 16:10:45 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,13 @@ int		fork_and_run(size_t *i, size_t *pipe_index, pid_t *pids)
 	tmp = fork();
 	if (tmp == 0)
 	{
+		g_shell.is_parent = 0;
 		run_command_child(i, *pipe_index);
 		return (0);
 	}
 	else
 	{
+		g_shell.is_parent = 1;
 		pids[(*pipe_index)++] = tmp;
 		if (is_pipe(g_shell.commands[*i + 1]))
 			*i += 2;

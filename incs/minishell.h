@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 15:47:10 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/17 16:09:16 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct	s_shell
 	t_list	**commands;
 	t_list	*lst_redir;
 	int		**pipeline;
+	int		is_parent;
 	int		exit_code;
 }				t_shell;
 
