@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 16:13:03 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/17 16:19:25 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int		run_exec(char *name, char **cmd, char **env)
 		exit(1);
 	if (pid == 0)
 	{
-		g_shell.is_parent = 0;
 		if (!name)
 			exit(127);
 		execve(name, cmd, env);
@@ -68,7 +67,6 @@ int		run_exec(char *name, char **cmd, char **env)
 	}
 	else
 	{
-		g_shell.is_parent = 1;
 		if (waitpid(pid, &status, 0) == -1)
 			exit(1);
 	}
