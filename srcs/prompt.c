@@ -23,7 +23,7 @@ void print_prompt()
 	{
 		home = (get_env(g_shell.env, "HOME"))->val;
 		homelen = ft_strlen(home);
-		if (ft_strnstr(path, home, homelen))
+		if (homelen > 1 && ft_strnstr(path, home, homelen))
 		{
 			path[0] = '~';
 			ft_memmove((path + 1), (path + homelen), ft_strlen(path) - homelen + 1);
