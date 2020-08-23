@@ -25,22 +25,20 @@ int			btin_unset(t_list *command)
 	t_list *tmp;
 	t_list	*envtmp;
 	size_t	i;
-	t_list	*env;
 
-	env = g_shell.env;
-	envtmp = env;
+	envtmp = g_shell.env;
 	i = 0;
-	while (envtmp)
+	while (envtmp && i < (size_t)ft_lstsize(g_shell.env))
 	{
 		tmp = command->next;
 		while (tmp && envtmp)
 		{
 			if (!(ft_strcmp(((t_token*)tmp->content)->text, ((t_env*)envtmp->content)->key)))
 			{
-				if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mKey %s found at %d/%d.\n", ((t_token*)tmp->content)->text, i, ft_lstsize(env) - 1);
+				if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mKey %s found at %d/%d.\n", ((t_token*)tmp->content)->text, i, ft_lstsize(g_shell.env) - 1);
 				envtmp = envtmp->next;
 				tmp = command->next;
-				ft_lstdelat(&env, i, (void*)&remove_key);
+				ft_lstdelat(&g_shell.env, i, (void*)&remove_key);
 			}
 			else
 				tmp = tmp->next;
