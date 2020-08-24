@@ -80,10 +80,12 @@ static void	fix_missing(t_list *env)
 {
 	t_list	*new;
 	char	*tmp;
+	char	buf[PATH_MAX];
 
+	getcwd(buf, PATH_MAX);
 	if (!(get_env(env, "PWD")))
 	{
-		tmp = ft_strjoin("PWD=", g_shell.cwd);
+		tmp = ft_strjoin("PWD=", buf);
 		if (!(new = ft_lstnew(parse_env(tmp))))
 			exit(1);
 		ft_lstadd_back(&env, new);
@@ -91,7 +93,7 @@ static void	fix_missing(t_list *env)
 	}
 	if (!(get_env(env, "OLDPWD")))
 	{
-		tmp = ft_strjoin("OLDPWD=", g_shell.cwd);
+		tmp = ft_strjoin("OLDPWD=", buf);
 		if (!(new = ft_lstnew(parse_env(tmp))))
 			exit(1);
 		ft_lstadd_back(&env, new);
