@@ -19,7 +19,7 @@ static void	update_env_pwd(t_list *env, t_list *command)
 	char	*ptr;
 
 	ptr = (get_env(env, "PWD"))->val;
-	if (!(g_shell.cwd = getcwd(buf, PATH_MAX)))
+	if (!ft_strcpy(g_shell.cwd, getcwd(buf, PATH_MAX)))
 	{
 		ft_dprintf(STDERR_FILENO, "cd: error retrieving current directory: ");
 		ft_dprintf(STDERR_FILENO, "getcwd: cannot access parent directories: ");
@@ -76,13 +76,34 @@ static int	changedir_path(t_list *env, t_list *command)
 	}
 }
 
+static void	fix_missing(t_list *env)
+{
+	t_list	*new;
+	char	*tmp;
+
+	if (!(get_env(env, "PWD")))
+	{
+		tmp = ft_strjoin("PWD=", g_shell.cwd);
+		if (!(new = ft_lstnew(parse_env(tmp))))
+			exit(1);
+		ft_lstadd_back(&env, new);
+		free(tmp);
+	}
+	if (!(get_env(env, "OLDPWD")))
+	{
+		tmp = ft_strjoin("OLDPWD=", g_shell.cwd);
+		if (!(new = ft_lstnew(parse_env(tmp))))
+			exit(1);
+		ft_lstadd_back(&env, new);
+		free(tmp);
+	}
+}
+
 int			btin_cd(t_list *command)
 {
-	t_list	*env;
-
-	env = g_shell.env;
+	fix_missing(g_shell.env);
 	if (!((t_token*)command->next))
-		return (changedir_home(env, command));
+		return (changedir_home(g_shell.env, command));
 	else
-		return (changedir_path(env, command));
+		return (changedir_path(g_shell.env, command));
 }

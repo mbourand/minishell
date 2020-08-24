@@ -17,8 +17,17 @@ void print_prompt()
 	char	*path;
 	char	*home;
 	size_t	homelen;
+	char	buf[PATH_MAX];
 
-	path = ft_strdup((get_env(g_shell.env, "PWD"))->val);
+	if (!(get_env(g_shell.env, "PWD")))
+	{
+		if (!getcwd(buf, PATH_MAX))
+			path = ft_strdup(".");
+		else
+			path = ft_strdup(getcwd(buf, PATH_MAX));
+	}
+	else
+		path = ft_strdup((get_env(g_shell.env, "PWD"))->val);
 	if ((get_env(g_shell.env, "HOME")) != NULL)
 	{
 		home = (get_env(g_shell.env, "HOME"))->val;
