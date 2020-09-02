@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 16:10:45 by nforay           ###   ########.fr       */
+/*   Updated: 2020/08/18 12:39:53 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,23 @@ void	close_pipes(pid_t pids[], size_t size)
 	size_t	i;
 	size_t	pid_ind;
 	pid_t	pid;
+	int		status;
 
 	i = 0;
 	while (i < size)
 	{
 		pid_ind = 0;
-		pid = waitpid(-1, NULL, 0);
+		pid = waitpid(-1, &status, 0);
 		while (pids[pid_ind] != pid && pid_ind < size)
 			pid_ind++;
 		if (pid_ind == 0)
 			close(g_shell.pipeline[0][1]);
 		else if (pid_ind == size - 1)
+		{
 			close(g_shell.pipeline[pid_ind - 1][0]);
+			if (WIFEXITED(status))
+				g_shell.exit_code = WEXITSTATUS(status);
+		}
 		else
 		{
 			close(g_shell.pipeline[pid_ind - 1][0]);
