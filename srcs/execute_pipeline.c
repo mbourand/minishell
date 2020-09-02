@@ -6,11 +6,20 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 17:53:47 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/02 20:44:17 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void run_execname(char *exec_name, t_list* command)
+{
+	char	**tmp_cmd;
+	char	**tmp_env;
+
+	execve(exec_name, tmp_cmd = serialize_cmd(command), tmp_env = serialize_env(g_shell.env));
+	exit(126);
+}
 
 void	execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
 {
@@ -32,8 +41,7 @@ void	execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
 		}
 		i++;
 	}
-	if (!(exec_name = find_exe(path, content->text)))
+	if (!exec_name && !(exec_name = find_exe(path, content->text)))
 		exit(127);
-	execve(exec_name, serialize_cmd(command), serialize_env(g_shell.env));
-	exit(126);
+	run_execname(exec_name, command);
 }
