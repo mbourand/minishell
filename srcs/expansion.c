@@ -6,11 +6,32 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/07 14:19:59 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/03 18:06:57 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** 2 c'est la longueur de "$?"
+*/
+
+static int	replace_exitcode(t_token *token, int i)
+{
+	char	*res;
+	char	*tmp;
+
+	if (!(tmp = ft_itoa(g_shell.exit_code)) || !(res = malloc(sizeof(char) * (ft_strlen(token->text) - 2 + ft_strlen(tmp)))))
+		exit(1);
+	ft_strncpy(res, token->text, i);
+	ft_strcpy(res + i, tmp);
+	ft_strcpy(res + i + ft_strlen(tmp), token->text + i + 2);
+	ft_free(&tmp);
+	tmp = token->text;
+	token->text = res;
+	ft_free(&tmp);
+	return (3);
+}
 
 void	process_protected(char **res, t_token *token, t_list **prot, size_t *i)
 {
@@ -108,6 +129,8 @@ static void expand_token(t_token *token, t_list *env)
 			in_quote = !in_quote;
 		if (!in_quote && token->text[i] == '\'')
 			i += ft_strlenuntil(token->text + i + 1, '\'') + 1;
+		if (token->text[i] == '$' && token->text[i + 1] == '?')
+			i += replace_exitcode(token, i);
 		if (token->text[i] == '$')
 			i += replace_var(token, i, env, &protected);
 		else
