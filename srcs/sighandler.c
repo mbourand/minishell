@@ -16,6 +16,10 @@ static void	sig_quit(int sig)
 {
 	(void)sig;
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mSigQuit\n");
+	if (!g_shell.input)
+		ft_putstr_fd("\b\b  \b\b", 2);
+	else
+		ft_putendl_fd("Quit", 1);
 }
 
 static void	sig_int(int sig)
