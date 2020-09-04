@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/10 17:16:38 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 16:18:57 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ t_list	*first_with_target(int target, t_list *lst)
 	return (NULL);
 }
 
-/*
-**	Redirige le fd de filename sur le fd de to
-**	-> man dup
-**	-> man open
-**	Mets dans lst_redir les infos de la redirection pour l'annuler après
-*/
-
 void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
 {
 	t_list	*elem;
@@ -41,7 +34,8 @@ void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
 
 	if (!(elem = first_with_target(to, *lst_redir)))
 	{
-		ft_lstadd_back(lst_redir, (elem = ft_lstnew(malloc_zero(sizeof(t_redir)))));
+		ft_lstadd_back(lst_redir,
+			(elem = ft_lstnew(malloc_zero(sizeof(t_redir)))));
 		redir = (t_redir*)elem->content;
 		redir->target = to;
 		redir->save = dup(to);
@@ -60,11 +54,11 @@ void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
 **	puis supprime de la commande les mots servant à la redirection
 **	ex. "echo coucou > test" devient "echo coucou"
 */
-
-void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command, size_t *i)
+void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command,
+			size_t *i)
 {
-	int to;
-	int flags;
+	int		to;
+	int		flags;
 	t_token	*content;
 	size_t	offset;
 
@@ -80,7 +74,8 @@ void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command, size_t *
 	if (!(ft_strcmp(content->text + offset, OP_REDIRIN)))
 		flags = O_RDONLY;
 	else
-		flags = O_WRONLY | O_CREAT | (!ft_strcmp(content->text + offset, OP_APPEND) ? O_APPEND : O_TRUNC);
+		flags = (O_WRONLY | O_CREAT |
+		(!ft_strcmp(content->text + offset, OP_APPEND) ? O_APPEND : O_TRUNC));
 	redirect(((t_token*)(*iter)->next->content)->text, to, lst_redir, flags);
 	ft_lstdelat(command, *i, &free_token);
 	ft_lstdelat(command, *i, &free_token);
@@ -90,7 +85,6 @@ void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command, size_t *
 /*
 **	Fais toutes les redirections d'une commande
 */
-
 t_list	*perform_redirection(t_list **command)
 {
 	t_list	*lst_redir;
@@ -104,7 +98,10 @@ t_list	*perform_redirection(t_list **command)
 	while (iter)
 	{
 		content = (t_token*)iter->content;
-		if (content->is_operator && rediroperator_length(content->text + (ft_isdigit(content->text[0]) ? ft_numlen(ft_atoi(content->text), 10) : 0)))
+		if (content->is_operator &&
+				rediroperator_length(content->text +
+				(ft_isdigit(content->text[0]) ?
+				ft_numlen(ft_atoi(content->text), 10) : 0)))
 			prcs_op_redir(&iter, &lst_redir, command, &i);
 		iter = iter->next;
 		i++;

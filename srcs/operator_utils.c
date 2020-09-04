@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operator_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:48:03 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/04 21:37:53 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 15:58:00 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 size_t	operator_length(char *str)
 {
-	static char	*operators[] = { OP_SEMICOL, OP_PIPE, OP_REDIRIN, OP_APPEND, OP_REDIROUT, 0 };
+	static char	*operators[] = { OP_SEMICOL, OP_PIPE, OP_REDIRIN, OP_APPEND,
+				OP_REDIROUT, 0 };
 	size_t		len;
 	size_t		i;
 
@@ -71,7 +72,8 @@ int		is_redirection(char *str)
 {
 	if (rediroperator_length(str))
 		return (1);
-	if (ft_isdigit(str[0]) && rediroperator_length(str + ft_numlen(ft_atoi(str), 10)))
+	if (ft_isdigit(str[0]) &&
+			rediroperator_length(str + ft_numlen(ft_atoi(str), 10)))
 		return (2);
 	return (0);
 }

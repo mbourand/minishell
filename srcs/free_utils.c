@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 14:53:08 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:07:47 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 15:56:15 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_token(void *ptr)
 	ft_memdel(&ptr);
 }
 
-void	free_shell()
+void	free_shell(void)
 {
 	size_t	i;
 	void	*cast;

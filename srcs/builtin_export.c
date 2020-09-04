@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/17 17:03:19 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 15:35:27 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	check_export_key(char *key)
 
 static int	export_error(t_env *new)
 {
-	ft_printf("minishell: export: `%s=%s': not a valid identifier\n", new->key, new->val);
+	ft_printf("minishell: export: `%s=%s': not a valid identifier\n",
+		new->key, new->val);
 	free(new->key);
 	free(new->val);
 	free(new);
@@ -55,7 +56,7 @@ static void	export_add_or_replace(t_env *new, t_list *env)
 		ft_lstadd_back(&env, ft_lstnew(new));
 }
 
-int	btin_export(t_list *command)
+int			btin_export(t_list *command)
 {
 	t_env	*new;
 	t_list	*env;
@@ -67,7 +68,6 @@ int	btin_export(t_list *command)
 		return (SUCCESS);
 	}
 	new = parse_env(((t_token*)command->next->content)->text);
-	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mkey:%s|value:%s\n", new->key, new->val);
 	if (!(check_export_key(new->key)))
 		return (export_error(new));
 	export_add_or_replace(new, env);

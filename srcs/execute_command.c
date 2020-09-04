@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 16:19:25 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/04 15:51:32 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		run_exec(char *name, char **cmd, char **env)
 	return (status);
 }
 
-int	exec_btin(size_t i, t_list *cmd)
+int		exec_btin(size_t i, t_list *cmd)
 {
 	static int (*btins[])(t_list*) = { &btin_env, &btin_export,
 		&btin_unset, &btin_cd, &btin_echo, &btin_pwd, &btin_exit, 0};
@@ -91,23 +91,23 @@ int		exec_command(t_list *command, char **path, t_list *env)
 		BTIN_ECHO, BTIN_PWD, BTIN_EXIT, 0};
 	size_t		i;
 	t_token		*content;
-	char		*exec_name;
+	char		*ex_name;
 	int			exit_code;
 
 	content = (t_token*)command->content;
 	i = 0;
-	exec_name = ft_contains(content->text, "/") ? ft_strdup(content->text) : NULL;
-	while (!exec_name && builtins[i])
+	ex_name = ft_contains(content->text, "/") ? ft_strdup(content->text) : NULL;
+	while (!ex_name && builtins[i])
 	{
 		if (!ft_strcmp(content->text, builtins[i]))
 			return (exec_btin(i, command));
 		i++;
 	}
-	if (!exec_name)
-		exec_name = find_exe(path, content->text);
-	exit_code = run_exec(exec_name, serialize_cmd(command), serialize_env(env));
+	if (!ex_name)
+		ex_name = find_exe(path, content->text);
+	exit_code = run_exec(ex_name, serialize_cmd(command), serialize_env(env));
 	if (WIFEXITED(exit_code))
 		exit_code = WEXITSTATUS(exit_code);
-	ft_free(&exec_name);
+	ft_free(&ex_name);
 	return (exit_code);
 }

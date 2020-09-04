@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:54 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/17 16:41:40 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 15:56:37 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_shell g_shell;
 
-int init_shell(char **env)
+int	init_shell(char **env)
 {
 	g_shell.cwd = NULL;
 	g_shell.commands = NULL;
@@ -32,9 +32,8 @@ int init_shell(char **env)
 	return (1);
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-
 	(void)ac;
 	(void)av;
 	if (!init_shell(env))
