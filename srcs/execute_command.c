@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:51:32 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/04 17:12:51 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		exec_command(t_list *command, char **path, t_list *env)
 			return (exec_btin(i, command));
 		i++;
 	}
-	if (!ex_name)
+	if (!ex_name && path)
 		ex_name = find_exe(path, content->text);
 	exit_code = run_exec(ex_name, serialize_cmd(command), serialize_env(env));
 	if (WIFEXITED(exit_code))

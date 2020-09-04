@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 13:58:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/05 17:14:44 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 16:30:38 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	**parse_path(t_env *env)
 {
 	char	**paths;
 
+	if (!env)
+		return (NULL);
 	paths = ft_split(env->val, ':');
 	return (paths);
 }

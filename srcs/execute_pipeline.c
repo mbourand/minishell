@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:53:11 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/04 17:17:04 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
 		}
 		i++;
 	}
-	if (!ex_name && !(ex_name = find_exe(path, content->text)))
+	if (!ex_name && (!path || !(ex_name = find_exe(path, content->text))))
 		exit(127);
 	run_execname(ex_name, command);
 }
