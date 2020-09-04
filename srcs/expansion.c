@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/03 18:06:57 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/04 03:33:06 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	replace_exitcode(t_token *token, int i)
 	tmp = token->text;
 	token->text = res;
 	ft_free(&tmp);
-	return (3);
+	return (ft_numlen(g_shell.exit_code, 10));
 }
 
 void	process_protected(char **res, t_token *token, t_list **prot, size_t *i)
