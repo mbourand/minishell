@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
+#    By: nforay <nforay@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/08/06 21:52:40 by mbourand         ###   ########.fr        #
+#    Updated: 2020/09/04 15:17:44 by nforay           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRCS_NAME	=	ft_lstnew.c ft_lstdelone.c ft_lstsize.c ft_lstclear.c ft_lstlast.c f
 				ft_itoa.c ft_strmapi.c ft_putchar_fd.c ft_putendl_fd.c ft_putstr_fd.c ft_putnbr_fd.c \
 				ft_min_max.c ft_strlenuntil.c ft_strnjoin.c ft_straddchar.c ft_strcut.c ft_strcpy.c \
 				ft_strnew.c ft_memdel.c ft_free.c ft_lstdelat.c ft_lstat.c ft_strncpy.c ft_strndup.c \
-				ft_lstreplace.c ft_numlen.c ft_contains.c ft_free_tab.c
+				ft_lstreplace.c ft_numlen.c ft_contains.c ft_free_tab.c ft_strjoinfree.c
 
 GNL_NAME	=	get_next_line.c get_next_line_utils.c
 

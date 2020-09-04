@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 14:57:45 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/04 14:58:37 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/04 15:18:07 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ static void	update_env_pwd(t_list *env, t_list *command)
 		ft_dprintf(STDERR_FILENO, "getcwd: cannot access parent directories: ");
 		ft_dprintf(STDERR_FILENO, "No such file or directory\n");
 		tmp = ft_strjoin("/", ((t_token*)command->next->content)->text);
-		(get_env(env, "PWD"))->val = ft_strjoin(ptr, tmp);
-		free(ptr);
-		free(tmp);
+		(get_env(env, "PWD"))->val = ft_strjoinfree(ptr, tmp);
 	}
 	else
 	{
@@ -44,11 +42,9 @@ static void	update_env_pwd(t_list *env, t_list *command)
 
 static int	changedir_home(t_list *env, t_list *command)
 {
-	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", (get_env(env, "HOME"))->val);
 	if (get_env(env, "HOME") && !(chdir((get_env(env, "HOME"))->val)))
 	{
 		update_env_pwd(env, command);
-		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", g_shell.cwd);
 		return (SUCCESS);
 	}
 	else
@@ -64,11 +60,9 @@ static int	changedir_home(t_list *env, t_list *command)
 
 static int	changedir_path(t_list *env, t_list *command)
 {
-	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", ((t_token*)command->next->content)->text);
 	if (!(chdir(((t_token*)command->next->content)->text)))
 	{
 		update_env_pwd(env, command);
-		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", g_shell.cwd);
 		return (SUCCESS);
 	}
 	else
