@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 14:57:45 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/16 15:43:46 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/04 14:58:37 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	update_env_pwd(t_list *env, t_list *command)
 static int	changedir_home(t_list *env, t_list *command)
 {
 	if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mchange working dir: %s\n", (get_env(env, "HOME"))->val);
-	if (!(chdir((get_env(env, "HOME"))->val)))
+	if (get_env(env, "HOME") && !(chdir((get_env(env, "HOME"))->val)))
 	{
 		update_env_pwd(env, command);
 		if (DEBUG) ft_printf("\e[31m[DEBUG]\e[39mcurrent working dir: %s\n", g_shell.cwd);
@@ -54,7 +54,10 @@ static int	changedir_home(t_list *env, t_list *command)
 	else
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: cd: ");
-		ft_perror((get_env(env, "HOME"))->val);
+		if (get_env(env, "HOME"))
+			ft_perror((get_env(env, "HOME"))->val);
+		else
+			ft_dprintf(STDERR_FILENO, "HOME not set\n");
 		return (FAILURE);
 	}
 }
