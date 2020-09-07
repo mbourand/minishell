@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/06 03:04:53 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/07 14:46:30 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int		exec_command(t_list *command, char **path, t_list *env)
 	exit_code = run_exec(ex_name, serialize_cmd(command), serialize_env(env));
 	if (WIFEXITED(exit_code))
 		exit_code = WEXITSTATUS(exit_code);
+	else if (WIFSIGNALED(exit_code))
+		exit_code += 128;
 	ft_free(&ex_name);
 	return (exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/02 20:45:27 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/07 14:48:39 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	close_pipes(pid_t pids[], size_t size)
 			close(g_shell.pipeline[pid_ind - 1][0]);
 			if (WIFEXITED(status))
 				g_shell.exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				g_shell.exit_code = 128 + status;
 		}
 		else
 		{
