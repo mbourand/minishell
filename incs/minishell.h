@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:46:24 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/08 00:15:33 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,9 @@ void			redirect_fd(int fd, int to);
 int				get_near_pipes(t_list **command, size_t i);
 void			pipe_redirection(int pipes, int pipe_index);
 void			sighandler(void);
+void			free_nothing(void *ptr);
+int				get_redir_flags(char *str);
+int				check_redirections(t_list *command);
 
 extern			t_shell g_shell;
 

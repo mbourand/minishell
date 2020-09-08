@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 16:18:57 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/07 16:40:49 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,18 @@ void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
 		exit(1);
 }
 
+int		get_redir_flags(char *str)
+{
+	int offset;
+
+	offset = 0;
+	if (!rediroperator_length(str))
+		offset = ft_numlen(ft_atoi(str), 10);
+	if (!(ft_strcmp(str + offset, OP_REDIRIN)))
+		return (O_RDONLY);
+	return (O_WRONLY | O_CREAT | (!ft_strcmp(str + offset, OP_APPEND) ? O_APPEND : O_TRUNC));
+}
+
 /*
 **	Choisis les fd à rediriger en fonction de l'opérateur,
 **	appelle redirect() pour faire la redirection
@@ -60,22 +72,13 @@ void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command,
 	int		to;
 	int		flags;
 	t_token	*content;
-	size_t	offset;
 
-	offset = 0;
 	content = (t_token*)(*iter)->content;
 	if (rediroperator_length(content->text))
 		to = !ft_strcmp(content->text, OP_REDIRIN) ? 0 : 1;
 	else
-	{
 		to = ft_atoi(content->text);
-		offset = ft_numlen(to, 10);
-	}
-	if (!(ft_strcmp(content->text + offset, OP_REDIRIN)))
-		flags = O_RDONLY;
-	else
-		flags = (O_WRONLY | O_CREAT |
-		(!ft_strcmp(content->text + offset, OP_APPEND) ? O_APPEND : O_TRUNC));
+	flags = get_redir_flags(content->text);
 	redirect(((t_token*)(*iter)->next->content)->text, to, lst_redir, flags);
 	ft_lstdelat(command, *i, &free_token);
 	ft_lstdelat(command, *i, &free_token);

@@ -6,11 +6,33 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:08:44 by mbourand          #+#    #+#             */
-/*   Updated: 2020/08/16 04:12:38 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/08 00:13:53 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		check_redirections(t_list *command)
+{
+	t_token	*token;
+	int		fd;
+	int		flags;
+
+	while (command)
+	{
+		token = (t_token*)command->content;
+		if (is_redirection(token->text))
+		{
+			flags = get_redir_flags(token->text);
+			command = command->next;
+			token = (t_token*)command->content;
+			if ((fd = open(token->text, flags, 0666)) < 0 || close(fd) < 0)
+				return (0);
+		}
+		command = command->next;
+	}
+	return (1);
+}
 
 int		check_operators(t_list **commands)
 {

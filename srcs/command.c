@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/06 03:03:14 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/08 00:17:46 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,17 @@ void	process_command()
 			continue ;
 		}
 		perform_expansion(g_shell.commands + i, g_shell.env);
+		if (!check_redirections(g_shell.commands[i]))
+		{
+			ft_perror("minishell");
+			g_shell.exit_code = 1;
+			i++;
+			continue ;
+		}
 		g_shell.lst_redir = perform_redirection(g_shell.commands + i);
 		g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
 		if (g_shell.commands[i])
 			g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path, g_shell.env);
-		//ft_printf("exit code: %d\n", shell->exit_code);
 		revert_redirections(g_shell.lst_redir);
 		ft_lstclear(&(g_shell.lst_redir), &free);
 		ft_free_tab(&(g_shell.path));
