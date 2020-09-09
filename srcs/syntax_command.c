@@ -6,13 +6,13 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:08:44 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 13:03:31 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:11:02 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		check_redirections(t_list *command)
+int			check_redirections(t_list *command)
 {
 	t_token	*token;
 	int		fd;
@@ -34,13 +34,32 @@ int		check_redirections(t_list *command)
 	return (1);
 }
 
-int		check_operators(t_list **commands)
+static int	is_valid(t_list **commands, t_list *iter, t_list *prev,
+			size_t i)
+{
+	int		valid;
+	t_token	*content;
+
+	content = (t_token*)(iter->content);
+	if (!ft_strcmp(content->text, OP_SEMICOL))
+		valid = (prev && !is_operator(((t_token*)prev->content)->text));
+	else if (!ft_strcmp(content->text, OP_PIPE))
+		valid = (i > 0 && commands[i + 1] &&
+			!is_operator(((t_token*)commands[i - 1]->content)->text) &&
+			!is_operator(((t_token*)commands[i + 1]->content)->text));
+	else
+		valid = (prev && iter->next &&
+			!is_operator(((t_token*)prev->content)->text) &&
+			!is_operator(((t_token*)iter->next->content)->text));
+	return (valid);
+}
+
+int			check_operators(t_list **commands)
 {
 	size_t	i;
 	t_token	*content;
 	t_list	*iter;
 	t_list	*prev;
-	int		valid;
 
 	i = 0;
 	prev = NULL;
@@ -50,17 +69,9 @@ int		check_operators(t_list **commands)
 		while (iter)
 		{
 			content = (t_token*)(iter->content);
-			if (is_operator(content->text))
-			{
-				if (!ft_strcmp(content->text, OP_SEMICOL))
-					valid = (prev && !is_operator(((t_token*)prev->content)->text));
-				else if (!ft_strcmp(content->text, OP_PIPE))
-					valid = (i > 0 && commands[i + 1] && !is_operator(((t_token*)commands[i - 1]->content)->text) && !is_operator(((t_token*)commands[i + 1]->content)->text));
-				else
-					valid = (prev && iter->next && !is_operator(((t_token*)prev->content)->text) && !is_operator(((t_token*)iter->next->content)->text));
-				if (!valid)
-					return (0);
-			}
+			if (is_operator(content->text) && !(is_valid(commands, iter,
+					prev, i)))
+				return (0);
 			prev = iter;
 			iter = iter->next;
 		}
@@ -69,7 +80,7 @@ int		check_operators(t_list **commands)
 	return (1);
 }
 
-int		commands_valid(void)
+int			commands_valid(void)
 {
 	if (!check_operators(g_shell.commands))
 		return (0);
