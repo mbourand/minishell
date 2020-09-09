@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 17:17:04 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 12:18:00 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void		execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
 		i++;
 	}
 	if (!ex_name && (!path || !(ex_name = find_exe(path, content->text))))
+	{
+		ft_printf((path) ? MINISHELL_ERR1 : MINISHELL_ERR2, content->text);
 		exit(127);
+	}
 	run_execname(ex_name, command);
 }
