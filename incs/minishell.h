@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/08 00:15:33 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 12:11:03 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@
 # define BTIN_CD "cd"
 # define BTIN_ECHO "echo"
 # define BTIN_PWD "pwd"
+
+# define MINISHELL_ERR1 "%s: command not found\n"
+# define MINISHELL_ERR2 "minishell: %s: No such file or directory\n"
 
 # define PIPE_BEFORE 1
 # define PIPE_AFTER 2

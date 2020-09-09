@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/08 15:09:17 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 12:14:07 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int		simple_command(int i)
 	g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
 	if (g_shell.commands[i])
 		g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path, g_shell.env);
+	if (g_shell.exit_code == 127)
+		ft_printf((g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2,
+			(t_token*)((t_token*)g_shell.commands[i]->content)->text);
 	revert_redirections(g_shell.lst_redir);
 	ft_lstclear(&(g_shell.lst_redir), &free);
 	ft_free_tab(&(g_shell.path));
