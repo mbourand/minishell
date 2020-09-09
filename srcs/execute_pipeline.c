@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 16:19:57 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 16:50:17 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		execute_pipeline_cmd(t_list *command, char **path)
 	while (!ex_name && builtins[i])
 	{
 		if (!ft_strcmp(content->text, builtins[i]))
-			exit( exec_btin(i, command));
+			exit(exec_btin(i, command));
 		i++;
 	}
 	if (!ex_name && (!path || !(ex_name = find_exe(path, content->text))))

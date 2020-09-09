@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 16:20:37 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 16:48:06 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define TRUE		1
 # define FALSE		0
 # define SUCCESS	0
-# define FAILURE	-1
+# define FAILURE	1
 
 # define OP_SEMICOL ";"
 # define OP_PIPE "|"
@@ -57,11 +57,6 @@ typedef struct	s_token
 	int			is_operator;
 }				t_token;
 
-/*
-**	Tokens : liste de t_token
-**	Commands : liste de char**
-*/
-
 typedef struct	s_env
 {
 	char		*key;
@@ -74,10 +69,6 @@ typedef struct	s_range
 	size_t		max;
 }				t_range;
 
-/*
-**	save = sauvegarde du fd écrasé (valeur obenue avec dup())
-**	target = le fd redirigé (donc 1 pour '>' et 0 pour '<' par exemple)
-*/
 typedef struct	s_redir
 {
 	int			save;
@@ -160,7 +151,6 @@ void			prcs_quote(t_token *token, size_t *i);
 void			prcs_redirection(t_token **token, size_t *i, t_list **iter);
 void			process_protected(char **res, t_token *token, t_list **prot,
 					size_t *i);
-
 
 extern			t_shell g_shell;
 
