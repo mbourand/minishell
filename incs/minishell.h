@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 15:18:00 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 16:20:37 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,7 @@ int				is_operator(char *str);
 char			**parse_path(t_env *env);
 char			*find_exe(char **path, char *name);
 int				exec_command(t_list *command, char **path, t_list *env);
-void			execute_pipeline_cmd(t_list *command, char **path,
-					int *exit_status);
+void			execute_pipeline_cmd(t_list *command, char **path);
 void			process_pipeline(size_t *i);
 int				is_pipe(t_list *command);
 char			**serialize_cmd(t_list *cmd);

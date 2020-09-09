@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 14:47:23 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 16:22:14 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static void	run_command_child(size_t *i, int pipe_index)
 	g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
 	pipe_redirection(get_near_pipes(g_shell.commands, *i), pipe_index);
 	g_shell.lst_redir = perform_redirection(g_shell.commands + *i);
-	execute_pipeline_cmd(g_shell.commands[*i], g_shell.path,
-		&(g_shell.exit_code));
+	execute_pipeline_cmd(g_shell.commands[*i], g_shell.path);
 	exit(EXIT_FAILURE);
 }
 

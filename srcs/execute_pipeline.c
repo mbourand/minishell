@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 12:18:00 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 16:19:57 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	run_execname(char *exec_name, t_list *command)
 	exit(126);
 }
 
-void		execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
+void		execute_pipeline_cmd(t_list *command, char **path)
 {
 	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, BTIN_CD,
 		BTIN_ECHO, BTIN_PWD, BTIN_EXIT, 0};
@@ -36,10 +36,7 @@ void		execute_pipeline_cmd(t_list *command, char **path, int *exit_status)
 	while (!ex_name && builtins[i])
 	{
 		if (!ft_strcmp(content->text, builtins[i]))
-		{
-			*exit_status = exec_btin(i, command);
-			return ;
-		}
+			exit( exec_btin(i, command));
 		i++;
 	}
 	if (!ex_name && (!path || !(ex_name = find_exe(path, content->text))))
