@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:08:44 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/08 00:13:53 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 13:03:31 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		check_operators(t_list **commands)
 	t_token	*content;
 	t_list	*iter;
 	t_list	*prev;
-	int valid;
+	int		valid;
 
 	i = 0;
 	prev = NULL;
@@ -69,10 +69,7 @@ int		check_operators(t_list **commands)
 	return (1);
 }
 
-/*
-**	Quand on trouvera d'autres erreurs de parsing on pourra rajouter ici
-*/
-int		commands_valid()
+int		commands_valid(void)
 {
 	if (!check_operators(g_shell.commands))
 		return (0);

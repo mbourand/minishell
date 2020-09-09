@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/08 17:23:49 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 13:05:05 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** 2 c'est la longueur de "$?"
-*/
 
 static int	replace_exitcode(t_token *token, int i)
 {
 	char	*res;
 	char	*tmp;
 
-	if (!(tmp = ft_itoa(g_shell.exit_code)) || !(res = malloc(sizeof(char) * (ft_strlen(token->text) - 2 + ft_strlen(tmp)))))
+	tmp = ft_itoa(g_shell.exit_code);
+	if (!(tmp) || !(res = malloc(sizeof(char) * (ft_strlen(token->text) - 2 +
+			ft_strlen(tmp)))))
 		exit(1);
 	ft_strncpy(res, token->text, i);
 	ft_strcpy(res + i, tmp);
@@ -33,7 +31,8 @@ static int	replace_exitcode(t_token *token, int i)
 	return (ft_numlen(g_shell.exit_code, 10));
 }
 
-void	process_protected(char **res, t_token *token, t_list **prot, size_t *i)
+void		process_protected(char **res, t_token *token, t_list **prot,
+				size_t *i)
 {
 	t_range	*range;
 
@@ -44,10 +43,6 @@ void	process_protected(char **res, t_token *token, t_list **prot, size_t *i)
 	*prot = (*prot)->next;
 }
 
-/*
-**	Retire toutes les "unquoted quotes" qui ne sont pas dans une range de
-**	protected
-*/
 void		remove_quotes(t_token *token, t_list *protected)
 {
 	t_range	*range;
@@ -74,12 +69,7 @@ void		remove_quotes(t_token *token, t_list *protected)
 		exit(1);
 }
 
-/*
-**	Remplace le nom d'une variable d'environnement par sa valeur
-**	et met dans protected les caractères parmi lesquels les quotes
-**	ne seront pas retirés par remove_quotes
-*/
-static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **protected)
+static int	replace_var(t_token *token, size_t i, t_list *lstenv, t_list **protected)
 {
 	char	*res;
 	char	*name;
@@ -104,12 +94,7 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 	return (env ? ft_strlen(env->val) : (name ? 0 : 1));
 }
 
-/*
-**	Protected contient des t_range
-**	Le maximum d'un t_range est toujours inférieur au minimum du t_range suivant dans protected
-**	Les quotes dans une range de protected ne seront pas retirés par remove_quotes
-*/
-static void expand_token(t_token *token, t_list *env)
+static void	expand_token(t_token *token, t_list *env)
 {
 	size_t	i;
 	t_list	*protected;
@@ -135,12 +120,7 @@ static void expand_token(t_token *token, t_list *env)
 	ft_lstclear(&protected, &free);
 }
 
-/*
-**	Remplace les variable d'environnement des tokens de cmd par leur valeur
-**	Retire des tokens de cmd toutes les unquoted quotes ne venant pas de l'expansion
-**	d'une variable d'environnement
-*/
-void	perform_expansion(t_list **cmd, t_list *env)
+void		perform_expansion(t_list **cmd, t_list *env)
 {
 	t_token	*content;
 	int		empty;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 12:55:33 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/07 14:48:39 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 13:03:11 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	run_command_child(size_t *i, int pipe_index)
 	g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
 	pipe_redirection(get_near_pipes(g_shell.commands, *i), pipe_index);
 	g_shell.lst_redir = perform_redirection(g_shell.commands + *i);
-	execute_pipeline_cmd(g_shell.commands[*i], g_shell.path, &(g_shell.exit_code));
+	execute_pipeline_cmd(g_shell.commands[*i], g_shell.path,
+		&(g_shell.exit_code));
 	exit(EXIT_FAILURE);
 }
 
@@ -115,11 +116,6 @@ void	free_pipeline(pid_t *pids)
 	free(g_shell.pipeline);
 }
 
-/*
-**	Fork et lance la commande dans l'enfant
-**	passe à la commande d'après dans le parent
-**	retourne 1 si c'était la dernière commande
-*/
 int		fork_and_run(size_t *i, size_t *pipe_index, pid_t *pids)
 {
 	pid_t	tmp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/07 16:40:49 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 13:00:40 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,10 @@ int		get_redir_flags(char *str)
 		offset = ft_numlen(ft_atoi(str), 10);
 	if (!(ft_strcmp(str + offset, OP_REDIRIN)))
 		return (O_RDONLY);
-	return (O_WRONLY | O_CREAT | (!ft_strcmp(str + offset, OP_APPEND) ? O_APPEND : O_TRUNC));
+	return (O_WRONLY | O_CREAT |
+		(!ft_strcmp(str + offset, OP_APPEND) ? O_APPEND : O_TRUNC));
 }
 
-/*
-**	Choisis les fd à rediriger en fonction de l'opérateur,
-**	appelle redirect() pour faire la redirection
-**	puis supprime de la commande les mots servant à la redirection
-**	ex. "echo coucou > test" devient "echo coucou"
-*/
 void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command,
 			size_t *i)
 {
@@ -85,9 +80,6 @@ void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command,
 	*iter = ft_lstat(*command, --(*i));
 }
 
-/*
-**	Fais toutes les redirections d'une commande
-*/
 t_list	*perform_redirection(t_list **command)
 {
 	t_list	*lst_redir;

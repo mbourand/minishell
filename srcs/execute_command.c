@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/08 15:11:15 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/09 13:01:28 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,9 @@ int		exec_btin(size_t i, t_list *cmd)
 {
 	static int (*btins[])(t_list*) = { &btin_env, &btin_export,
 		&btin_unset, &btin_cd, &btin_echo, &btin_pwd, &btin_exit, 0};
+
 	return ((btins[i])(cmd));
 }
-
-/*
-**	https://www.gnu.org/software/bash/manual/html_node/Command-Search
-**	-and-Execution.html#Command-Search-and-Execution
-*/
 
 int		exec_command(t_list *command, char **path, t_list *env)
 {

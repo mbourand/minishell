@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:48:03 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:58:00 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 12:57:21 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ size_t	rediroperator_length(char *str)
 	return (0);
 }
 
-/*
-**	1 si c'est un opérateur de redirection dès le début
-**	2 si le fd est explicité avant l'opérateur de redirection
-*/
 int		is_redirection(char *str)
 {
 	if (rediroperator_length(str))

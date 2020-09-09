@@ -6,19 +6,12 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 18:38:02 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 16:22:03 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 12:58:34 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-**	découpe l'input en mots (= token dans le code)
-**	echo world donne { "echo", "world" }
-**	echo "world bonjour" test donne { "echo", "world bonjour", "test" }
-**	echo world bonjour|test donne { "echo", "world", "bonjour", "|", "test" }
-**	ATTENTION : ça ne parse pas les variables
-*/
 t_token	*create_token(char *text)
 {
 	t_token	*token;
@@ -30,9 +23,6 @@ t_token	*create_token(char *text)
 	return (token);
 }
 
-/*
-**	Crée un nouveau mot en créant un nouveau token
-*/
 void	new_word(t_list **iter, t_token **token)
 {
 	ft_lstadd_back(iter, ft_lstnew(create_token(ft_strnew(""))));
@@ -61,9 +51,6 @@ void	prcs_redirection(t_token **token, size_t *i, t_list **iter)
 		new_word(iter, token);
 }
 
-/*
-**	Copie de shell->input dans token->text tout ce qui est entre quote
-*/
 void	prcs_quote(t_token *token, size_t *i)
 {
 	char	*tmp;
@@ -77,9 +64,6 @@ void	prcs_quote(t_token *token, size_t *i)
 	ft_straddchar(&(token->text), g_shell.input[*i - 1], 1);
 }
 
-/*
-**	Crée un nouveau mot si il y a d'autres mots après les espaces
-*/
 void	prcs_space(t_token **token, size_t *i, t_list **iter)
 {
 	if (g_shell.input[*i + 1])
@@ -88,11 +72,6 @@ void	prcs_space(t_token **token, size_t *i, t_list **iter)
 		(*i)++;
 }
 
-/*
-**	Crée un nouveau mot si il y a déjà quelque chose dans le mot
-**	Copie l'opérateur dans le nouveau mot
-**	Crée un nouveau mot si il y a d'autres mots après
-*/
 void	prcs_operator(t_token **token, size_t *i, t_list **iter)
 {
 	size_t	op_len;
@@ -112,18 +91,12 @@ void	prcs_operator(t_token **token, size_t *i, t_list **iter)
 		new_word(iter, token);
 }
 
-/*
-**	Copie le caractère dans token->text
-*/
 void	prcs_character(t_token *token, size_t *i)
 {
 	ft_straddchar(&(token->text), g_shell.input[*i], 1);
 	(*i)++;
 }
 
-/*
-**	Découpe l'input complet shell->input en mots et les place dans shell->tokens
-*/
 void	get_tokens(void)
 {
 	t_list	*begin;
@@ -139,7 +112,6 @@ void	get_tokens(void)
 		i++;
 	while (g_shell.input[i])
 	{
-		// Si il y a rien dans le token, si derrière shell->input + i + longueur de atoi c'est un opérateur de redir, c'est une redirection avec fd
 		if (is_quote(g_shell.input[i]))
 			prcs_quote(token, &i);
 		else if (is_blank(g_shell.input[i]))
