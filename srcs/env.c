@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 18:53:04 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:48:51 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/08 15:10:33 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 **	Met ce qu'il y a avant le 1er '=' de str dans env->key
 **	Et le reste dans env->val (sans le =)
 */
+
 t_env	*parse_env(char *str)
 {
 	t_env	*env;
@@ -31,6 +32,7 @@ t_env	*parse_env(char *str)
 /*
 **	Remplis l'env à partir du paramètre du main
 */
+
 t_list	*init_env(char **env)
 {
 	size_t	i;
@@ -55,6 +57,7 @@ t_list	*init_env(char **env)
 **	Retourne la première variable d'environnement
 **	avec le nom key contenue dans l'env
 */
+
 t_env	*get_env(t_list *env, char *key)
 {
 	t_env	*content;
@@ -80,6 +83,7 @@ t_env	*get_env(t_list *env, char *key)
 **	on doit faire l'expansion
 **	Retourne NULL si il n'y a pas de variable d'environnement au nom associé
 */
+
 char	*get_var_name(char *str)
 {
 	char	*name;

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/07 14:46:30 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/08 15:11:15 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,10 @@ int		exec_btin(size_t i, t_list *cmd)
 }
 
 /*
-**	https://www.gnu.org/software/bash/manual/html_node/Command-Search-and-Execution.html#Command-Search-and-Execution
+**	https://www.gnu.org/software/bash/manual/html_node/Command-Search
+**	-and-Execution.html#Command-Search-and-Execution
 */
+
 int		exec_command(t_list *command, char **path, t_list *env)
 {
 	static char	*builtins[] = { BTIN_ENV, BTIN_EXPORT, BTIN_UNSET, BTIN_CD,

@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 03:33:06 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/08 17:23:49 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,12 @@ static int		replace_var(t_token *token, size_t i, t_list *lstenv, t_list **prote
 {
 	char	*res;
 	char	*name;
-	char	*tmp;
 	t_env	*env;
 
 	name = get_var_name(token->text + i + 1);
 	if (!(env = get_env(lstenv, name)) || !(env->val[0]))
-	{
-		res = ft_substr(token->text, 0, i + (!name));
-		tmp = res;
-		res = ft_strjoin(res, token->text + i + ft_strlen(name) + 1);
-		ft_free(&tmp);
-	}
+		res = ft_strjoinfree(ft_substr(token->text, 0, i + (!name)),
+			ft_strdup(token->text + i + ft_strlen(name) + 1));
 	else
 	{
 		if (!(res = malloc(sizeof(char) * (ft_strlen(token->text) - 1 - ft_strlen(name) + ft_strlen(env->val)))))

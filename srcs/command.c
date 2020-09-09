@@ -6,15 +6,40 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/08 00:17:46 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/08 15:09:17 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** Lit une commande du terminal et la met dans shell->input
+**	Gère l'exécution d'une commande simple (commande séparée par un opérateur)
+**	Cela comprend, expansion, redirection, parse du path, exécution
 */
+
+int		simple_command(int i)
+{
+	perform_expansion(g_shell.commands + i, g_shell.env);
+	if (!check_redirections(g_shell.commands[i]))
+	{
+		ft_perror("minishell");
+		g_shell.exit_code = 1;
+		return (0);
+	}
+	g_shell.lst_redir = perform_redirection(g_shell.commands + i);
+	g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
+	if (g_shell.commands[i])
+		g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path, g_shell.env);
+	revert_redirections(g_shell.lst_redir);
+	ft_lstclear(&(g_shell.lst_redir), &free);
+	ft_free_tab(&(g_shell.path));
+	return (1);
+}
+
+/*
+**	Lit une commande du terminal et la met dans shell->input
+*/
+
 void	get_command(void)
 {
 	char	*input;
@@ -31,31 +56,10 @@ void	get_command(void)
 	g_shell.input = input;
 }
 
-/*	https://www.gnu.org/software/bash/manual/html_node/Shell-Operation.html#Shell-Operation
-**	1. Reads its input from a file from a string supplied as an argument to the
-**	-c invocation option, or from the user’s terminal
-**
-**	2. Breaks the input into words and operators, obeying the quoting rules.
-**	These tokens are separated by metacharacters. Alias expansion is performed by this step.
-**
-**	3. Parses the tokens into simple and compound commands
-**
-**	4. Performs the various shell expansions, breaking the expanded tokens into lists of filenames
-**	and commands and arguments.
-**
-**	5. Performs any necessary redirections and removes the redirection operators and their operands
-**	from the argument list.
-**
-**	6. Executes the command
-**
-**	7. Optionally waits for the command to complete and collects its exit status
+/*
+**	Fonction point de départ pour lancer une commande ou une pipeline
 */
 
-/*
-**	Vérifier si c'est le début d'une pipeline, auquel cas exécuter
-**	une autre fonction qui fait les redirections et tout le bordel dans les fork directement
-**	Et faire les redirectgions des pipes avant les redirections des commandes !!!
-*/
 void	process_command()
 {
 	size_t i;
@@ -73,31 +77,11 @@ void	process_command()
 	while (g_shell.commands[i] && !g_shell.interrupted)
 	{
 		if (is_pipe(g_shell.commands[i + 1]))
-		{
 			process_pipeline(&i);
-			continue ;
-		}
-		if (((t_token*)(g_shell.commands[i]->content))->is_operator)
-		{
+		else if (((t_token*)(g_shell.commands[i]->content))->is_operator)
 			i++;
-			continue ;
-		}
-		perform_expansion(g_shell.commands + i, g_shell.env);
-		if (!check_redirections(g_shell.commands[i]))
-		{
-			ft_perror("minishell");
-			g_shell.exit_code = 1;
-			i++;
-			continue ;
-		}
-		g_shell.lst_redir = perform_redirection(g_shell.commands + i);
-		g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
-		if (g_shell.commands[i])
-			g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path, g_shell.env);
-		revert_redirections(g_shell.lst_redir);
-		ft_lstclear(&(g_shell.lst_redir), &free);
-		ft_free_tab(&(g_shell.path));
-		i++;
+		else
+			simple_command(i++);
 	}
 	g_shell.interrupted = 0;
 	free_shell();
