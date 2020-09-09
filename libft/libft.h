@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 09:58:37 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:22:26 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 12:29:49 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ char				*ft_strndup(const char *src, size_t n);
 char				*ft_strcpy(char *dest, char *src);
 char				*ft_strnew(char *str);
 void				ft_memdel(void **ptr);
-void				ft_lstreplace(t_list *lst, size_t at, void(*del)(void*), void *content);
+void				ft_lstreplace(t_list *lst, size_t at, void(*del)(void*),
+						void *content);
 size_t				ft_numlen(int i, size_t base);
 int					ft_contains(char *s1, char *s2);
 void				ft_free_tab(char ***tab);
