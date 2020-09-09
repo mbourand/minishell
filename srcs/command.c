@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 12:42:32 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:54:43 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		simple_command(int i)
 {
+	char	*text;
+
 	perform_expansion(g_shell.commands + i, g_shell.env);
 	if (!check_redirections(g_shell.commands[i]))
 	{
@@ -21,16 +23,15 @@ int		simple_command(int i)
 		g_shell.exit_code = 1;
 		return (0);
 	}
+	text = ((t_token*)g_shell.commands[i]->content)->text;
 	g_shell.lst_redir = perform_redirection(g_shell.commands + i);
 	g_shell.path = parse_path(get_env(g_shell.env, "PATH"));
-	if (g_shell.commands[i])
+	if (g_shell.commands[i] && *text)
 	{
 		g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path,
 			g_shell.env);
-		if (*(((t_token*)g_shell.commands[i]->content)->text) &&
-				g_shell.exit_code == 127)
-			ft_printf((g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2,
-				((t_token*)g_shell.commands[i]->content)->text);
+		if (g_shell.exit_code == 127)
+			ft_printf((g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2, text);
 	}
 	revert_redirections(g_shell.lst_redir);
 	ft_lstclear(&(g_shell.lst_redir), &free);
