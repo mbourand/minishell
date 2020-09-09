@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 12:11:03 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 14:53:09 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,14 @@ void			sighandler(void);
 void			free_nothing(void *ptr);
 int				get_redir_flags(char *str);
 int				check_redirections(t_list *command);
+void			fill_pipeline(size_t i);
+void			new_word(t_list **iter, t_token **token);
+void			prcs_character(t_token *token, size_t *i);
+void			prcs_operator(t_token **token, size_t *i, t_list **iter);
+void			prcs_space(t_token **token, size_t *i, t_list **iter);
+void			prcs_quote(t_token *token, size_t *i);
+void			prcs_redirection(t_token **token, size_t *i, t_list **iter);
+
 
 extern			t_shell g_shell;
 

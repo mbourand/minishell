@@ -6,7 +6,7 @@
 #    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/14 15:50:28 by mbourand          #+#    #+#              #
-#    Updated: 2020/03/02 15:36:49 by mbourand         ###   ########.fr        #
+#    Updated: 2020/09/09 14:53:30 by nforay           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC_NAME=	main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacte
 			command_parser.c env.c utils.c expansion.c free_utils.c builtin_export.c \
 			syntax_command.c builtin_unset.c builtin_env.c redirections.c revert_redirections.c \
 			parse_path.c builtin_cd.c builtin_pwd.c builtin_echo.c execute_command.c pipe.c \
-			pipeline.c execute_pipeline.c builtin_exit.c sighandler.c
+			pipeline.c pipeline_utils.c execute_pipeline.c builtin_exit.c sighandler.c \
+			tokens_chars.c
 
 OBJ_NAME= $(SRC_NAME:.c=.o)
 
