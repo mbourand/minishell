@@ -21,7 +21,7 @@ SRC_NAME=	main.c prompt.c cwd.c command.c tokens.c operator_utils.c metacharacte
 			syntax_command.c builtin_unset.c builtin_env.c redirections.c revert_redirections.c \
 			parse_path.c builtin_cd.c builtin_pwd.c builtin_echo.c execute_command.c pipe.c \
 			pipeline.c pipeline_utils.c execute_pipeline.c builtin_exit.c sighandler.c \
-			tokens_chars.c
+			tokens_chars.c expansion_utils.c
 
 OBJ_NAME= $(SRC_NAME:.c=.o)
 

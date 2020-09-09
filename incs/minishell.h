@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 14:53:09 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/09 15:18:00 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ void			prcs_operator(t_token **token, size_t *i, t_list **iter);
 void			prcs_space(t_token **token, size_t *i, t_list **iter);
 void			prcs_quote(t_token *token, size_t *i);
 void			prcs_redirection(t_token **token, size_t *i, t_list **iter);
+void			process_protected(char **res, t_token *token, t_list **prot,
+					size_t *i);
 
 
 extern			t_shell g_shell;
