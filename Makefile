@@ -43,7 +43,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "$(RED)[minishell] : $(DEF)Compiling..."
-	@make -C libft | sed '/^make\[/d'
+	@make -C libft
 	@gcc $(CFLAGS) -fsanitize=address -o $(NAME) $(OBJ) $(INC) $(LIB)
 	@echo "$(RED)[minishell] : $(DEF)Compilation $(GRN)[OK]$(DEF)"
 
@@ -53,12 +53,12 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
 clean:
-	@make -C libft clean | sed '/^make\[/d'
+	@make -C libft clean
 	@rm -rf $(OBJ_PATH)
 	@echo "$(RED)[minishell] : $(DEF)Cleaning $(GRN)[OK]$(DEF)"
 
 fclean: clean
-	@make -C libft fclean | sed '/^make\[/d'
+	@make -C libft fclean
 	@rm -rf $(NAME)
 	@echo "$(RED)[minishell] : $(DEF)Full Cleaning $(GRN)[OK]$(DEF)"
 

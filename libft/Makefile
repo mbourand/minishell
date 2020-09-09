@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nforay <nforay@student.42.fr>              +#+  +:+       +#+         #
+#    By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/05 09:47:08 by mbourand          #+#    #+#              #
-#    Updated: 2020/09/04 15:17:44 by nforay           ###   ########.fr        #
+#    Updated: 2020/09/09 12:34:26 by mbourand         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,9 +67,9 @@ $(NAME): $(OBJS)
 	@echo "$(RED)[libft]$(DEF) Compilation $(GRN)[OK]$(DEF)"
 
 compile:
-	@$(MAKE) -C get_next_line SRCS_NAME="$(GNL_NAME)" | sed '/^make\[/d'
-	@$(MAKE) -C printf SRCS_NAME="$(PRINTF_NAME)" | sed '/^make\[/d'
-	@$(MAKE) $(NAME) | sed '/^make\[/d'
+	@$(MAKE) -C get_next_line SRCS_NAME="$(GNL_NAME)"
+	@$(MAKE) -C printf SRCS_NAME="$(PRINTF_NAME)"
+	@$(MAKE) $(NAME)
 
 $(OBJS_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir $(OBJS_PATH) 2> /dev/null || true
@@ -77,14 +77,14 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.c
 	@$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
 clean:
-	@$(MAKE) -C printf clean | sed '/^make\[/d'
-	@$(MAKE) -C get_next_line clean | sed '/^make\[/d'
+	@$(MAKE) -C printf clean
+	@$(MAKE) -C get_next_line clean
 	@rm -rf $(OBJS_PATH)
 	@echo "$(RED)[libft]$(DEF) Cleaning $(GRN)[OK]$(DEF)"
 
 fclean: clean
-	@$(MAKE) -C printf fclean | sed '/^make\[/d'
-	@$(MAKE) -C get_next_line fclean | sed '/^make\[/d'
+	@$(MAKE) -C printf fclean
+	@$(MAKE) -C get_next_line fclean
 	@rm -rf $(NAME)
 	@echo "$(RED)[libft]$(DEF) Full Cleaning $(GRN)[OK]$(DEF)"
 
