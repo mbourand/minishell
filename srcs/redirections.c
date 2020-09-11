@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 13:00:40 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/11 13:15:36 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,32 @@ t_list	*first_with_target(int target, t_list *lst)
 	return (NULL);
 }
 
-void	redirect(char *filename, int to, t_list **lst_redir, int oflag)
+int		redirect(char *filename, int to, t_list **lst_redir, int oflag)
 {
 	t_list	*elem;
 	t_redir	*redir;
 	int		fd;
+	int		sv;
 
+	sv = dup(to);
+	if (close(to) < 0)
+		return close(sv);
+	if ((fd = open(filename, oflag, 0666)) < 0)
+		return close(sv);
+	if ((fd != to && (dup2(fd, to) < 0 || close(fd) < 0)))
+	{
+		close(fd);
+		return close(sv);
+	}
 	if (!(elem = first_with_target(to, *lst_redir)))
 	{
 		ft_lstadd_back(lst_redir,
 			(elem = ft_lstnew(malloc_zero(sizeof(t_redir)))));
 		redir = (t_redir*)elem->content;
 		redir->target = to;
-		redir->save = dup(to);
+		redir->save = sv;
 	}
-	if (close(to) < 0)
-		exit(1);
-	if ((fd = open(filename, oflag, 0666)) < 0)
-		exit(1);
-	if (fd != to && (dup2(fd, to) < 0 || close(fd) < 0))
-		exit(1);
+	return (0);
 }
 
 int		get_redir_flags(char *str)
