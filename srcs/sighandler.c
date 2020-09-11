@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 14:57:23 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/04 16:19:27 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/11 18:47:28 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	sig_int(int sig)
 		print_prompt();
 	else
 		g_shell.interrupted = 1;
+	g_shell.exit_code = 130;
 	signal(SIGINT, &sig_int);
 }
 
