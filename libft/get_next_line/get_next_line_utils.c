@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 09:26:51 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/07 19:16:54 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/12 16:38:34 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*gnldupuntil(const char *s1, char c)
 
 	i = 0;
 	if (!(cpy = (char*)malloc(sizeof(char) * (gnllenuntil(s1, '\n') + 1))))
-		return (0);
+		exit(1);
 	while (s1[i] && s1[i] != c)
 	{
 		cpy[i] = s1[i];
@@ -58,7 +58,7 @@ char	*gnljoinuntil(char *s1, char const *s2, char c)
 		s2_len++;
 	i = -1;
 	if (!(res = (char*)malloc(sizeof(char) * (s1_len + s2_len + 1))))
-		return (0);
+		exit(1);
 	while (s1[++i])
 		res[i] = s1[i];
 	i = -1;

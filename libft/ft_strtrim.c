@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 09:03:35 by mbourand          #+#    #+#             */
-/*   Updated: 2019/11/07 10:06:07 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/12 16:36:59 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char			*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	j = 0;
 	if (!(res = (char*)malloc(sizeof(char) * (len + 1))))
-		return (0);
+		exit(1);
 	while (s1[i] && contains(set, s1[i]))
 		i++;
 	while (j < len)

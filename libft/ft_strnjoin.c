@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:10:07 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/31 17:10:07 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/12 16:36:50 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 	while (s2[s2_len] && s2_len < n)
 		s2_len++;
 	if (!(res = malloc(sizeof(char) * (s1_len + s2_len + 1))))
-		return (NULL);
+		exit(1);
 	ft_strlcpy(res, s1, s1_len + s2_len + 1);
 	ft_strlcpy(res + s1_len, s2, s2_len + 1);
 	return (res);

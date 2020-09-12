@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoinfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 15:16:29 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/04 15:22:17 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/12 16:35:35 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strjoinfree(char *s1, char *s2)
 	s1_len = ft_strlen(s1);
 	i = -1;
 	if (!(res = (char*)malloc(sizeof(char) * (s1_len + ft_strlen(s2) + 1))))
-		return (0);
+		exit(1);
 	while (s1[++i])
 		res[i] = s1[i];
 	i = -1;

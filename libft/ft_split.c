@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/02 18:28:07 by mbourand          #+#    #+#             */
-/*   Updated: 2019/11/07 11:46:29 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/12 16:35:46 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ char			**ft_split(char const *s, char c)
 	i = skip_matches(s, c);
 	parts = count_parts(s + i, c);
 	if (!(res = (char**)malloc(sizeof(char*) * (parts + 1))))
-		return (0);
+		exit(1);
 	while (s[i])
 	{
 		len = count_len(s + i, c);
 		if (!(res[word] = (char*)malloc(sizeof(char) * (len + 1))))
-			return (0);
+			exit(1);
 		copy(res[word++], s + i, len);
 		i += len;
 		while (s[i] == c && s[i])

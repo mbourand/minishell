@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_straddchar.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 17:08:44 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/31 17:08:44 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/12 16:35:00 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_straddchar(char **str, char c, size_t len)
 	tmp = *str;
 	str_len = ft_strlen(tmp);
 	if (!(*str = malloc(sizeof(char) * (str_len + len + 1))))
-		return (NULL);
+		exit(1);
 	ft_strcpy(*str, tmp);
 	i = 0;
 	while (i < len)

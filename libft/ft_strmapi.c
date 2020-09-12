@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 15:35:11 by mbourand          #+#    #+#             */
-/*   Updated: 2019/11/07 10:08:25 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/12 16:35:57 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	while (s[len])
 		len++;
 	if (!(res = (char*)malloc(sizeof(char) * (len + 1))))
-		return (0);
+		exit(1);
 	while (s[i])
 	{
 		res[i] = f(i, s[i]);

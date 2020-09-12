@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcut.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 13:58:25 by mbourand          #+#    #+#             */
-/*   Updated: 2020/07/31 17:09:18 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/12 16:35:13 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strcut(char *src, size_t cut_start, size_t len)
 	if (cut_start >= ft_strlen(src))
 		return (src);
 	if (!(res = malloc_zero(sizeof(char) * (ft_strlen(src) - len + 1))))
-		return (NULL);
+		exit(1);
 	ft_strncpy(res, src, cut_start);
 	src += cut_start + len;
 	ft_strncpy(res, src, ft_strlen(src));
