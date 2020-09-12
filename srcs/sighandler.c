@@ -27,9 +27,11 @@ static void	sig_int(int sig)
 {
 	(void)sig;
 	signal(SIGINT, SIG_IGN);
-	ft_putendl_fd("", 1);
 	if (!g_shell.input)
+	{
+		ft_putendl_fd("", 1);
 		print_prompt();
+	}
 	else
 		g_shell.interrupted = 1;
 	g_shell.exit_code = 130;
