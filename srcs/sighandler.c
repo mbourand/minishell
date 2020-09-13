@@ -6,7 +6,7 @@
 /*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 14:57:23 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/12 18:01:57 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/13 20:21:31 by mbourand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ static void	sig_int(int sig)
 {
 	(void)sig;
 	signal(SIGINT, SIG_IGN);
+	ft_putendl_fd("", 1);
 	if (!g_shell.input)
-	{
-		ft_putendl_fd("", 1);
 		print_prompt();
-	}
 	else
 		g_shell.interrupted = 1;
 	g_shell.exit_code = 130;
