@@ -131,7 +131,7 @@ void		perform_expansion(t_list **cmd, t_list *env)
 		content = (t_token*)iter->content;
 		empty = content->text[0] == '\0';
 		expand_token(content, env);
-		if (!empty && !(content->text[0]))
+		if (!empty && !(content->text[0]) && i != 0)
 			ft_lstdelat(cmd, i--, &free_token);
 		iter = iter->next;
 		i++;
