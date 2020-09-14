@@ -50,7 +50,7 @@ void		print_prompt(void)
 		user = ft_strdup((get_env(g_shell.env, "LOGNAME"))->val);
 	else
 		user = ft_strdup("User42");
-	ft_printf("\e[1m\e[32m%s@%s\e[39m:\e[34m%s\e[0m$ ",
+	ft_dprintf(STDERR_FILENO, "\e[1m\e[32m%s@%s\e[39m:\e[34m%s\e[0m$ ",
 	user, "minishell", path);
 	free(path);
 	free(user);

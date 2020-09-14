@@ -66,12 +66,18 @@ t_env	*get_env(t_list *env, char *key)
 char	*get_var_name(char *str)
 {
 	char	*name;
+	int		digits;
 	size_t	i;
 
+	if (!str)
+		return NULL;
 	name = NULL;
 	i = 0;
+	digits = ft_isdigit(str[0]);
 	while (ft_isalpha(str[i]) || ft_isdigit(str[i]) || str[i] == '_')
 	{
+		if (digits && !ft_isdigit(str[i]))
+			break ;
 		ft_straddchar(&name, str[i], 1);
 		i++;
 	}

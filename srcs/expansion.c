@@ -82,9 +82,9 @@ static int	replace_var(t_token *token, size_t i, t_list *lstenv,
 		ft_strlen(name) + 1, ft_strlen(token->text) - ft_strlen(name) - i - 1);
 	}
 	ft_free(&(token->text));
+	i = (name ? 0 : 1);
 	ft_free(&name);
 	token->text = res;
-	i = (name ? 0 : 1);
 	return (env ? ft_strlen(env->val) : i);
 }
 
@@ -117,6 +117,20 @@ static void	expand_token(t_token *token, t_list *env)
 	ft_lstclear(&protected, &free);
 }
 
+int		only_quotes(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!is_quote(s[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 void		perform_expansion(t_list **cmd, t_list *env)
 {
 	t_token	*content;
@@ -129,7 +143,7 @@ void		perform_expansion(t_list **cmd, t_list *env)
 	while (iter)
 	{
 		content = (t_token*)iter->content;
-		empty = content->text[0] == '\0';
+		empty = (content->text[0] == '\0' || only_quotes(content->text));
 		expand_token(content, env);
 		if (!empty && !(content->text[0]) && i != 0)
 			ft_lstdelat(cmd, i--, &free_token);
