@@ -71,7 +71,7 @@ static int	replace_var(t_token *token, size_t i, t_list *lstenv,
 			ft_strdup(token->text + i + ft_strlen(name) + 1));
 	else
 	{
-		if (!(res = malloc(sizeof(char) * (ft_strlen(token->text) - 1 -
+		if (!(res = malloc_zero(sizeof(char) * (ft_strlen(token->text) - 1 -
 				ft_strlen(name) + ft_strlen(env->val)))))
 			exit(1);
 		ft_strncpy(res, token->text, i);
