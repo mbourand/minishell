@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbourand <mbourand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 13:55:20 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/11 13:15:36 by mbourand         ###   ########.fr       */
+/*   Updated: 2020/09/14 14:25:24 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int		redirect(char *filename, int to, t_list **lst_redir, int oflag)
 
 	sv = dup(to);
 	if (close(to) < 0)
-		return close(sv);
+		return (close(sv));
 	if ((fd = open(filename, oflag, 0666)) < 0)
-		return close(sv);
+		return (close(sv));
 	if ((fd != to && (dup2(fd, to) < 0 || close(fd) < 0)))
 	{
 		close(fd);
-		return close(sv);
+		return (close(sv));
 	}
 	if (!(elem = first_with_target(to, *lst_redir)))
 	{
