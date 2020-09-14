@@ -105,7 +105,10 @@ static void	expand_token(t_token *token, t_list *env)
 			i += ft_strlenuntil(token->text + i + 1, '\'') + 1;
 		if (token->text[i] == '$' && token->text[i + 1] == '?')
 			i += replace_exitcode(token, i);
-		if (token->text[i] == '$')
+		if (token->text[i] == '$' && !in_quote && is_quote(token->text[i + 1]))
+			ft_memmove(token->text + i, token->text + i + 1,
+				ft_strlen(token->text + i));
+		else if (token->text[i] == '$')
 			i += replace_var(token, i, env, &protected);
 		else
 			i++;
