@@ -6,18 +6,18 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/04 15:35:27 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 02:51:04 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	export_print(t_env *env)
+void			export_print(t_env *env)
 {
 	ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
 }
 
-static int	check_export_key(char *key)
+static int		check_export_key(char *key)
 {
 	if (ft_isdigit(*key))
 		return (0);
@@ -31,17 +31,7 @@ static int	check_export_key(char *key)
 	return (1);
 }
 
-static int	export_error(t_env *new)
-{
-	ft_printf("minishell: export: `%s=%s': not a valid identifier\n",
-		new->key, new->val);
-	free(new->key);
-	free(new->val);
-	free(new);
-	return (FAILURE);
-}
-
-static void	export_add_or_replace(t_env *new, t_list *env)
+static void		export_add_or_replace(t_env *new, t_list *env)
 {
 	t_env	*tmp;
 
@@ -56,7 +46,31 @@ static void	export_add_or_replace(t_env *new, t_list *env)
 		ft_lstadd_back(&env, ft_lstnew(new));
 }
 
-int			btin_export(t_list *command)
+static t_env	*export_parse_env(t_list *env, char *str)
+{
+	t_env	*new;
+
+	if (!(new = malloc(sizeof(t_env) * 1)))
+		exit(1);
+	new->key = ft_strjoinuntil("", str, '=');
+	if (new->key[(ft_strlen(new->key) - 1)] == '+')
+	{
+		str += ft_strlen(new->key) + 1;
+		new->key[ft_strlen(new->key) - 1] = '\0';
+		if (get_env(env, new->key))
+			new->val = ft_strjoin((get_env(env, new->key))->val, str);
+		else
+			new->val = ft_strjoin("", str);
+	}
+	else
+	{
+		str += ft_strlen(new->key) + 1;
+		new->val = ft_strjoin("", str);
+	}
+	return (new);
+}
+
+int				btin_export(t_list *command)
 {
 	t_env	*new;
 	t_list	*env;
@@ -67,9 +81,16 @@ int			btin_export(t_list *command)
 		ft_lstiter(env, (void*)&export_print);
 		return (SUCCESS);
 	}
-	new = parse_env(((t_token*)command->next->content)->text);
+	new = export_parse_env(env, ((t_token*)command->next->content)->text);
 	if (!(check_export_key(new->key)))
-		return (export_error(new));
+	{
+		ft_printf("minishell: export: `%s': not a valid identifier\n",
+			((t_token*)command->next->content)->text);
+		free(new->key);
+		free(new->val);
+		free(new);
+		return (FAILURE);
+	}
 	export_add_or_replace(new, env);
 	return (SUCCESS);
 }

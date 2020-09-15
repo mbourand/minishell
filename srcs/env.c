@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 18:53:04 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 13:02:16 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 02:49:13 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*get_var_name(char *str)
 	size_t	i;
 
 	if (!str)
-		return NULL;
+		return (NULL);
 	name = NULL;
 	i = 0;
 	digits = ft_isdigit(str[0]);

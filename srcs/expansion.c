@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 15:03:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 15:22:15 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 02:48:58 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,20 +115,6 @@ static void	expand_token(t_token *token, t_list *env)
 	}
 	remove_quotes(token, protected);
 	ft_lstclear(&protected, &free);
-}
-
-int		only_quotes(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!is_quote(s[i]))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
 }
 
 void		perform_expansion(t_list **cmd, t_list *env)

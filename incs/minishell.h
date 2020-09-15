@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 16:48:06 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 02:51:15 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int				btin_exit(t_list *command);
 int				btin_export(t_list	*command);
 int				btin_pwd(t_list *command);
 int				btin_unset(t_list *command);
+int				only_quotes(char *s);
 int				check_pipe(t_list *command, size_t i);
 int				check_red(t_list *command, size_t i);
 int				check_semicol(t_list *command, size_t i);
