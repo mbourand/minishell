@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 00:38:41 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 16:50:17 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 14:34:43 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void		execute_pipeline_cmd(t_list *command, char **path)
 	}
 	if (!ex_name && (!path || !(ex_name = find_exe(path, content->text))))
 	{
-		ft_dprintf(STDERR_FILENO, (path) ? MINISHELL_ERR1 : MINISHELL_ERR2, content->text);
+		ft_dprintf(STDERR_FILENO,
+			(path) ? MINISHELL_ERR1 : MINISHELL_ERR2, content->text);
 		exit(127);
 	}
 	run_execname(ex_name, command);

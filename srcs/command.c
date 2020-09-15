@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:42 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 15:54:43 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 14:34:11 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int		simple_command(int i)
 		g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path,
 			g_shell.env);
 		if (g_shell.exit_code == 127)
-			ft_dprintf(STDERR_FILENO, (g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2, text);
+			ft_dprintf(STDERR_FILENO,
+			(g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2, text);
 	}
 	revert_redirections(g_shell.lst_redir);
 	ft_lstclear(&(g_shell.lst_redir), &free);
@@ -74,7 +75,8 @@ void	process_command(void)
 	{
 		if (is_pipe(g_shell.commands[i + 1]))
 			process_pipeline(&i);
-		else if (((t_token*)(g_shell.commands[i]->content))->is_operator && !is_redirection(((t_token*)(g_shell.commands[i]->content))->text))
+		else if (((t_token*)(g_shell.commands[i]->content))->is_operator &&
+			!is_redirection(((t_token*)(g_shell.commands[i]->content))->text))
 			i++;
 		else
 			simple_command(i++);

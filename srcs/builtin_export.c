@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 03:04:06 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 14:13:02 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int				btin_export(t_list *command)
 	new = export_parse_env(env, ((t_token*)command->next->content)->text);
 	if (!(check_export_key(new->key)) || !new->key[0])
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n",
+		ft_dprintf(STDERR_FILENO,
+			"minishell: export: `%s': not a valid identifier\n",
 			((t_token*)command->next->content)->text);
 		free(new->key);
 		free(new->val);
