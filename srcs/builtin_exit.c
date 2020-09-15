@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/16 16:41:35 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 22:15:03 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 22:17:11 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			btin_exit(t_list *command)
 	{
 		str = ((t_token*)command->next->content)->text;
 		excode = (bt_exit_atoi(((t_token*)command->next->content)->text) % 256);
-		excode = (excode < 0 ? excode += 256 : excode);
+		excode = (excode < 0 ? excode + 256 : excode);
 		while (str && (ft_isdigit(*str) || *str == 43 || *str == 45))
 			str++;
 		if (*str != 0)

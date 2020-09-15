@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/26 02:47:54 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/04 15:56:37 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 22:30:00 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	init_shell(char **env)
 		return (0);
 	if (!(g_shell.env = init_env(env)))
 		return (0);
+	set_shell_level();
 	return (1);
 }
 

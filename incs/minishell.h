@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/15 14:24:20 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 22:38:10 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void			parse_command();
 t_env			*parse_env(char *str);
 size_t			ctrloperator_length(char *str);
 t_list			*init_env(char **env);
+void			set_shell_level(void);
 void			ft_perror(char *s);
 void			free_token(void *ptr);
 void			perform_expansion(t_list **cmd, t_list *env);
