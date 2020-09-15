@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 17:32:41 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 22:53:41 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 22:58:45 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		set_shell_level(void)
 	{
 		str = (get_env(g_shell.env, "SHLVL"))->val;
 		ptr = str;
-		while (ft_isdigit(*ptr) && *ptr != '\0')
+		while (ft_isdigit(*ptr))
 			ptr++;
 		if (*ptr == '\0')
 		{
