@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 17:32:41 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 22:58:45 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 23:31:25 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	init_shell_level(void)
 	t_list	*new;
 
 	if (!(new = ft_lstnew(parse_env("SHLVL=1"))))
-			exit(1);
+		exit(1);
 	ft_lstadd_back(&g_shell.env, new);
 }
 
