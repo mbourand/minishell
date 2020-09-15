@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 21:45:22 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 21:52:09 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int				btin_export(t_list *command)
 	env = g_shell.env;
 	if (!((t_token*)command->next))
 		ft_lstiter(env, (void*)&export_print);
+	cmd = command;
 	while ((cmd = cmd->next))
 	{
 		new = export_parse_env(env, ((t_token*)cmd->content)->text);
