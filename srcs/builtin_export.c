@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 21:52:09 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 22:09:38 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ static t_env	*export_parse_env(t_list *env, char *str)
 	if (!(new = malloc(sizeof(t_env) * 1)))
 		exit(1);
 	new->key = ft_strjoinuntil("", str, '=');
+	if (ft_strlen(new->key) == ft_strlen(str))
+	{
+		free(new->key);
+		free(new);
+		return (NULL);
+	}
 	if (new->key[(ft_strlen(new->key) - 1)] == '+')
 	{
 		str += ft_strlen(new->key) + 1;
@@ -66,10 +72,7 @@ static t_env	*export_parse_env(t_list *env, char *str)
 			new->val = ft_strjoin("", str);
 	}
 	else
-	{
-		str += ft_strlen(new->key) + 1;
-		new->val = ft_strjoin("", str);
-	}
+		new->val = ft_strjoin("", (str += ft_strlen(new->key) + 1));
 	return (new);
 }
 
@@ -86,7 +89,7 @@ int				btin_export(t_list *command)
 	while ((cmd = cmd->next))
 	{
 		new = export_parse_env(env, ((t_token*)cmd->content)->text);
-		if (!(check_export_key(new->key)) || !new->key[0])
+		if (new && (!(check_export_key(new->key)) || !new->key[0]))
 		{
 			ft_dprintf(STDERR_FILENO,
 				"minishell: export: `%s': not a valid identifier\n",
@@ -96,7 +99,8 @@ int				btin_export(t_list *command)
 			free(new);
 			return (FAILURE);
 		}
-		export_add_or_replace(new, env);
+		else if (new)
+			export_add_or_replace(new, env);
 	}
 	return (SUCCESS);
 }
