@@ -31,12 +31,6 @@ int			ft_atoi(const char *str)
 	i += (str[i] == '-' || str[i] == '+' ? 1 : 0);
 	res = 0;
 	while (str[i] >= '0' && str[i] <= '9')
-	{
 		res = res * 10 + (str[i++] - '0');
-		if (res * sign < LONG_MIN)
-			return (0);
-		else if (res * sign > LONG_MAX)
-			return (-1);
-	}
 	return (res * sign);
 }

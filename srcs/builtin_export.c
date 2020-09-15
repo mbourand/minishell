@@ -14,7 +14,10 @@
 
 void			export_print(t_env *env)
 {
-	ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
+	if (env->val[0])
+		ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
+	else
+		ft_printf("declare -x %s\n", env->key);
 }
 
 static int		check_export_key(char *key)
@@ -84,7 +87,7 @@ int				btin_export(t_list *command)
 	new = export_parse_env(env, ((t_token*)command->next->content)->text);
 	if (!(check_export_key(new->key)) || !new->key[0])
 	{
-		ft_printf("minishell: export: `%s': not a valid identifier\n",
+		ft_dprintf(STDERR_FILENO, "minishell: export: `%s': not a valid identifier\n",
 			((t_token*)command->next->content)->text);
 		free(new->key);
 		free(new->val);
