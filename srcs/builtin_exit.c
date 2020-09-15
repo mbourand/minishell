@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/16 16:41:35 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 14:35:15 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 15:08:57 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	whitespace(char c)
 
 static int	bt_exit_atoi(const char *str)
 {
-	double				res;
+	unsigned long long	res;
 	int					sign;
 	int					i;
 
@@ -32,7 +32,8 @@ static int	bt_exit_atoi(const char *str)
 	res = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 		res = res * 10 + (str[i++] - '0');
-	if ((res * sign) < LLONG_MIN || (res * sign) > LLONG_MAX)
+	if ((sign == -1 && res > (unsigned long long)(LLONG_MIN) * -1) ||
+		(sign == 1 && res > (unsigned long long)(LLONG_MAX)))
 	{
 		ft_dprintf(STDERR_FILENO, MINISHELL_ERR3, str);
 		return (2);
