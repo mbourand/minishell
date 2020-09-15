@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 14:13:02 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/15 21:45:22 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,25 @@ int				btin_export(t_list *command)
 {
 	t_env	*new;
 	t_list	*env;
+	t_list	*cmd;
 
 	env = g_shell.env;
 	if (!((t_token*)command->next))
-	{
 		ft_lstiter(env, (void*)&export_print);
-		return (SUCCESS);
-	}
-	new = export_parse_env(env, ((t_token*)command->next->content)->text);
-	if (!(check_export_key(new->key)) || !new->key[0])
+	while ((cmd = cmd->next))
 	{
-		ft_dprintf(STDERR_FILENO,
-			"minishell: export: `%s': not a valid identifier\n",
-			((t_token*)command->next->content)->text);
-		free(new->key);
-		free(new->val);
-		free(new);
-		return (FAILURE);
+		new = export_parse_env(env, ((t_token*)cmd->content)->text);
+		if (!(check_export_key(new->key)) || !new->key[0])
+		{
+			ft_dprintf(STDERR_FILENO,
+				"minishell: export: `%s': not a valid identifier\n",
+				((t_token*)cmd->content)->text);
+			free(new->key);
+			free(new->val);
+			free(new);
+			return (FAILURE);
+		}
+		export_add_or_replace(new, env);
 	}
-	export_add_or_replace(new, env);
 	return (SUCCESS);
 }
