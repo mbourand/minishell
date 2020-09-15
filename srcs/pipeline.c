@@ -25,7 +25,8 @@ static int	fork_and_run(size_t *i, size_t *pipe_index, pid_t *pids)
 {
 	pid_t	tmp;
 
-	tmp = fork();
+	if ((tmp = fork()) == -1)
+		exit(1);
 	if (tmp == 0)
 	{
 		g_shell.is_parent = 0;
