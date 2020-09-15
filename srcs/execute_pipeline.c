@@ -41,7 +41,7 @@ void		execute_pipeline_cmd(t_list *command, char **path)
 	}
 	if (!ex_name && (!path || !(ex_name = find_exe(path, content->text))))
 	{
-		ft_printf((path) ? MINISHELL_ERR1 : MINISHELL_ERR2, content->text);
+		ft_dprintf(STDERR_FILENO, (path) ? MINISHELL_ERR1 : MINISHELL_ERR2, content->text);
 		exit(127);
 	}
 	run_execname(ex_name, command);
