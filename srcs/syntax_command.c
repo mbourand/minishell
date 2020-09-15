@@ -48,8 +48,7 @@ static int	is_valid(t_list **commands, t_list *iter, t_list *prev,
 			!is_operator(((t_token*)commands[i - 1]->content)->text) &&
 			!is_operator(((t_token*)commands[i + 1]->content)->text));
 	else
-		valid = (prev && iter->next &&
-			!is_operator(((t_token*)prev->content)->text) &&
+		valid = (iter->next &&
 			!is_operator(((t_token*)iter->next->content)->text));
 	return (valid);
 }

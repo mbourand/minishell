@@ -31,7 +31,7 @@ int		simple_command(int i)
 		g_shell.exit_code = exec_command(g_shell.commands[i], g_shell.path,
 			g_shell.env);
 		if (g_shell.exit_code == 127)
-			ft_printf((g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2, text);
+			ft_dprintf(STDERR_FILENO, (g_shell.path) ? MINISHELL_ERR1 : MINISHELL_ERR2, text);
 	}
 	revert_redirections(g_shell.lst_redir);
 	ft_lstclear(&(g_shell.lst_redir), &free);
@@ -48,7 +48,7 @@ void	get_command(void)
 	if (ret == 0)
 	{
 		ft_dprintf(STDERR_FILENO, "exit\n");
-		exit(0);
+		exit(g_shell.exit_code);
 	}
 	if (ret < 0)
 		exit(1);
@@ -65,7 +65,8 @@ void	process_command(void)
 	parse_command();
 	if (!commands_valid())
 	{
-		ft_putendl_fd("Commande invalide", 2);
+		ft_putendl_fd("minishell: Invalid syntax.", 2);
+		g_shell.exit_code = 2;
 		free_shell();
 		return ;
 	}
@@ -73,7 +74,7 @@ void	process_command(void)
 	{
 		if (is_pipe(g_shell.commands[i + 1]))
 			process_pipeline(&i);
-		else if (((t_token*)(g_shell.commands[i]->content))->is_operator)
+		else if (((t_token*)(g_shell.commands[i]->content))->is_operator && !is_redirection(((t_token*)(g_shell.commands[i]->content))->text))
 			i++;
 		else
 			simple_command(i++);

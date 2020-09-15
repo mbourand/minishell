@@ -68,7 +68,7 @@ int		get_redir_flags(char *str)
 }
 
 void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command,
-			size_t *i)
+			int *i)
 {
 	int		to;
 	int		flags;
@@ -83,7 +83,8 @@ void	prcs_op_redir(t_list **iter, t_list **lst_redir, t_list **command,
 	redirect(((t_token*)(*iter)->next->content)->text, to, lst_redir, flags);
 	ft_lstdelat(command, *i, &free_token);
 	ft_lstdelat(command, *i, &free_token);
-	*iter = ft_lstat(*command, --(*i));
+	(*i)--;
+	*iter = ft_lstat(*command, *i < 0 ? 0 : *i);
 }
 
 t_list	*perform_redirection(t_list **command)
@@ -91,7 +92,7 @@ t_list	*perform_redirection(t_list **command)
 	t_list	*lst_redir;
 	t_token	*content;
 	t_list	*iter;
-	size_t	i;
+	int		i;
 
 	lst_redir = NULL;
 	iter = *command;
@@ -104,7 +105,8 @@ t_list	*perform_redirection(t_list **command)
 				(ft_isdigit(content->text[0]) ?
 				ft_numlen(ft_atoi(content->text), 10) : 0)))
 			prcs_op_redir(&iter, &lst_redir, command, &i);
-		iter = iter->next;
+		if (i >= 0)
+			iter = iter->next;
 		i++;
 	}
 	return (lst_redir);

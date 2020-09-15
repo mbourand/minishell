@@ -19,8 +19,8 @@ int	btin_exit(t_list *command)
 
 	ft_dprintf(STDERR_FILENO, "exit\n");
 	if (!((t_token*)command->next))
-		exit(0);
-	else
+		exit(g_shell.exit_code);
+	else if (ft_lstsize(command) == 2)
 	{
 		str = ((t_token*)command->next->content)->text;
 		excode = (ft_atoi(((t_token*)command->next->content)->text) % 256);
@@ -38,5 +38,7 @@ int	btin_exit(t_list *command)
 		else
 			exit(excode);
 	}
+	else
+		exit(1);
 	return (0);
 }
