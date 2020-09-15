@@ -46,7 +46,8 @@ int			btin_exit(t_list *command)
 	char	*str;
 	int		excode;
 
-	ft_dprintf(STDERR_FILENO, "exit\n");
+	if (g_shell.is_parent)
+		ft_dprintf(STDERR_FILENO, "exit\n");
 	if (!((t_token*)command->next))
 		exit(g_shell.exit_code);
 	else if (ft_lstsize(command) == 2)

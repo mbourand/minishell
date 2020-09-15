@@ -64,7 +64,7 @@ static void	close_pipes(size_t i, pid_t pids[], size_t size, size_t pid_ind)
 			else if (WIFSIGNALED(status))
 				g_shell.exit_code = 128 + status;
 		}
-		else
+		else if (pid_ind)
 		{
 			close(g_shell.pipeline[pid_ind - 1][0]);
 			close(g_shell.pipeline[pid_ind][1]);

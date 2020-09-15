@@ -46,7 +46,7 @@ void	get_command(void)
 	int		ret;
 
 	ret = get_next_line(STDIN_FILENO, &input);
-	if (ret == 0)
+	if (ret == 0 && !input[0])
 	{
 		ft_dprintf(STDERR_FILENO, "exit\n");
 		exit(g_shell.exit_code);

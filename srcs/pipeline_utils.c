@@ -26,6 +26,8 @@ static int	**alloc_pipes(size_t i)
 		content = ((t_token*)g_shell.commands[i]->content);
 		if (content->is_operator && !ft_strcmp(content->text, OP_PIPE))
 			size++;
+		else
+			break ;
 		i += 2;
 	}
 	if (!(res = malloc_zero(sizeof(int*) * (size + 1))))
