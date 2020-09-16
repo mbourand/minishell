@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 18:53:04 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/16 13:27:31 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:47:16 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,25 @@ t_env	*get_env(t_list *env, char *key)
 		len = ft_strlen(key) > ft_strlen(content->key) ? ft_strlen(key)
 			: ft_strlen(content->key);
 		if (!(ft_strncmp(key, content->key, len)) && !content->is_empty)
+			return (content);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+t_env	*get_env_w_empty(t_list *env, char *key)
+{
+	t_env	*content;
+	size_t	len;
+
+	if (!key)
+		return (NULL);
+	while (env)
+	{
+		content = (t_env*)env->content;
+		len = ft_strlen(key) > ft_strlen(content->key) ? ft_strlen(key)
+			: ft_strlen(content->key);
+		if (!(ft_strncmp(key, content->key, len)))
 			return (content);
 		env = env->next;
 	}

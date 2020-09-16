@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/16 14:38:20 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 15:53:06 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,16 @@ static void		export_add_or_replace(t_env *new, t_list *env)
 {
 	t_env	*tmp;
 
-	if (!new->is_empty && (tmp = get_env(env, new->key)) != NULL)
+	tmp = get_env_w_empty(env, new->key);
+	if (!new->is_empty && (tmp = get_env_w_empty(env, new->key)) != NULL)
 	{
+		tmp->is_empty = 0;
 		free(tmp->val);
 		tmp->val = new->val;
 		free(new->key);
 		free(new);
 	}
-	else if (new->is_empty && (tmp = get_env(env, new->key)) != NULL)
+	else if (new->is_empty && (tmp = get_env_w_empty(env, new->key)) != NULL)
 		free_env(new);
 	else
 		ft_lstadd_back(&env, ft_lstnew(new));
