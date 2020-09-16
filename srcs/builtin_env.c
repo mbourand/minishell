@@ -14,7 +14,7 @@
 
 static void	env_print(t_env *env)
 {
-	if (env->val[0])
+	if (!env->is_empty)
 		ft_printf("%s=%s\n", env->key, env->val);
 }
 

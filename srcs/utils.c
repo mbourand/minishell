@@ -74,7 +74,7 @@ void		set_shell_level(void)
 
 void	free_env(t_env *env)
 {
-	ft_free(env->key);
-	ft_free(env->val);
-	ft_free(env);
+	ft_free(&(env->key));
+	ft_free(&(env->val));
+	ft_memdel((void**)&(env));
 }
