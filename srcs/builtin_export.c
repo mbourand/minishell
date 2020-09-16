@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/16 14:05:17 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 14:38:20 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static void		export_add_or_replace(t_env *new, t_list *env)
 		free(new->key);
 		free(new);
 	}
-	else if (!new->is_empty)
-		ft_lstadd_back(&env, ft_lstnew(new));
-	else
+	else if (new->is_empty && (tmp = get_env(env, new->key)) != NULL)
 		free_env(new);
+	else
+		ft_lstadd_back(&env, ft_lstnew(new));
 }
 
 static t_env	*export_parse_env(t_list *env, char *str)
@@ -64,7 +64,7 @@ static t_env	*export_parse_env(t_list *env, char *str)
 		new->is_empty = 1;
 		return (new);
 	}
-	if (new->key[(ft_strlen(new->key) - 1)] == '+')
+	else if (new->key[(ft_strlen(new->key) - 1)] == '+')
 	{
 		str += ft_strlen(new->key) + 1;
 		new->key[ft_strlen(new->key) - 1] = '\0';
