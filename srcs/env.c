@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 18:53:04 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/15 02:49:13 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 13:27:31 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*parse_env(char *str)
 {
 	t_env	*env;
 
-	if (!(env = malloc(sizeof(t_env) * 1)))
+	if (!(env = malloc_zero(sizeof(t_env) * 1)))
 		exit(1);
 	env->key = ft_strjoinuntil("", str, '=');
 	str += ft_strlen(env->key) + 1;

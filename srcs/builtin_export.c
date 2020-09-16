@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/16 12:06:45 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 13:28:07 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void			export_print(t_env *env)
 {
-	if (env->val[0])
+	if (!env->is_empty)
 		ft_printf("declare -x %s=\"%s\"\n", env->key, env->val);
 	else
 		ft_printf("declare -x %s\n", env->key);
@@ -53,12 +53,13 @@ static t_env	*export_parse_env(t_list *env, char *str)
 {
 	t_env	*new;
 
-	if (!(new = malloc(sizeof(t_env) * 1)))
+	if (!(new = malloc_zero(sizeof(t_env) * 1)))
 		exit(1);
 	new->key = ft_strjoinuntil("", str, '=');
 	if (ft_strlen(new->key) == ft_strlen(str))
 	{
 		new->val = ft_strdup("");
+		new->is_empty = 1;
 		return (new);
 	}
 	if (new->key[(ft_strlen(new->key) - 1)] == '+')

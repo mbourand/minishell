@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/31 18:38:11 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/15 22:38:10 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 13:27:20 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct	s_env
 {
 	char		*key;
 	char		*val;
+	int			is_empty;
 }				t_env;
 
 typedef struct	s_range
