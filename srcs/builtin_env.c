@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 23:50:00 by nforay            #+#    #+#             */
-/*   Updated: 2020/08/16 16:22:16 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 12:07:21 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	env_print(t_env *env)
 {
-	ft_printf("%s=%s\n", env->key, env->val);
+	if (env->val[0])
+		ft_printf("%s=%s\n", env->key, env->val);
 }
 
 int			btin_env(t_list *command)

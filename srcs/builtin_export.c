@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 22:09:38 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 12:06:45 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ static t_env	*export_parse_env(t_list *env, char *str)
 	new->key = ft_strjoinuntil("", str, '=');
 	if (ft_strlen(new->key) == ft_strlen(str))
 	{
-		free(new->key);
-		free(new);
-		return (NULL);
+		new->val = ft_strdup("");
+		return (new);
 	}
 	if (new->key[(ft_strlen(new->key) - 1)] == '+')
 	{
