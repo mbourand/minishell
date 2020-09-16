@@ -121,7 +121,7 @@ int				btin_export(t_list	*command);
 int				btin_pwd(t_list *command);
 int				btin_unset(t_list *command);
 void			free_env(t_env *env);
-int				only_quotes(char *s);
+int				only_quotes(char *s, t_list *protected);
 int				check_pipe(t_list *command, size_t i);
 int				check_red(t_list *command, size_t i);
 int				check_semicol(t_list *command, size_t i);

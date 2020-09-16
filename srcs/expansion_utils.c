@@ -12,14 +12,30 @@
 
 #include "minishell.h"
 
-int		only_quotes(char *s)
+int		range_contains(size_t i, t_list *protected)
+{
+	t_range	*range;
+
+	while (protected)
+	{
+		range = (t_range*)protected->content;
+		if (i >= range->min && i < range->max)
+			return (TRUE);
+		protected = protected->next;
+	}
+	return (FALSE);
+}
+
+int		only_quotes(char *s, t_list *protected)
 {
 	size_t	i;
 
 	i = 0;
+	if (!s[0])
+		return (FALSE);
 	while (s[i])
 	{
-		if (!is_quote(s[i]))
+		if (!is_quote(s[i]) || range_contains(i, protected))
 			return (FALSE);
 		i++;
 	}

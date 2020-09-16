@@ -17,10 +17,10 @@ int		simple_command(int i)
 	char	*text;
 
 	perform_expansion(g_shell.commands + i, g_shell.env);
-	if (!check_redirections(g_shell.commands[i]))
+	if (!g_shell.commands[i] || !check_redirections(g_shell.commands[i]))
 	{
-		ft_perror("minishell");
-		g_shell.exit_code = 1;
+		!g_shell.commands[i] ? NULL : ft_perror("minishell");
+		g_shell.exit_code = !g_shell.commands[i] ? 0 : 1;
 		return (0);
 	}
 	text = ((t_token*)g_shell.commands[i]->content)->text;
@@ -46,7 +46,7 @@ void	get_command(void)
 	int		ret;
 
 	ret = get_next_line(STDIN_FILENO, &input);
-	if (ret == 0 && !input[0])
+	if (ret == 0)
 	{
 		ft_dprintf(STDERR_FILENO, "exit\n");
 		exit(g_shell.exit_code);

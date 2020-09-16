@@ -88,24 +88,22 @@ static int	replace_var(t_token *token, size_t i, t_list *lstenv,
 	return (env ? ft_strlen(env->val) : i);
 }
 
-static void	expand_token(t_token *token, t_list *env)
+static int	expand_token(t_token *token, t_list *env, int qte)
 {
 	size_t	i;
 	t_list	*protected;
-	int		in_quote;
 
-	in_quote = 0;
 	i = 0;
 	protected = 0;
 	while (token->text[i])
 	{
 		if (token->text[i] == '\"')
-			in_quote = !in_quote;
-		if (!in_quote && token->text[i] == '\'')
+			qte = !qte;
+		if (!qte && token->text[i] == '\'')
 			i += ft_strlenuntil(token->text + i + 1, '\'') + 1;
 		if (token->text[i] == '$' && token->text[i + 1] == '?')
 			i += replace_exitcode(token, i);
-		if (token->text[i] == '$' && !in_quote && is_quote(token->text[i + 1]))
+		else if (token->text[i] == '$' && !qte && is_quote(token->text[i + 1]))
 			ft_memmove(token->text + i, token->text + i + 1,
 				ft_strlen(token->text + i));
 		else if (token->text[i] == '$')
@@ -113,8 +111,10 @@ static void	expand_token(t_token *token, t_list *env)
 		else
 			i++;
 	}
+	qte = (only_quotes(token->text, protected));
 	remove_quotes(token, protected);
 	ft_lstclear(&protected, &free);
+	return (qte);
 }
 
 void		perform_expansion(t_list **cmd, t_list *env)
@@ -129,9 +129,8 @@ void		perform_expansion(t_list **cmd, t_list *env)
 	while (iter)
 	{
 		content = (t_token*)iter->content;
-		empty = (content->text[0] == '\0' || only_quotes(content->text));
-		expand_token(content, env);
-		if (!empty && !(content->text[0]) && i != 0)
+		empty = (content->text[0] == '\0' || expand_token(content, env, 0));
+		if (!empty && !(content->text[0]))
 			ft_lstdelat(cmd, i--, &free_token);
 		iter = iter->next;
 		i++;
