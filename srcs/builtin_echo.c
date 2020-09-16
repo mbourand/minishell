@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 21:04:22 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 01:49:32 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 12:17:18 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int			btin_echo(t_list *command)
 				ft_putchar_fd(' ', 1);
 		}
 	}
-	else
+	else if (tmp)
 		echo_newline(tmp);
 	return (SUCCESS);
 }
