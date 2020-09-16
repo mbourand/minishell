@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 17:32:41 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/15 23:31:25 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 14:00:09 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,11 @@ void		set_shell_level(void)
 	}
 	else
 		init_shell_level();
+}
+
+void	free_env(t_env *env)
+{
+	ft_free(env->key);
+	ft_free(env->val);
+	ft_free(env);
 }

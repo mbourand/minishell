@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 13:56:34 by nforay            #+#    #+#             */
-/*   Updated: 2020/09/16 13:28:07 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 14:05:17 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,17 @@ static void		export_add_or_replace(t_env *new, t_list *env)
 {
 	t_env	*tmp;
 
-	if ((tmp = get_env(env, new->key)) != NULL)
+	if (!new->is_empty && (tmp = get_env(env, new->key)) != NULL)
 	{
 		free(tmp->val);
 		tmp->val = new->val;
 		free(new->key);
 		free(new);
 	}
-	else
+	else if (!new->is_empty)
 		ft_lstadd_back(&env, ft_lstnew(new));
+	else
+		free_env(new);
 }
 
 static t_env	*export_parse_env(t_list *env, char *str)
@@ -94,9 +96,7 @@ int				btin_export(t_list *command)
 			ft_dprintf(STDERR_FILENO,
 				"minishell: export: `%s': not a valid identifier\n",
 				((t_token*)cmd->content)->text);
-			free(new->key);
-			free(new->val);
-			free(new);
+			free_env(new);
 			return (FAILURE);
 		}
 		else if (new)

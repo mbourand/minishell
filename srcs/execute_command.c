@@ -6,7 +6,7 @@
 /*   By: nforay <nforay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 21:27:09 by mbourand          #+#    #+#             */
-/*   Updated: 2020/09/09 13:01:28 by nforay           ###   ########.fr       */
+/*   Updated: 2020/09/16 13:44:02 by nforay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ char	**serialize_env(t_list *env)
 		exit(1);
 	while (env)
 	{
+		if (!((t_env*)env->content)->is_empty)
+		{
 		res[i] = ft_strjoin(((t_env*)env->content)->key, "=");
 		tmp = res[i];
 		res[i] = ft_strjoin(res[i], ((t_env*)env->content)->val);
 		ft_free(&tmp);
-		env = env->next;
 		i++;
+		}
+		env = env->next;
 	}
 	return (res);
 }
