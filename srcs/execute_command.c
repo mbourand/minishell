@@ -42,11 +42,11 @@ char	**serialize_env(t_list *env)
 	{
 		if (!((t_env*)env->content)->is_empty)
 		{
-		res[i] = ft_strjoin(((t_env*)env->content)->key, "=");
-		tmp = res[i];
-		res[i] = ft_strjoin(res[i], ((t_env*)env->content)->val);
-		ft_free(&tmp);
-		i++;
+			res[i] = ft_strjoin(((t_env*)env->content)->key, "=");
+			tmp = res[i];
+			res[i] = ft_strjoin(res[i], ((t_env*)env->content)->val);
+			ft_free(&tmp);
+			i++;
 		}
 		env = env->next;
 	}
