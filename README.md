@@ -6,7 +6,7 @@ Projet réalisé avec [@nforay]( https://github.com/nforay )
 L’objectif de ce projet est de créer un simple shell. Ca sera votre propre petit bash, ou zsh. Vous en apprendrez beaucoup sur les process et les file descriptors.
 
 ## Utilisation
-Le programme se compile avec make et se lance avec ./minishell 
+Le programme se compile avec ``make`` et se lance avec ``./minishell``
 
  ## Features :
 - Les opérateurs ``;`` et ``|``
